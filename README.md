@@ -1,4 +1,4 @@
-## Dynamic Trader
+## 将Dynamic Trader 改造成ABP VNext 客户端应用程序
 
 Dynamic data is a portable class library which brings the power of reactive (rx) to collections.  It is open source and the code base lives here [Dynamic Data on GitHub](https://github.com/RolandPheasant/DynamicData). 
 
