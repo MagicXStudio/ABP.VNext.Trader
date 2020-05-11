@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <ApplicationIcon>dd-logo.ico</ApplicationIcon>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -10,13 +10,7 @@
     <Compile Remove="Views\LogEntryViewer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="dd-logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Remove="Views\LogEntryView.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="dd-logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
