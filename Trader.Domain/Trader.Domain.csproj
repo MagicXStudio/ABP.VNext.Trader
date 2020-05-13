@@ -16,6 +16,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Common" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Codecs" Version="0.6.0" />
   </ItemGroup>
 
 </Project>

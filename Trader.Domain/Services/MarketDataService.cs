@@ -23,11 +23,11 @@ namespace Trader.Domain.Services
 
             return Observable.Create<MarketData>(observer =>
             {
-                var spread = currencyPair.DefaultSpread;
-                var midRate = currencyPair.InitialPrice;
-                var bid = midRate - (spread * currencyPair.PipSize);
-                var offer = midRate + (spread * currencyPair.PipSize);
-                var initial = new MarketData(currencyPair.Code, bid, offer);
+                int spread = currencyPair.DefaultSpread;
+                decimal midRate = currencyPair.InitialPrice;
+                decimal bid = midRate - (spread * currencyPair.PipSize);
+                decimal offer = midRate + (spread * currencyPair.PipSize);
+                MarketData initial = new MarketData(currencyPair.Code, bid, offer);
 
                 var currentPrice = initial;
                 observer.OnNext(initial);
