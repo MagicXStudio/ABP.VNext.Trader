@@ -7,17 +7,19 @@ using System.Windows.Input;
 using Dragablz;
 using DynamicData;
 using DynamicData.Binding;
+using IdentityModel.Client;
 using Trader.Domain.Infrastucture;
+using Trader.Domain.Services;
 
 namespace Trader.Client.Infrastucture
 {
-    public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable
+    public class WindowViewModel : AbstractNotifyPropertyChanged, IDisposable
     {
         private readonly IObjectProvider _objectProvider;
         private readonly Command _showMenuCommand;
         private readonly IDisposable _cleanUp;
         private ViewContainer _selected;
-
+        private ILoginService _loginService;
         public ICommand MemoryCollectCommand { get; } = new Command(() =>
         {
             GC.Collect();
@@ -26,36 +28,43 @@ namespace Trader.Client.Infrastucture
         });
 
 
-        public WindowViewModel(IObjectProvider objectProvider, IWindowFactory windowFactory)
+        public WindowViewModel(IObjectProvider objectProvider, IWindowFactory windowFactory, ILoginService loginService)
         {
             _objectProvider = objectProvider;
+            _loginService = loginService;
             InterTabClient = new InterTabClient(windowFactory);
-            _showMenuCommand =  new Command(ShowMenu,()=> Selected!=null && !(Selected.Content is MenuItems));
-            ShowInGitHubCommand = new Command(()=>   Process.Start( new ProcessStartInfo
+            _showMenuCommand = new Command(ShowMenu, () => Selected != null && !(Selected.Content is MenuItems));
+            ShowInGitHubCommand = new Command(() => Process.Start(new ProcessStartInfo
             {
                 FileName = "cmd",
-                Arguments = "/c start https://github.com/RolandPheasant"
+                Arguments = "/c start https://github.com/wjkhappy14/Abp.VNext.Hello"
             }));
+
+            LoginCommand = new Command(async () =>
+            {
+                TokenResponse token = await _loginService.RequestTokenAsync();
+                Debug.WriteLine(token);
+            });
 
             var menuController = Views.ToObservableChangeSet()
                                         .Filter(vc => vc.Content is MenuItems)
-                                        .Transform(vc => (MenuItems) vc.Content)
+                                        .Transform(vc => (MenuItems)vc.Content)
                                         .MergeMany(menuItem => menuItem.ItemCreated)
                                         .Subscribe(item =>
                                         {
                                             Views.Add(item);
                                             Selected = item;
                                         });
-            
+
 
             _cleanUp = Disposable.Create(() =>
                                          {
                                              menuController.Dispose();
-                                             foreach (var disposable in  Views.Select(vc=>vc.Content).OfType<IDisposable>())
+                                             foreach (var disposable in Views.Select(vc => vc.Content).OfType<IDisposable>())
                                                  disposable.Dispose();
                                          });
         }
-        
+
         public void ShowMenu()
         {
             var existing = Views.FirstOrDefault(vc => vc.Content is MenuItems);
@@ -99,6 +108,8 @@ namespace Trader.Client.Infrastucture
         public ICommand ShowMenuCommand => _showMenuCommand;
 
         public Command ShowInGitHubCommand { get; }
+
+        public Command LoginCommand { get; }
 
         public void Dispose()
         {

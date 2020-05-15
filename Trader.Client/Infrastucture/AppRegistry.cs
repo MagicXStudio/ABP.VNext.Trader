@@ -33,6 +33,7 @@ namespace Trader.Client.Infrastucture
                 scanner.Convention<AppConventions>();
                 scanner.AssemblyContainingType<AppRegistry>();
                 scanner.AssemblyContainingType<TradeService>();
+                scanner.AssemblyContainingType<LoginService>();
             });
         }
     }
