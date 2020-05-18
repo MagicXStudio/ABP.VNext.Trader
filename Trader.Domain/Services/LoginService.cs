@@ -32,7 +32,9 @@ namespace Trader.Domain.Services
             TokenResponse response = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                ClientId = "BookStore_Web",
+                Scope = "XManagement",
+                GrantType = "password",
+                ClientId = "XManagement_App",
                 ClientSecret = "1q2w3e*"
             });
 
