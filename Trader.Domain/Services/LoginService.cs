@@ -26,6 +26,7 @@ namespace Trader.Domain.Services
                 Policy = new DiscoveryPolicy()
                 {
                     RequireHttps = false,
+                    ValidateIssuerName = false
                 }
             };
 
@@ -37,9 +38,9 @@ namespace Trader.Domain.Services
             TokenResponse response = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                Scope = "XManagement",
+                Scope = "Magic",
                 GrantType = "password",
-                ClientId = "XManagement_App",
+                ClientId = "Magic_Web",
                 ClientSecret = "1q2w3e*"
             });
 
@@ -77,9 +78,9 @@ namespace Trader.Domain.Services
             TokenResponse response = await _tokenClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                Scope = "XManagement",
+                Scope = "Magic",
                 GrantType = "password",
-                ClientId = "XManagement_App",
+                ClientId = "Magic_App",
                 ClientSecret = "1q2w3e*",
 
                 UserName = "Admin@10000.com",

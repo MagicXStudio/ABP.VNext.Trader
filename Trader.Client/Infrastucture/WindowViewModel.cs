@@ -42,8 +42,13 @@ namespace Trader.Client.Infrastucture
 
             LoginCommand = new Command(async () =>
             {
-                TokenResponse token = await _loginService.RequestPasswordTokenAsync();
-                Debug.WriteLine(token);
+
+                TokenResponse passwordToken = await _loginService.RequestPasswordTokenAsync();
+
+                TokenResponse clientCredentialsToken = await _loginService.RequestClientCredentialsTokenAsync();
+
+
+                Debug.WriteLine(passwordToken);
             });
 
             var menuController = Views.ToObservableChangeSet()
@@ -86,7 +91,7 @@ namespace Trader.Client.Infrastucture
 
         private void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
         {
-            var container = (ViewContainer)args.DragablzItem.DataContext;//.DataContext;
+            ViewContainer container = (ViewContainer)args.DragablzItem.DataContext;//.DataContext;
             if (container.Equals(Selected))
             {
                 Selected = Views.FirstOrDefault(vc => vc != container);
