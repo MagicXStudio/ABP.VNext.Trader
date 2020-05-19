@@ -42,7 +42,7 @@ namespace Trader.Client.Infrastucture
 
             LoginCommand = new Command(async () =>
             {
-                TokenResponse token = await _loginService.RequestTokenAsync();
+                TokenResponse token = await _loginService.RequestPasswordTokenAsync();
                 Debug.WriteLine(token);
             });
 

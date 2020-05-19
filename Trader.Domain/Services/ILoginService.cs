@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 
 namespace Trader.Domain.Services
 {
-    public  interface ILoginService
+    public interface ILoginService
     {
 
-        Task<TokenResponse> RequestTokenAsync();
+        Task<TokenResponse> RequestClientCredentialsTokenAsync();
+
+        Task<TokenResponse> RequestPasswordTokenAsync();
 
         Task CallServiceAsync(string token);
 
