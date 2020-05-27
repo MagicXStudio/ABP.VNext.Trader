@@ -80,7 +80,7 @@ namespace Trader.Domain.Services
                 Address = disco.TokenEndpoint,
                 Scope = "Magic",
                 GrantType = "password",
-                ClientId = "Magic_App",
+                ClientId = "Magic_Web",
                 ClientSecret = "1q2w3e*",
 
                 UserName = "Admin@10000.com",
