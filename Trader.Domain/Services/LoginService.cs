@@ -70,11 +70,11 @@ namespace Trader.Domain.Services
                     RequireHttps = false,
                 }
             };
+            _tokenClient.DefaultRequestHeaders.Add("__tenant", "ABC");
             DiscoveryDocumentResponse disco = await _tokenClient.GetDiscoveryDocumentAsync(discoveryDoc);
 
             if (disco.IsError)
                 throw new Exception(disco.Error);
-
             TokenResponse response = await _tokenClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
@@ -83,8 +83,8 @@ namespace Trader.Domain.Services
                 ClientId = "Magic_Web",
                 ClientSecret = "1q2w3e*",
 
-                UserName = "Admin@10000.com",
-                Password = "Admin@10000.com",
+                UserName = "Discovery@163.com",
+                Password = "Discovery@163.com",
 
             });
 
