@@ -6,9 +6,9 @@ namespace Trader.Domain.Services
     {
         public string[] Customers { get; } = new[]
         {
-            "Bank of Andorra",
-            "Bank of Europe",
-            "Bank of England",
+            "ICBC",
+            "BOC",
+            "ABC",
             "BCCI",
             "Abbey National",
             "Fx Shop",

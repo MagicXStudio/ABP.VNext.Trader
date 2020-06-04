@@ -9,7 +9,7 @@ using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
-    public class TradeService : ITradeService, IDisposable
+    public class TradeService : BaseService, ITradeService, IDisposable
     {
         private readonly ILogger _logger;
         private readonly TradeGenerator _tradeGenerator;

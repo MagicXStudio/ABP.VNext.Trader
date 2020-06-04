@@ -6,7 +6,7 @@ using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
-    public class MarketDataService : IMarketDataService
+    public class MarketDataService : BaseService, IMarketDataService
     {
         private readonly Dictionary<string, IObservable<MarketData>> _prices = new Dictionary<string, IObservable<MarketData>>();
 

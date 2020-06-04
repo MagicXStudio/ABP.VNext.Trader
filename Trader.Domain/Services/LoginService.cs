@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace Trader.Domain.Services
 {
-    public class LoginService : ILoginService, IDisposable
+    public class LoginService : BaseService, ILoginService
     {
-        static string baseAddress = "http://106.13.130.51/";
-
-        static HttpClient _tokenClient = new HttpClient();
-        static DiscoveryCache _cache = new DiscoveryCache(baseAddress);
-
         public LoginService()
         {
 
@@ -22,7 +17,7 @@ namespace Trader.Domain.Services
             HttpClient client = new HttpClient();
             DiscoveryDocumentRequest discoveryDoc = new DiscoveryDocumentRequest()
             {
-                Address = baseAddress,
+                Address = BaseAddress,
                 Policy = new DiscoveryPolicy()
                 {
                     RequireHttps = false,
@@ -45,37 +40,35 @@ namespace Trader.Domain.Services
             });
 
             if (response.IsError) throw new Exception(response.Error);
-            return response;
+            HttpToken = response;
+            return HttpToken;
         }
 
-        public async Task CallServiceAsync(string token)
+        public Task CallServiceAsync(string token)
         {
             HttpClient client = new HttpClient
             {
-                BaseAddress = new Uri(baseAddress)
+                BaseAddress = new Uri(BaseAddress)
             };
-
             client.SetBearerToken(token);
-            string response = await client.GetStringAsync("identity");
-
-            Console.WriteLine(JArray.Parse(response));
+            return client.GetStringAsync("identity");
         }
         public async Task<TokenResponse> RequestPasswordTokenAsync()
         {
             DiscoveryDocumentRequest discoveryDoc = new DiscoveryDocumentRequest()
             {
-                Address = baseAddress,
+                Address = BaseAddress,
                 Policy = new DiscoveryPolicy()
                 {
                     RequireHttps = false,
                 }
             };
-            _tokenClient.DefaultRequestHeaders.Add("__tenant", "ABC");
-            DiscoveryDocumentResponse disco = await _tokenClient.GetDiscoveryDocumentAsync(discoveryDoc);
+            HttpClient.DefaultRequestHeaders.Add("__tenant", "ABC");
+            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(discoveryDoc);
 
             if (disco.IsError)
                 throw new Exception(disco.Error);
-            TokenResponse response = await _tokenClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+            TokenResponse response = await HttpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
                 Scope = "Magic",
@@ -95,10 +88,10 @@ namespace Trader.Domain.Services
 
         public async Task GetClaimsAsync(string token)
         {
-            DiscoveryDocumentResponse disco = await _cache.GetAsync();
+            DiscoveryDocumentResponse disco = await DiscoveryCache.GetAsync();
             if (disco.IsError) throw new Exception(disco.Error);
 
-            UserInfoResponse response = await _tokenClient.GetUserInfoAsync(new UserInfoRequest
+            UserInfoResponse response = await HttpClient.GetUserInfoAsync(new UserInfoRequest
             {
                 Address = disco.UserInfoEndpoint,
                 Token = token
@@ -113,10 +106,5 @@ namespace Trader.Domain.Services
             }
         }
 
-
-        public void Dispose()
-        {
-
-        }
     }
 }

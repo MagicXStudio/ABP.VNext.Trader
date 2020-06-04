@@ -7,7 +7,7 @@ using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
-    public class NearToMarketService : INearToMarketService
+    public class NearToMarketService : BaseService, INearToMarketService
     {
         private readonly ITradeService _tradeService;
         private readonly ILogger _logger;
