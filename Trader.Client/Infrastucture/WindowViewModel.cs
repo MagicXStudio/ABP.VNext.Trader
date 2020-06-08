@@ -42,13 +42,12 @@ namespace Trader.Client.Infrastucture
 
             LoginCommand = new Command(async () =>
             {
-
                 TokenResponse passwordToken = await _loginService.RequestPasswordTokenAsync();
-
                 TokenResponse clientCredentialsToken = await _loginService.RequestClientCredentialsTokenAsync();
 
+                string result = await _loginService.CallServiceAsync("/api/app/setting?providerName=T&fallback=true");
 
-                Debug.WriteLine(passwordToken);
+                Debug.WriteLine(result);
             });
 
             var menuController = Views.ToObservableChangeSet()

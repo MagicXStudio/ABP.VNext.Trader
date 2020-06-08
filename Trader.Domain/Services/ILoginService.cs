@@ -5,12 +5,10 @@ namespace Trader.Domain.Services
 {
     public interface ILoginService
     {
-
         Task<TokenResponse> RequestClientCredentialsTokenAsync();
 
         Task<TokenResponse> RequestPasswordTokenAsync();
 
-        Task CallServiceAsync(string token);
-
+        Task<string> CallServiceAsync(string path);
     }
 }

@@ -14,7 +14,6 @@ namespace Trader.Domain.Services
         }
         public async Task<TokenResponse> RequestClientCredentialsTokenAsync()
         {
-            HttpClient client = new HttpClient();
             DiscoveryDocumentRequest discoveryDoc = new DiscoveryDocumentRequest()
             {
                 Address = BaseAddress,
@@ -25,17 +24,17 @@ namespace Trader.Domain.Services
                 }
             };
 
-            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(discoveryDoc);
+            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(discoveryDoc);
 
             if (disco.IsError)
                 throw new Exception(disco.Error);
 
-            TokenResponse response = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            TokenResponse response = await HttpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                Scope = "Magic",
+                Scope = "Dashboard",
                 GrantType = "password",
-                ClientId = "Magic_Web",
+                ClientId = "Dashboard_App",
                 ClientSecret = "1q2w3e*"
             });
 
@@ -44,15 +43,7 @@ namespace Trader.Domain.Services
             return HttpToken;
         }
 
-        public Task CallServiceAsync(string token)
-        {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(BaseAddress)
-            };
-            client.SetBearerToken(token);
-            return client.GetStringAsync("identity");
-        }
+
         public async Task<TokenResponse> RequestPasswordTokenAsync()
         {
             DiscoveryDocumentRequest discoveryDoc = new DiscoveryDocumentRequest()
@@ -63,7 +54,7 @@ namespace Trader.Domain.Services
                     RequireHttps = false,
                 }
             };
-            HttpClient.DefaultRequestHeaders.Add("__tenant", "ABC");
+
             DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(discoveryDoc);
 
             if (disco.IsError)
@@ -71,13 +62,13 @@ namespace Trader.Domain.Services
             TokenResponse response = await HttpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                Scope = "Magic",
+                Scope = "Dashboard",
                 GrantType = "password",
-                ClientId = "Magic_Web",
+                ClientId = "Dashboard_App",
                 ClientSecret = "1q2w3e*",
 
-                UserName = "Discovery@163.com",
-                Password = "Discovery@163.com",
+                UserName = "admin123@Chuangyu.com",
+                Password = "admin123@Chuangyu.com",
 
             });
 
