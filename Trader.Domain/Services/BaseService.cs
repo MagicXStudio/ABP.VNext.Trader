@@ -9,7 +9,7 @@ namespace Trader.Domain.Services
 {
     public abstract class BaseService : IDisposable
     {
-        public string BaseAddress { get; private set; } = "http://192.168.3.128:44311";
+        public string BaseAddress { get; private set; } = "http://192.168.3.126:44311";
 
         public DiscoveryCache DiscoveryCache { get; set; }
 
@@ -20,7 +20,7 @@ namespace Trader.Domain.Services
         public BaseService()
         {
             HttpClient = new HttpClient() { BaseAddress = new Uri(BaseAddress) };
-            HttpClient.DefaultRequestHeaders.Add("__tenant", "Chuangyu");
+            HttpClient.DefaultRequestHeaders.Add("__tenant", "Mafeiyang");
             DiscoveryCache = new DiscoveryCache(BaseAddress);
             Task.Run(() =>
             {

@@ -67,8 +67,8 @@ namespace Trader.Domain.Services
                 ClientId = "Dashboard_App",
                 ClientSecret = "1q2w3e*",
 
-                UserName = "admin123@Chuangyu.com",
-                Password = "admin123@Chuangyu.com",
+                UserName = "Mafeiyang@163.com",
+                Password = "Mafeiyang@163.com",
 
             });
 
