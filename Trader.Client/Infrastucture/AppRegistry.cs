@@ -2,8 +2,6 @@
 using System.IO;
 using System.Reflection;
 using log4net;
-using log4net.Repository;
-using log4net.Repository.Hierarchy;
 using StructureMap;
 using Trader.Domain.Services;
 using ILogger = Trader.Domain.Infrastucture.ILogger;
@@ -23,7 +21,6 @@ namespace Trader.Client.Infrastucture
             log4net.Config.XmlConfigurator.ConfigureAndWatch(logRepository, new FileInfo(path));
             For<ILogger>().Use<Log4NetLogger>().Ctor<Type>("type").Is(x => x.RootType).AlwaysUnique();
 
-            //
             For<TradePriceUpdateJob>().Singleton();
 
             Scan(scanner =>
@@ -34,6 +31,7 @@ namespace Trader.Client.Infrastucture
                 scanner.AssemblyContainingType<AppRegistry>();
                 scanner.AssemblyContainingType<TradeService>();
                 scanner.AssemblyContainingType<LoginService>();
+                scanner.AssemblyContainingType<IdentityService>();
             });
         }
     }

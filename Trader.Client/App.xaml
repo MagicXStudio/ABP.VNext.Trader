@@ -58,6 +58,10 @@
                 <views:AbpView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type views:IdentityServer4Viewer}">
+                <views:IdentityServer4View/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type views:VisibleRowsViewer}">
                 <views:VisibleRowsView/>
             </DataTemplate>

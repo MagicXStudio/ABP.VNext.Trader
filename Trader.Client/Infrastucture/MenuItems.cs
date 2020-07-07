@@ -68,6 +68,10 @@ namespace Trader.Client.Infrastucture
                        "ABP vNext",
                         () => Open<AbpViewer>("ABP vNext")),
 
+                      new MenuItem("IdentityServer4",
+                       "IdentityServer4",
+                        () => Open<IdentityServer4Viewer>("IdentityServer4")),
+
                   new MenuItem("Paged Data",
                     "An advanced example of how to page data",
                     () => Open<PagedDataViewer>("Paged Data"),new []
