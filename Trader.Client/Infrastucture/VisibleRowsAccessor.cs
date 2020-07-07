@@ -7,7 +7,7 @@ using DynamicData;
 
 namespace Trader.Client.Infrastucture
 {
-    public interface IVisibleRowsAccessor<T>: IDisposable
+    public interface IVisibleRowsAccessor<T> : IDisposable
     {
         IObservableList<T> VisibleRows { get; }
     }
@@ -16,7 +16,7 @@ namespace Trader.Client.Infrastucture
     {
         private DataGrid _grid;
         private readonly ISourceList<T> _visibleRowsSource = new SourceList<T>();
-        private readonly IObservableList<T> _visibleRows; 
+        private readonly IObservableList<T> _visibleRows;
         private readonly SingleAssignmentDisposable _cleanUp = new SingleAssignmentDisposable();
 
         public VisibleRowsAccessor()
@@ -31,7 +31,7 @@ namespace Trader.Client.Infrastucture
             if (!(value is DataGrid grid)) return;
             _grid = grid;
 
-            var rowsAdded = Observable.FromEventPattern<DataGridRowEventArgs>
+            IDisposable rowsAdded = Observable.FromEventPattern<DataGridRowEventArgs>
                 (
                     ev => _grid.LoadingRow += ev,
                     ev => _grid.LoadingRow -= ev
@@ -39,7 +39,7 @@ namespace Trader.Client.Infrastucture
                 .Subscribe(datagridrow => _visibleRowsSource.Add((T)datagridrow.Item)); ;
 
 
-            var rowsUnloaded = Observable.FromEventPattern<DataGridRowEventArgs>
+            IDisposable rowsUnloaded = Observable.FromEventPattern<DataGridRowEventArgs>
                 (
                     ev => _grid.UnloadingRow += ev,
                     ev => _grid.UnloadingRow -= ev

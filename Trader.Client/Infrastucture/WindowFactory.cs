@@ -13,10 +13,10 @@ namespace Trader.Client.Infrastucture
             _objectProvider = objectProvider;
         }
 
-        public MainWindow Create(bool showMenu=false)
+        public MainWindow Create(bool showMenu = false)
         {
-            var window = new MainWindow();
-            var model = _objectProvider.Get<WindowViewModel>();
+            MainWindow window = new MainWindow();
+            WindowViewModel model = _objectProvider.Get<WindowViewModel>();
             if (showMenu) model.ShowMenu();
 
             window.DataContext = model;
@@ -25,7 +25,7 @@ namespace Trader.Client.Infrastucture
                               {
                                   if (TabablzControl.GetIsClosingAsPartOfDragOperation(window)) return;
 
-                                  var todispose = ((MainWindow) sender).DataContext as IDisposable;
+                                  IDisposable todispose = ((MainWindow)sender).DataContext as IDisposable;
                                   todispose?.Dispose();
                               };
 

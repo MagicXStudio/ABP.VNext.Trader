@@ -10,7 +10,7 @@ namespace Trader.Client.Infrastucture
     /// <summary>
     /// Adapted from http://www.temporalcohesion.co.uk/2013/07/04/custom-structuremap-dependency-resolver-for-reactiveui-5/
     /// </summary>
-    public class ReactiveUIDependencyResolver: IMutableDependencyResolver
+    public class ReactiveUIDependencyResolver : IMutableDependencyResolver
     {
         private readonly IContainer _container;
 
@@ -42,7 +42,7 @@ namespace Trader.Client.Infrastucture
 
         public void Register(Func<object> factory, Type serviceType, string contract = null)
         {
-            _container.Configure(x => x.For(serviceType).Use((ctx)=>factory()));
+            _container.Configure(x => x.For(serviceType).Use((ctx) => factory()));
         }
 
         public void UnregisterCurrent(Type serviceType, string contract = null)

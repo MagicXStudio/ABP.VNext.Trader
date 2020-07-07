@@ -11,6 +11,8 @@ namespace Trader.Client.Views
 {
     public class TradesByPercentViewer : AbstractNotifyPropertyChanged, IDisposable
     {
+        
+
         private readonly IDisposable _cleanUp;
         private readonly ReadOnlyObservableCollection<Domain.Model.TradesByPercentDiff> _data;
 

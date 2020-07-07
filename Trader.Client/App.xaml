@@ -49,16 +49,19 @@
             <DataTemplate DataType="{x:Type views:PositionsViewer}">
                 <views:PositionsView/>
             </DataTemplate>
-            
+
             <DataTemplate DataType="{x:Type views:PagedDataViewer}">
                 <views:PagedDataView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type views:AbpViewer}">
+                <views:AbpView/>
+            </DataTemplate>
 
             <DataTemplate DataType="{x:Type views:VisibleRowsViewer}">
                 <views:VisibleRowsView/>
             </DataTemplate>
-            
+
             <DataTemplate DataType="{x:Type views:SearchHints}">
                 <StackPanel Orientation="Horizontal">
                     <wpf:PackIcon Width="24" Height="24" Margin="4 4 0 0" Kind="Magnify" Foreground="{Binding ElementName=SearchBox, Path=BorderBrush}"/>

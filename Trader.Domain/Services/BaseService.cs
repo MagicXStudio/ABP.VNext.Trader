@@ -20,7 +20,7 @@ namespace Trader.Domain.Services
         public BaseService()
         {
             HttpClient = new HttpClient() { BaseAddress = new Uri(BaseAddress) };
-            HttpClient.DefaultRequestHeaders.Add("__tenant", "Mafeiyang");
+            HttpClient.DefaultRequestHeaders.Add("__tenant", "mafeiyang");
             DiscoveryCache = new DiscoveryCache(BaseAddress);
             Task.Run(() =>
             {

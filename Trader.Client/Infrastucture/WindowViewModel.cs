@@ -71,11 +71,11 @@ namespace Trader.Client.Infrastucture
 
         public void ShowMenu()
         {
-            var existing = Views.FirstOrDefault(vc => vc.Content is MenuItems);
+            ViewContainer existing = Views.FirstOrDefault(vc => vc.Content is MenuItems);
             if (existing == null)
             {
-                var newmenu = _objectProvider.Get<MenuItems>();
-                var newItem = new ViewContainer("Menu", newmenu);
+                MenuItems newmenu = _objectProvider.Get<MenuItems>();
+                ViewContainer newItem = new ViewContainer("菜单", newmenu);
                 Views.Add(newItem);
                 Selected = newItem;
             }

@@ -6,9 +6,9 @@ using DynamicData.Binding;
 
 namespace Trader.Client.Infrastucture
 {
-    public class MenuItem: AbstractNotifyPropertyChanged
+    public class MenuItem : AbstractNotifyPropertyChanged
     {
-        public MenuItem(string title, string description, Action action,  
+        public MenuItem(string title, string description, Action action,
             IEnumerable<Link> link = null,
             object content = null)
         {
@@ -20,9 +20,9 @@ namespace Trader.Client.Infrastucture
             Command = new Command(action);
         }
 
-        public MenuItem(string title,string description ,Action action, MenuCategory category,
+        public MenuItem(string title, string description, Action action, MenuCategory category,
             IEnumerable<Link> link = null,
-            object content=null)
+            object content = null)
         {
             Title = title;
             Description = description;
@@ -30,7 +30,7 @@ namespace Trader.Client.Infrastucture
             Link = link ?? Enumerable.Empty<Link>();
             Command = new Command(action);
         }
-        
+
 
         public string Title { get; }
 
