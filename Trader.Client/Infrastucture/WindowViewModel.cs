@@ -3,11 +3,15 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using Dragablz;
 using DynamicData;
 using DynamicData.Binding;
 using IdentityModel.Client;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Services;
 
@@ -50,7 +54,7 @@ namespace Trader.Client.Infrastucture
                 Debug.WriteLine(result);
             });
 
-            var menuController = Views.ToObservableChangeSet()
+            IDisposable menuController = Views.ToObservableChangeSet()
                                         .Filter(vc => vc.Content is MenuItems)
                                         .Transform(vc => (MenuItems)vc.Content)
                                         .MergeMany(menuItem => menuItem.ItemCreated)
@@ -67,6 +71,8 @@ namespace Trader.Client.Infrastucture
                                              foreach (var disposable in Views.Select(vc => vc.Content).OfType<IDisposable>())
                                                  disposable.Dispose();
                                          });
+
+            InitRabbitMQ();
         }
 
         public void ShowMenu()
@@ -118,6 +124,42 @@ namespace Trader.Client.Infrastucture
         public void Dispose()
         {
             _cleanUp.Dispose();
+        }
+
+        private void InitRabbitMQ()
+        {
+            ConnectionFactory factory = new ConnectionFactory()
+            {
+                HostName = "47.98.226.195",
+                UserName = "admin",
+                Password = "zxcvbnm",
+                VirtualHost = "/"
+            };
+            using (IConnection connection = factory.CreateConnection())
+            {
+                using (IModel channel = connection.CreateModel())
+                {
+                    QueueDeclareOk queueDeclareOk = channel.QueueDeclare(
+                        queue: "hello",
+                        durable: false, exclusive: false,
+                        autoDelete: false,
+                        arguments: null
+                        );
+
+                    EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
+                    consumer.Received += (model, ea) =>
+                    {
+                        ReadOnlyMemory<byte> body = ea.Body;
+                        string message = Encoding.UTF8.GetString(body.ToArray());
+                        MessageBox.Show(message);
+                    };
+                    string v = channel.BasicConsume(
+                                                    queue: "hello",
+                                                    autoAck: true,
+                                                    consumer: consumer
+                                                    );
+                }
+            }
         }
     }
 }
