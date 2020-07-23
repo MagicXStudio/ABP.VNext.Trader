@@ -38,6 +38,9 @@ namespace Trader.Client.Infrastucture
             _loginService = loginService;
             InterTabClient = new InterTabClient(windowFactory);
             _showMenuCommand = new Command(ShowMenu, () => Selected != null && !(Selected.Content is MenuItems));
+
+            InitRabbitMQ();
+
             ShowInGitHubCommand = new Command(() => Process.Start(new ProcessStartInfo
             {
                 FileName = "cmd",
@@ -72,7 +75,6 @@ namespace Trader.Client.Infrastucture
                                                  disposable.Dispose();
                                          });
 
-            InitRabbitMQ();
         }
 
         public void ShowMenu()
@@ -135,31 +137,30 @@ namespace Trader.Client.Infrastucture
                 Password = "zxcvbnm",
                 VirtualHost = "/"
             };
-            using (IConnection connection = factory.CreateConnection())
-            {
-                using (IModel channel = connection.CreateModel())
-                {
-                    QueueDeclareOk queueDeclareOk = channel.QueueDeclare(
-                        queue: "hello",
-                        durable: false, exclusive: false,
-                        autoDelete: false,
-                        arguments: null
-                        );
+            IConnection connection = factory.CreateConnection();
+            IModel channel = connection.CreateModel();
+            channel.ExchangeDeclare("hello-exchange", "direct", true);
+            channel.QueueDeclare("hello-abp", true, false, false, null);
 
-                    EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
-                    consumer.Received += (model, ea) =>
-                    {
-                        ReadOnlyMemory<byte> body = ea.Body;
-                        string message = Encoding.UTF8.GetString(body.ToArray());
-                        MessageBox.Show(message);
-                    };
-                    string v = channel.BasicConsume(
-                                                    queue: "hello",
-                                                    autoAck: true,
-                                                    consumer: consumer
-                                                    );
-                }
-            }
+            channel.QueueBind(
+            queue: "hello-abp",
+            exchange: "hello-exchange",
+            routingKey: "System.Object"
+            );
+            EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
+            string consumerTag = channel.BasicConsume(
+                                          queue: "hello-abp",
+                                          autoAck: false,
+                                          consumer: consumer
+                                          );
+
+            consumer.Received += (model, args) =>
+            {
+                ReadOnlyMemory<byte> body = args.Body;
+                string message = Encoding.UTF8.GetString(body.ToArray());
+                MessageBox.Show(message);
+                channel.BasicAck(args.DeliveryTag, false);
+            };
         }
     }
 }
