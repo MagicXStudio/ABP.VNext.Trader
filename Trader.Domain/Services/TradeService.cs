@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using DynamicData;
 using DynamicData.Kernel;
 using Trader.Domain.Infrastucture;
@@ -17,27 +18,27 @@ namespace Trader.Domain.Services
 
         private readonly IDisposable _cleanup;
 
-        public TradeService(ILogger logger,TradeGenerator tradeGenerator, ISchedulerProvider schedulerProvider)
+        public TradeService(ILogger logger, TradeGenerator tradeGenerator, ISchedulerProvider schedulerProvider)
         {
             _logger = logger;
             _tradeGenerator = tradeGenerator;
             _schedulerProvider = schedulerProvider;
 
             //emulate a trade service which asynchronously 
-            var tradesData = GenerateTradesAndMaintainCache().Publish();
+            IConnectableObservable<IChangeSet<Trade, long>> tradesData = GenerateTradesAndMaintainCache().Publish();
 
             //call AsObservableCache() so the cache can be directly exposed
             All = tradesData.AsObservableCache();
 
             //create a derived cache  
             Live = tradesData.Filter(trade => trade.Status == TradeStatus.Live).AsObservableCache();
-            
+
             //log changes
-            var loggerWriter = LogChanges();
+            IDisposable loggerWriter = LogChanges();
 
             _cleanup = new CompositeDisposable(All, tradesData.Connect(), loggerWriter);
         }
-        
+
         private IObservable<IChangeSet<Trade, long>> GenerateTradesAndMaintainCache()
         {
             //construct an cache datasource specifying that the primary key is Trade.Id
@@ -51,7 +52,7 @@ namespace Trader.Domain.Services
                 */
 
                 //bit of code to generate trades
-                var random = new Random();
+                Random random = new Random();
 
                 //initally load some trades 
                 cache.AddOrUpdate(_tradeGenerator.Generate(5_000, true));
@@ -60,7 +61,7 @@ namespace Trader.Domain.Services
 
 
                 // create a random number of trades at a random interval
-                var tradeGenerator = _schedulerProvider.Background
+                IDisposable tradeGenerator = _schedulerProvider.Background
                     .ScheduleRecurringAction(RandomInterval, () =>
                     {
                         var number = random.Next(1, 5);
@@ -69,10 +70,10 @@ namespace Trader.Domain.Services
                     });
 
                 // close a random number of trades at a random interval
-                var tradeCloser = _schedulerProvider.Background
+                IDisposable tradeCloser = _schedulerProvider.Background
                     .ScheduleRecurringAction(RandomInterval, () =>
                     {
-                        var number = random.Next(1, 2);
+                        int number = random.Next(1, 2);
                         cache.Edit(innerCache =>
                         {
                             var trades = innerCache.Items
@@ -82,7 +83,7 @@ namespace Trader.Domain.Services
                             var toClose = trades.Select(trade => new Trade(trade, TradeStatus.Closed));
 
                             cache.AddOrUpdate(toClose);
-                         });
+                        });
                     });
 
                 //expire closed items from the cache to avoid unbounded data
@@ -91,21 +92,21 @@ namespace Trader.Domain.Services
                     .Subscribe(x => _logger.Info("{0} filled trades have been removed from memory", x.Count()));
 
                 return new CompositeDisposable(tradeGenerator, tradeCloser, expirer);
-            }, trade=>trade.Id);
+            }, trade => trade.Id);
         }
 
         private IDisposable LogChanges()
         {
             const string messageTemplate = "{0} {1} {2} ({4}). Status = {3}";
             return All.Connect().Skip(1)
-                            .WhereReasonsAre(ChangeReason.Add,ChangeReason.Update)
+                            .WhereReasonsAre(ChangeReason.Add, ChangeReason.Update)
                             .Cast(trade => string.Format(messageTemplate,
                                                     trade.BuyOrSell,
                                                     trade.Amount,
                                                     trade.CurrencyPair,
                                                     trade.Status,
                                                     trade.Customer))
-                            .ForEachChange(change=>_logger.Info(change.Current))
+                            .ForEachChange(change => _logger.Info(change.Current))
                             .Subscribe();
 
         }

@@ -19,20 +19,20 @@ namespace Trader.Domain.Services
                 .Group(trade => trade.CurrencyPair)
                 .SubscribeMany(groupedData =>
                                {
-                                   var locker = new object();
+                                   object locker = new object();
                                    decimal latestPrice = 0;
 
                                    //subscribe to price and update trades with the latest price
-                                   var priceHasChanged = marketDataService.Watch(groupedData.Key)
+                                   IDisposable priceHasChanged = marketDataService.Watch(groupedData.Key)
                                        .Synchronize(locker)
                                        .Subscribe(price =>
                                                   {
                                                       latestPrice = price.Bid;
                                                       UpdateTradesWithPrice(groupedData.Cache.Items, latestPrice);
                                                   });
-                                  
+
                                    //connect to data changes and update with the latest price
-                                   var dataHasChanged = groupedData.Cache.Connect()
+                                   IDisposable dataHasChanged = groupedData.Cache.Connect()
                                        .WhereReasonsAre(ChangeReason.Add, ChangeReason.Update)
                                        .Synchronize(locker)
                                        .Subscribe(changes => UpdateTradesWithPrice(changes.Select(change => change.Current), latestPrice));
