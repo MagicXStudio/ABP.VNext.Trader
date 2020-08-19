@@ -79,6 +79,7 @@ namespace Trader.Client.Infrastucture
                                                  disposable.Dispose();
                                          });
 
+
         }
 
         public void ShowMenu()
