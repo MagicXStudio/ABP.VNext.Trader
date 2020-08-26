@@ -45,6 +45,14 @@ namespace Trader.Domain.Model
 
         public override string ToString()
         {
+            Span<Coords<int>> coordinates = stackalloc[]
+            {
+                new Coords<int> { X = 1, Y = 3 },
+                new Coords<int> { X = 2, Y = 6 },
+                new Coords<int> { X = 4, Y = 9 }
+            };
+            //堆栈中分配的内存块不受垃圾回收的影响，也不必通过 fixed 语句固定
+            Span<int> numbers = stackalloc[] { 1, 2, 3, 4, 5, 6 };
             return $"Code: {Code}, DecimalPlaces: {DecimalPlaces}";
         }
     }
