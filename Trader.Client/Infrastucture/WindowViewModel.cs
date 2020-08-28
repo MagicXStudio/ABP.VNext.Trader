@@ -34,10 +34,6 @@ namespace Trader.Client.Infrastucture
 
         public WindowViewModel(IObjectProvider objectProvider, IWindowFactory windowFactory, ILoginService loginService)
         {
-            var now = System.DateTime.Parse("09:15:00");
-            var time = TimeSpan.Parse("09:15:00");
-            SendMail.Send();
-
             _objectProvider = objectProvider;
             _loginService = loginService;
             InterTabClient = new InterTabClient(windowFactory);

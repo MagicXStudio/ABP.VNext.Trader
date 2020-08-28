@@ -9,7 +9,6 @@
     <PackageReference Include="DynamicData" Version="6.13.18" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="MailKit" Version="2.8.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Connections.Abstractions" Version="3.1.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +24,6 @@
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Codecs" Version="0.6.0" />
     <PackageReference Include="IdentityModel" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

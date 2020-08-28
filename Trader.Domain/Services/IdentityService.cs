@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Connections;
-using System;
 
 namespace Trader.Domain.Services
 {
@@ -12,7 +10,6 @@ namespace Trader.Domain.Services
     {
         public IdentityService()
         {
-            UriEndPoint endPoint = new UriEndPoint(new Uri("http://localhost:8888"));
         }
 
         public Task<HttpResponseMessage> CheckSessionAsync()

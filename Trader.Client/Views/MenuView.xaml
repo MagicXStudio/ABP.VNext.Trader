@@ -10,14 +10,12 @@
     d:DesignHeight="300"
     mc:Ignorable="d">
     <UserControl.Resources>
-
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <infrastucture:EqualityToBooleanConverter x:Key="EqualityToBooleanConverter" />
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -50,7 +48,7 @@
                     VerticalAlignment="Center"
                     IsChecked="{Binding ShowLinks}"
                     Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                    ToolTip="Show hyperlinks to code behind and to any relevent blog posts" />
+                    ToolTip="Show hyperlinks " />
 
             </StackPanel>
 
@@ -65,13 +63,13 @@
                     Content="Dynamic Data Only"
                     GroupName="Type"
                     IsChecked="{Binding Category, Converter={StaticResource EqualityToBooleanConverter}, ConverterParameter={x:Static infrastucture:MenuCategory.DynamicData}}"
-                    ToolTip="Filter menu on items which illustrate Dynamic Data only" />
+                    ToolTip="Filter menu on " />
 
                 <RadioButton
                     Content="With Reactive UI"
                     GroupName="Type"
                     IsChecked="{Binding Category, Converter={StaticResource EqualityToBooleanConverter}, ConverterParameter={x:Static infrastucture:MenuCategory.ReactiveUi}}"
-                    ToolTip="Filter menu on items which illustrate integration between Dynamic Data and Reactive UI" />
+                    ToolTip="Filter menu o Reactive UI" />
             </StackPanel>
         </Grid>
 

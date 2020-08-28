@@ -36,23 +36,22 @@ namespace Trader.Client.Infrastucture
         {
             _logger = logger;
             _objectProvider = objectProvider;
-
             _menuItems = new List<MenuItem>
             {
                 new MenuItem("实时动态",
-                    "A basic example, illustrating how to connect to a stream, inject a user filter and bind.",
+                    "A basic example,  filter and bind.",
                     () => Open<LiveTradesViewer>("实时动态")),
 
-                new MenuItem("Near to Market",
-                     "Dynamic filtering of calculated values.",
-                     () => Open<NearToMarketViewer>("Near to Market")),
+                new MenuItem("我的日程",
+                     "Dynamic filtevalues.",
+                     () => Open<NearToMarketViewer>("我的日程")),
 
-                new MenuItem("Trades By %",
-                       "Group trades by a constantly changing calculated value. With automatic regrouping.",
-                        () => Open<TradesByPercentViewer>("Trades By % Diff")),
+                new MenuItem("联系人",
+                       "Group tradouping.",
+                        () => Open<TradesByPercentViewer>("联系人")),
 
                 new MenuItem("Trades By hh:mm",
-                       "Group items by time with automatic regrouping as time passes",
+                       "Group items by ti time passes",
                         () => Open<TradesByTimeViewer>("Trades By hh:mm")),
 
                 new MenuItem("最近交易",
@@ -61,19 +60,27 @@ namespace Trader.Client.Infrastucture
 
 
                 new MenuItem("Trading持仓",
-                       "Calculate overall position for each currency pair and aggregate totals",
+                       "Calculate overall  and aggregate totals",
                         () => Open<PositionsViewer>("Trading Positions")),
 
                   new MenuItem("ABP vNext",
                        "ABP vNext",
                         () => Open<AbpViewer>("ABP vNext")),
 
-                      new MenuItem("IdentityServer4",
+                     new MenuItem("聊天",
+                       "Chat",
+                        () => Open<ChatViewer>("聊天")),
+
+                        new MenuItem("身份认证",
+                       "Login",
+                        () => Open<LoginViewer>("身份认证")),
+
+                      new MenuItem("Ids4",
                        "IdentityServer4",
-                        () => Open<IdentityServer4Viewer>("IdentityServer4")),
+                        () => Open<IdentityServer4Viewer>("Ids4")),
 
                   new MenuItem("Paged Data",
-                    "An advanced example of how to page data",
+                    "An adva data",
                     () => Open<PagedDataViewer>("Paged Data"),new []
                         {
                             new Link("Blog","Sort Filter and Page Data", " http://dynamic-data.org/2015/04/22/dynamically-sort-filter-and-page-data/"),
@@ -95,7 +102,6 @@ namespace Trader.Client.Infrastucture
 
         private void Open<T>(string title)
         {
-
             _logger.Debug("Opening '{0}'", title);
 
             T content = _objectProvider.Get<T>();

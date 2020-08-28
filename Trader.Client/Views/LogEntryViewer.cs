@@ -22,7 +22,7 @@ namespace Trader.Client.Views
         private LogEntrySummary _summary = LogEntrySummary.Empty;
 
         public ReadOnlyObservableCollection<LogEntryProxy> Data { get; }
-        public ReactiveCommand DeleteCommand { get; }
+        public Command DeleteCommand { get; }
         public IAttachedSelector Selector => _selectionController;
 
         public LogEntryViewer(ILogEntryService logEntryService)
@@ -72,12 +72,12 @@ namespace Trader.Client.Views
 
 
             //make a command out of selected items - enabling the command when there is a selection 
-            DeleteCommand = ReactiveCommand.Create(() =>
-            {
-                var toRemove = _selectionController.SelectedItems.Items.Select(proxy => proxy.Original).ToArray();
-                _selectionController.Clear();
-                logEntryService.Remove(toRemove);
-            }, selectedItems.QueryWhenChanged(query => query.Count > 0));
+            DeleteCommand = new Command(() =>
+           {
+               var toRemove = _selectionController.SelectedItems.Items.Select(proxy => proxy.Original).ToArray();
+               _selectionController.Clear();
+               logEntryService.Remove(toRemove);
+           });
 
             var connected = selectedItems.Connect();
             var connectedItems = shared.Connect();
@@ -86,13 +86,12 @@ namespace Trader.Client.Views
                 loader.Dispose();
                 connected.Dispose();
                 _deleteItemsText.Dispose();
-                DeleteCommand.Dispose();
                 _selectionController.Dispose();
                 summariser.Dispose();
                 connectedItems.Dispose();
 
 
-			});
+            });
         }
 
         public string SearchText

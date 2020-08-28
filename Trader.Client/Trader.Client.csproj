@@ -5,13 +5,6 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Views\LogEntryView.xaml.cs" />
-    <Compile Remove="Views\LogEntryViewer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Remove="Views\LogEntryView.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Update="Log4Net.config">

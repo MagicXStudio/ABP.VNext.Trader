@@ -9,8 +9,8 @@
     xmlns:infrastucture="clr-namespace:Trader.Client.Infrastucture"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="你好 ABP"
-    Width="700"
-    Height="500"
+    Width="800"
+    Height="600"
     d:DataContext="{d:DesignInstance infrastucture:WindowViewModel,
                                      IsDesignTimeCreatable=False}"
     Background="{DynamicResource MaterialDesignPaper}"
