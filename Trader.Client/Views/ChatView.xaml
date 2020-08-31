@@ -9,14 +9,20 @@
     <StackPanel Background="#2C2F33">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition MinHeight="35"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition MinHeight="35"/>
             </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button Command="{Binding HelloCommand}"  Foreground="Yellow" Content="发送文件" Width="120" Height="35" Cursor="Hand"></Button>
+            </StackPanel>
             <!--TODO: calculate textBlock height onWindowResize-->
             <TextBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="1" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                      IsReadOnly="True"
-                     Background="#2C2F33" Foreground="White" Grid.Row="0" Margin="5" MinHeight="350" MaxHeight="360" Text="{Binding Output}"/>
-            <TextBox Grid.Row="1" Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Background="#23272A" FontSize="16" 
+                     Background="#2C2F33" Foreground="White" Grid.Row="1" Margin="5" MinHeight="350" MaxHeight="360" 
+                     Text="{Binding Output,Mode=TwoWay}"/>
+            <TextBox Grid.Row="2" Text="{Binding Input, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="White" 
+                     Background="#23272A" FontSize="16" 
                     MinHeight="35" Margin="10">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding EnterKeyCommand}"/>

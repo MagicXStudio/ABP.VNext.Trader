@@ -1,4 +1,4 @@
-﻿using DynamicData.Binding;
+﻿using ReactiveUI;
 using System;
 using System.Threading;
 using System.Windows;
@@ -8,7 +8,7 @@ using Trader.Client.Infrastucture;
 
 namespace Trader.Client.Views
 {
-    class LoginViewer : AbstractNotifyPropertyChanged
+    public class LoginViewer : ReactiveObject
     {
         private Action<bool> connectEvent;
         private Action<string> loginEvent;
@@ -78,7 +78,7 @@ namespace Trader.Client.Views
                             break;
                     }
                 };
-               // client.Login(username, password);
+                // client.Login(username, password);
             }
         }
 
@@ -88,8 +88,5 @@ namespace Trader.Client.Views
             AlertText = text;
             AlertForegroundColor = color;
         }
-
-
-
     }
 }

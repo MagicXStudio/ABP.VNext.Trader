@@ -1,13 +1,9 @@
-﻿
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using DynamicData.Kernel;
 
 // ReSharper disable once CheckNamespace
 namespace System
 {
-
-
     public static class Extensions
     {
         public static bool Contains(this string source, string toCheck, StringComparison comp)
@@ -34,18 +30,18 @@ namespace System.Collections.Generic
 
     public static class Extensions
     {
-        
-        public static string ToDelimited<T>(this IEnumerable<T> source, string delimiter=",")
+
+        public static string ToDelimited<T>(this IEnumerable<T> source, string delimiter = ",")
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             return string.Join(delimiter, source.WithDelimiter(delimiter));
 
         }
 
-        public static IEnumerable<string>  WithDelimiter<T>(this IEnumerable<T> source, string delimiter)
+        public static IEnumerable<string> WithDelimiter<T>(this IEnumerable<T> source, string delimiter)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
-            var array = source.AsArray();
+            T[] array = source.AsArray();
             if (!array.Any()) yield return string.Empty;
 
             yield return array.Select(t => t.ToString()).First();

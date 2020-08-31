@@ -3,13 +3,14 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Binding;
+using ReactiveUI;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
 using Trader.Domain.Services;
 
 namespace Trader.Client.Views
 {
-    public class PositionsViewer: IDisposable
+    public class PositionsViewer: ReactiveObject, IDisposable
     {
         private readonly ReadOnlyObservableCollection<CurrencyPairPosition> _data;
         private readonly IDisposable _cleanUp;

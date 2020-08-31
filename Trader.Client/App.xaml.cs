@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
+using Abp.VNext.Hello.XNetty;
+using DotNetty.Transport.Bootstrapping;
 using ReactiveUI;
-using Splat;
 using StructureMap;
 using Trader.Client.Infrastucture;
 using Trader.Client.Views;
@@ -21,8 +23,6 @@ namespace Trader.Client
         public App()
         {
             AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
-
-
             ShutdownMode = ShutdownMode.OnLastWindowClose;
         }
 
@@ -35,20 +35,21 @@ namespace Trader.Client
         /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs" /> that contains the event data.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
-            var container = new Container(x => x.AddRegistry<AppRegistry>());
-            var factory = container.GetInstance<WindowFactory>();
-            var window = factory.Create(true);
+            Container container = new Container(x => x.AddRegistry<AppRegistry>());
+            WindowFactory factory = container.GetInstance<WindowFactory>();
+            MainWindow window = factory.Create(true);
             container.Configure(x => x.For<Dispatcher>().Add(window.Dispatcher));
 
             //configure dependency resolver for RxUI / Splat
-            var resolver = new ReactiveUIDependencyResolver(container);
-            //resolver.Register(() => new LogEntryView(), typeof(IViewFor<LogEntryViewer>));
+            ReactiveUIDependencyResolver resolver = new ReactiveUIDependencyResolver(container);
+            resolver.Register(() => new LogEntryView(), typeof(IViewFor<LogEntryViewer>));
             //Locator.Current = resolver;
             //RxApp.SupportsRangeNotifications = false;
             //run start up jobs
             container.GetInstance<TradePriceUpdateJob>();
             container.GetInstance<ILogEntryService>();
 
+            TaskAwaiter<Bootstrap> w = ClientBootstrap.Client.InitBootstrapAsync().GetAwaiter();
             window.Show();
             base.OnStartup(e);
         }
