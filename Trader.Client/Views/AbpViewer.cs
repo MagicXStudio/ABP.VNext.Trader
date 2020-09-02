@@ -39,7 +39,6 @@ namespace Trader.Client.Views
                                                      Thread task = new Thread(() =>
                                                      {
                                                          Task.Delay(1000);
-
                                                          Counter = Interlocked.Decrement(ref counter);
                                                      });
                                                      task.Name = "T-Countdown";
@@ -53,10 +52,10 @@ namespace Trader.Client.Views
             Counter--;
             DecrementAsync.Invoke(Task.FromResult(Counter));
         });
-        public Command ExchangeCommand => new Command(() =>
+        public Command ExchangeCommand => new Command(async () =>
         {
             Interlocked.MemoryBarrier();
-            Counter = Fibonacci.Fib(10);
+            Counter = await Fibonacci.FibAsync(26);
             Counter = Interlocked.Exchange(ref counter, Environment.TickCount);
         });
     }
