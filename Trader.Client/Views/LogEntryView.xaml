@@ -156,7 +156,6 @@
 
                 </Style>
             </ListView.ItemContainerStyle>
-
         </ListView>
 
         <Grid

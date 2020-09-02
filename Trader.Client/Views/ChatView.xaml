@@ -1,22 +1,90 @@
 ﻿<UserControl x:Class="Trader.Client.Views.ChatView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:infrastucture="clr-namespace:Trader.Client.Infrastucture"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel  Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Command="{Binding HelloCommand}"  Foreground="Yellow" Content="搜索" Width="60" Height="25" Cursor="Hand">
+            </Button>
+            <ListView
+            infrastucture:SelectorHelper.Binding="{Binding Selector}"
+            ItemsSource="{Binding Contacts}"
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            SelectionMode="Extended">
+                <ListView.InputBindings>
+                    <KeyBinding Key="Delete" Command="{Binding HelloCommand}" />
+                </ListView.InputBindings>
 
-    <StackPanel Background="#2C2F33">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition MinHeight="35"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition MinHeight="35"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button Command="{Binding HelloCommand}"  Foreground="Yellow" Content="发送文件" Width="120" Height="35" Cursor="Hand"></Button>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn
+                        DisplayMemberBinding="{Binding Id}"
+                        TextBlock.TextAlignment="Left" />
+                        <GridViewColumn
+                        Width="10"
+                        DisplayMemberBinding="{Binding Name}"
+                        TextBlock.TextAlignment="Left" />
+                        <GridViewColumn
+                        Width="50"
+                        DisplayMemberBinding="{Binding Avatar}"
+                        Header="Level"
+                        TextBlock.TextAlignment="Left" />
+                        <GridViewColumn
+                        Width="40"
+                        DisplayMemberBinding="{Binding Status}"
+                        Header="Thread"
+                        TextBlock.TextAlignment="Center" />
+                        <GridViewColumn
+                        Width="85"
+                        DisplayMemberBinding="{Binding TimeStamp, StringFormat=h:mm:ss.ffff}"
+                        Header="Time"
+                        TextBlock.TextAlignment="Left" />
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignGridViewItem}" TargetType="{x:Type ListViewItem}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Recent}" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource SecondaryAccentBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource SecondaryAccentForegroundBrush}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Removing}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                            Storyboard.TargetProperty="(TextBlock.Opacity)"
+                                            From="1.0"
+                                            To="0"
+                                            Duration="0:0:0.75" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </StackPanel>
+        <StackPanel  Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Width="592">
+            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button Command="{Binding HelloCommand}"  Foreground="Yellow" Content="发送文件" Width="120" Height="30" Cursor="Hand"></Button>
+                <Button Command="{Binding HelloCommand}"  Foreground="Yellow" Content="请求协助" Width="120" Height="30" Cursor="Hand"></Button>
             </StackPanel>
-            <!--TODO: calculate textBlock height onWindowResize-->
             <TextBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="1" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                      IsReadOnly="True"
                      Background="#2C2F33" Foreground="White" Grid.Row="1" Margin="5" MinHeight="350" MaxHeight="360" 
@@ -28,6 +96,6 @@
                     <KeyBinding Key="Enter" Command="{Binding EnterKeyCommand}"/>
                 </TextBox.InputBindings>
             </TextBox>
-        </Grid>
-    </StackPanel>
+        </StackPanel>
+    </Grid>
 </UserControl>
