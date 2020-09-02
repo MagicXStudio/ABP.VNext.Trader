@@ -8,8 +8,28 @@
              d:DataContext="{d:DesignInstance views:AbpViewer, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Button x:Name="button" Content="ABP vNext" HorizontalAlignment="Left" 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <Button x:Name="BtnCounter" Content="Counter"  HorizontalAlignment="Left" 
                 Command="{Binding HelloCommand}"
-                Margin="260,166,0,0" VerticalAlignment="Top"/>
+                Margin="10,16,10,0" VerticalAlignment="Top"
+                    />
+            <Button x:Name="BtnVolatile" Content="Volatile" HorizontalAlignment="Left" 
+                Command="{Binding VolatileCommand}"
+                Margin="10,16,10,0" VerticalAlignment="Top"
+                    />
+            <Button x:Name="BtnExchange" Content="Exchange" HorizontalAlignment="Left" 
+                Command="{Binding ExchangeCommand}"
+                Margin="10,16,10,0" VerticalAlignment="Top"
+                    />
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <TextBlock  Text="{Binding Counter}" Foreground="Green" FontSize="16"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

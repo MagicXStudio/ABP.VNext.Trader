@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.PlatformServices;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -43,6 +44,7 @@ namespace Trader.Client
             //configure dependency resolver for RxUI / Splat
             ReactiveUIDependencyResolver resolver = new ReactiveUIDependencyResolver(container);
             resolver.Register(() => new LogEntryView(), typeof(IViewFor<LogEntryViewer>));
+            
             //Locator.Current = resolver;
             //RxApp.SupportsRangeNotifications = false;
             //run start up jobs
