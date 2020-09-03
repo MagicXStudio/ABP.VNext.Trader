@@ -21,8 +21,6 @@ namespace Trader.Client.Views
         public ICommand LoginButtonCommand { get; set; }
         public LoginViewer()
         {
-
-
             LoginButtonCommand = new Command(() =>
             {
 

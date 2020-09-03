@@ -14,7 +14,7 @@ namespace Trader.Client.Infrastucture
 
         public INewTabHost<Window> GetNewHost(IInterTabClient interTabClient, object partition, TabablzControl source)
         {
-            var window = _factory.Create();
+            MainWindow window = _factory.Create();
 
             return new NewTabHost<Window>(window, window.InitialTabablzControl);
         }

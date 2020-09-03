@@ -11,7 +11,6 @@ namespace Trader.Client.Infrastucture
         private readonly Action _execute;
         private readonly Func<bool> _canExecute;
 
-
         public Command(Action execute, Func<bool> canExecute = null)
         {
             if (execute == null) throw new ArgumentNullException("execute");

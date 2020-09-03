@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Windows.Input;
 using DynamicData.Binding;
 using ReactiveUI;
 using Trader.Client.Views;
@@ -58,7 +57,6 @@ namespace Trader.Client.Infrastucture
                     "Operator whic last minute.",
                     () => Open<RecentTradesViewer>("Recent Trades")),
 
-
                 new MenuItem("Trading持仓",
                        "Calculate overall  and aggregate totals",
                         () => Open<PositionsViewer>("Trading Positions")),
@@ -69,21 +67,24 @@ namespace Trader.Client.Infrastucture
 
                      new MenuItem("聊天",
                        "Chat",
-                        () => Open<ChatViewer>("聊天")),
+                        () => Open<ChatViewer>("聊天"),
+                        MenuCategory.ReactiveUi),
 
                         new MenuItem("身份认证",
                        "Login",
-                        () => Open<LoginViewer>("身份认证")),
+                        () => Open<LoginViewer>("身份认证"),
+                        MenuCategory.ReactiveUi),
 
                       new MenuItem("Ids4",
                        "IdentityServer4",
-                        () => Open<IdentityServer4Viewer>("Ids4")),
+                        () => Open<IdentityServer4Viewer>("Ids4"),
+                        MenuCategory.ReactiveUi),
 
                   new MenuItem("Paged Data",
                     "An adva data",
                     () => Open<PagedDataViewer>("Paged Data"),new []
                         {
-                            new Link("Blog","Sort Filter and Page Data", " http://dynamic-data.org/2015/04/22/dynamically-sort-filter-and-page-data/"),
+                            new Link("Blog","Sort Filter a Data", " http://dynamic-data.org/2015/04/22/dynamically-sort-filter-and-page-data/"),
                         })
             };
 
@@ -114,8 +115,8 @@ namespace Trader.Client.Infrastucture
         {
             _logger.Debug("Opening '{0}'", title);
 
-            var content = _objectProvider.Get<T>();
-            var rxuiContent = new RxUiHostViewModel(content);
+            T content = _objectProvider.Get<T>();
+            RxUiHostViewModel rxuiContent = new RxUiHostViewModel(content);
 
             _viewCreatedSubject.OnNext(new ViewContainer(title, rxuiContent));
             _logger.Debug("--Opened '{0}'", title);

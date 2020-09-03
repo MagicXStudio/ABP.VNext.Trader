@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 // ReSharper disable once CheckNamespace 
 namespace DynamicData
@@ -19,17 +20,17 @@ namespace DynamicData
             {
 
                 var locker = new object();
-                var shared = source.Synchronize(locker).Publish();
-              
+                IConnectableObservable<IChangeSet<TObject, TKey>> shared = source.Synchronize(locker).Publish();
+
                 var notRemoved = shared.WhereReasonsAreNot(ChangeReason.Remove);
-                    
+
 
                 var removes = shared.WhereReasonsAre(ChangeReason.Remove)
                     .Do(changes => changes.Select(change => change.Current).ForEach(onDefer))
                     .Delay(delayPeriod)
                     .Synchronize(locker);
 
-                var subscriber = notRemoved.Merge(removes).SubscribeSafe(observer);
+                IDisposable subscriber = notRemoved.Merge(removes).SubscribeSafe(observer);
                 return new CompositeDisposable(subscriber, shared.Connect());
 
             });
@@ -43,13 +44,13 @@ namespace DynamicData
 
             return Observable.Create<IChangeSet<TObject>>(observer =>
             {
-                var removed = new [] { ListChangeReason.Remove, ListChangeReason.Clear, ListChangeReason.RemoveRange };
+                var removed = new[] { ListChangeReason.Remove, ListChangeReason.Clear, ListChangeReason.RemoveRange };
 
                 var localList = new SourceList<TObject>();
-                
+
                 var locker = new object();
                 var shared = source.Synchronize(locker).Publish();
-                
+
                 var notRemoved = shared.WhereReasonsAreNot(removed)
                                         .Subscribe(changes =>
                                         {
@@ -72,7 +73,7 @@ namespace DynamicData
                                                 });
                                             });
                                         });
-                
+
                 //when removed,invoke call back
                 var removes = shared.WhereReasonsAre(removed)
                                 .ForEachItemChange(change => onDefer(change.Current))
@@ -90,7 +91,7 @@ namespace DynamicData
                                 });
 
                 var subscriber = localList.Connect().SubscribeSafe(observer);
-                return new CompositeDisposable(subscriber,removes, notRemoved, shared.Connect());
+                return new CompositeDisposable(subscriber, removes, notRemoved, shared.Connect());
 
             });
         }

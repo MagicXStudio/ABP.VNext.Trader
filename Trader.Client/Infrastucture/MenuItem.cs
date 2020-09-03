@@ -8,7 +8,10 @@ namespace Trader.Client.Infrastucture
 {
     public class MenuItem : AbstractNotifyPropertyChanged
     {
-        public MenuItem(string title, string description, Action action,
+        public MenuItem(
+            string title,
+            string description,
+            Action action,
             IEnumerable<Link> link = null,
             object content = null)
         {
@@ -20,7 +23,11 @@ namespace Trader.Client.Infrastucture
             Command = new Command(action);
         }
 
-        public MenuItem(string title, string description, Action action, MenuCategory category,
+        public MenuItem(
+            string title,
+            string description,
+            Action action,
+            MenuCategory category,
             IEnumerable<Link> link = null,
             object content = null)
         {

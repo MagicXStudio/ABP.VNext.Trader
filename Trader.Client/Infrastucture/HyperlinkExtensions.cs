@@ -23,7 +23,7 @@ namespace Trader.Client.Infrastucture
 
         private static void OnIsExternalChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
-            var hyperlink = sender as Hyperlink;
+            Hyperlink hyperlink = sender as Hyperlink;
             if (hyperlink == null) return;
 
             if ((bool)args.NewValue)

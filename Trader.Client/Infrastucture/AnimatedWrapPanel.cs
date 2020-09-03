@@ -15,7 +15,7 @@ namespace Trader.Client.Infrastucture
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var infiniteSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
+            Size infiniteSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             double curX = 0, curY = 0, curLineHeight = 0;
             foreach (UIElement child in Children)
             {
@@ -29,13 +29,13 @@ namespace Trader.Client.Infrastucture
                 }
 
                 curX += child.DesiredSize.Width;
-                if(child.DesiredSize.Height > curLineHeight)
+                if (child.DesiredSize.Height > curLineHeight)
                     curLineHeight = child.DesiredSize.Height;
             }
 
             curY += curLineHeight;
 
-            var resultSize = new Size
+            Size resultSize = new Size
             {
                 Width = double.IsPositiveInfinity(availableSize.Width)
                     ? curX
@@ -50,14 +50,14 @@ namespace Trader.Client.Infrastucture
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (this.Children == null || this.Children.Count == 0)
+            if (Children == null || Children.Count == 0)
                 return finalSize;
 
             double curX = 0, curY = 0, curLineHeight = 0;
 
             foreach (UIElement child in Children)
             {
-                var trans = child.RenderTransform as TranslateTransform;
+                TranslateTransform trans = child.RenderTransform as TranslateTransform;
 
 
                 if (trans == null)
@@ -74,7 +74,7 @@ namespace Trader.Client.Infrastucture
                     curLineHeight = 0;
                 }
 
-                child.Arrange(new Rect(0, 0, child.DesiredSize.Width, 
+                child.Arrange(new Rect(0, 0, child.DesiredSize.Width,
                     child.DesiredSize.Height));
 
 
@@ -85,10 +85,10 @@ namespace Trader.Client.Infrastucture
 
                 curX += child.DesiredSize.Width;
                 if (child.DesiredSize.Height > curLineHeight)
-                    curLineHeight = child.DesiredSize.Height;       
+                    curLineHeight = child.DesiredSize.Height;
             }
 
             return finalSize;
-        } 
+        }
     }
 }
