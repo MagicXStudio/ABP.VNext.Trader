@@ -28,8 +28,9 @@
                 Margin="10,16,10,0" VerticalAlignment="Top"
                     />
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1"  Orientation="Horizontal">
             <TextBlock  Text="{Binding Counter}" Foreground="Green" FontSize="16"></TextBlock>
+            <TextBlock  Text="{Binding Text}" Foreground="Red" FontSize="18"></TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>

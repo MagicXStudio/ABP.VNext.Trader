@@ -75,5 +75,8 @@ namespace Trader.Client.Views
             EnterPressEvent(input);
             Input = "";
         }
+
+        
+    
     }
 }

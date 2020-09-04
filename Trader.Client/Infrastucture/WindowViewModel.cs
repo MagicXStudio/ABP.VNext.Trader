@@ -71,7 +71,7 @@ namespace Trader.Client.Infrastucture
             _cleanUp = Disposable.Create(() =>
                                          {
                                              menuController.Dispose();
-                                             foreach (var disposable in Views.Select(vc => vc.Content).OfType<IDisposable>())
+                                             foreach (IDisposable disposable in Views.Select(vc => vc.Content).OfType<IDisposable>())
                                                  disposable.Dispose();
                                          });
 
