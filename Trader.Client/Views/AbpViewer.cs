@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Trader.Client.Infrastucture;
 using Trader.Domain.Algorithms;
+using Trader.Domain.Model;
 
 namespace Trader.Client.Views
 {
@@ -18,6 +19,7 @@ namespace Trader.Client.Views
     public class AbpViewer : ReactiveObject
     {
         public CountdownEvent Countdown { get; } = new CountdownEvent(100);
+        public Operators.Arithmetic Operator { get; } = Operators.Arithmetic.Minus;
 
         public AbpViewer()
         {
@@ -115,7 +117,8 @@ namespace Trader.Client.Views
             {
                 ReadOnlyMemory<byte> body = args.Body;
                 string message = Encoding.UTF8.GetString(body.ToArray());
-                Text = message;
+                Text = $"ConsumerTag:{args.ConsumerTag}\n RoutingKey:{args.RoutingKey}\n Exchange:{args.Exchange}\n Body:{message}";
+
                 channel.BasicAck(args.DeliveryTag, false);
             };
         }
