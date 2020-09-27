@@ -4,12 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="350"></RowDefinition>
+            <RowDefinition Height="150"></RowDefinition>
+            <RowDefinition Height="450"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Vertical">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBox BorderThickness="1" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                     IsReadOnly="False"
+                     Grid.Row="1" Margin="5" Width="744"  Height="70" 
+                     Text="{Binding Token.AccessToken,Mode=OneWay}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Button  x:Name="BtnPasswordToken" Content=" PasswordToken" Command="{Binding PasswordToken}" Height="50" Width="140"/>
+            <Button  x:Name="BtnClientCredentialsToken" Content=" ClientCredentialsToken" Command="{Binding ClientCredentialsToken}" Height="50" Width="140"/>
             <Button  x:Name="BtnEndSession" Content="End Session" Command="{Binding EndSession}" Height="50" Width="140"/>
             <Button  x:Name="BtnCheckSession" Content="Check Session" Command="{Binding CheckSession}"  Height="50" Width="140" />
             <Button  x:Name="BtnUserinfo" Content="Userinfo" Command="{Binding Userinfo}"  Height="50" Width="140" />

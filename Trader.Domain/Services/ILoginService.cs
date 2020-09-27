@@ -10,5 +10,7 @@ namespace Trader.Domain.Services
         Task<TokenResponse> RequestPasswordTokenAsync();
 
         Task<string> CallServiceAsync(string path);
+
+        string ShowTokens();
     }
 }

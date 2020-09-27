@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using IdentityModel.Client;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,9 +9,9 @@ namespace Trader.Domain.Services
     {
         Task<HttpResponseMessage> CheckSessionAsync();
 
-        Task<HttpResponseMessage> EndSessionAsync();
+        Task<string> EndSessionAsync();
 
-        Task<HttpResponseMessage> GetUserinfoAsync();
+        Task<UserInfoResponse> GetUserinfoAsync();
 
         Task<HttpResponseMessage> RevocationAsync(IEnumerable<KeyValuePair<string, string>> values);
 

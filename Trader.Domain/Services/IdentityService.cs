@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using IdentityModel.Client;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -17,14 +19,24 @@ namespace Trader.Domain.Services
             return HttpClient.GetAsync("/connect/checksession");
         }
 
-        public Task<HttpResponseMessage> EndSessionAsync()
+        public Task<string> EndSessionAsync()
         {
-            return HttpClient.GetAsync("/connect/endsession");
+            return CallServiceAsync("/connect/endsession");
         }
-
-        public Task<HttpResponseMessage> GetUserinfoAsync()
+       
+        public async Task<UserInfoResponse> GetUserinfoAsync()
         {
-            return HttpClient.GetAsync("/connect/userinfo");
+            DiscoveryDocumentResponse disco = await DiscoveryCache.GetAsync();
+            if (disco.IsError) throw new Exception(disco.Error);
+
+            UserInfoResponse response = await HttpClient.GetUserInfoAsync(new UserInfoRequest
+            {
+                Address = disco.UserInfoEndpoint,
+                Token = await Read()
+            }); ;
+
+            if (response.IsError) throw new Exception(response.Error);
+            return response;
         }
 
         public Task<HttpResponseMessage> RevocationAsync(IEnumerable<KeyValuePair<string, string>> values)

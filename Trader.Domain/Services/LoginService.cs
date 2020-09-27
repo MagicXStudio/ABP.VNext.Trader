@@ -14,17 +14,7 @@ namespace Trader.Domain.Services
         }
         public async Task<TokenResponse> RequestClientCredentialsTokenAsync()
         {
-            DiscoveryDocumentRequest discoveryDoc = new DiscoveryDocumentRequest()
-            {
-                Address = BaseAddress,
-                Policy = new DiscoveryPolicy()
-                {
-                    RequireHttps = false,
-                    ValidateIssuerName = false
-                }
-            };
-
-            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(discoveryDoc);
+            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(DiscoveryDocument);
 
             if (disco.IsError)
                 throw new Exception(disco.Error);
@@ -32,70 +22,46 @@ namespace Trader.Domain.Services
             TokenResponse response = await HttpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                Scope = "Dashboard",
+                Scope = "Dashboard profile openid",
                 GrantType = "password",
                 ClientId = "Dashboard_App",
                 ClientSecret = "1q2w3e*"
             });
 
             if (response.IsError) throw new Exception(response.Error);
-            HttpToken = response;
-            return HttpToken;
+            return HttpToken = response;
         }
 
 
         public async Task<TokenResponse> RequestPasswordTokenAsync()
         {
-            DiscoveryDocumentRequest discoveryDoc = new DiscoveryDocumentRequest()
-            {
-                Address = BaseAddress,
-                Policy = new DiscoveryPolicy()
-                {
-                    RequireHttps = false,
-                }
-            };
-
-            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(discoveryDoc);
+            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(DiscoveryDocument);
 
             if (disco.IsError)
                 throw new Exception(disco.Error);
             TokenResponse response = await HttpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                Scope = "Dashboard",
+                Scope = "Dashboard profile openid",
                 GrantType = "password",
                 ClientId = "Dashboard_App",
                 ClientSecret = "1q2w3e*",
 
-                UserName = "Mafeiyang@163.com",
-                Password = "Mafeiyang@163.com",
-
+                UserName = "Lucy@163.com",
+                Password = "Lucy@163.com",
             });
 
             if (response.IsError)
                 throw new Exception(response.Error);
-            return response;
+            return HttpToken = response;
         }
 
-        public async Task GetClaimsAsync(string token)
+     
+
+        public string ShowTokens()
         {
-            DiscoveryDocumentResponse disco = await DiscoveryCache.GetAsync();
-            if (disco.IsError) throw new Exception(disco.Error);
-
-            UserInfoResponse response = await HttpClient.GetUserInfoAsync(new UserInfoRequest
-            {
-                Address = disco.UserInfoEndpoint,
-                Token = token
-            });
-
-            if (response.IsError) throw new Exception(response.Error);
-
-
-            foreach (var claim in response.Claims)
-            {
-                Console.WriteLine("{0}\n {1}", claim.Type, claim.Value);
-            }
+            (JObject header, JObject claim) = DecodeToken(HttpToken);
+            return $"{{header:{header},claim: {claim}}}";
         }
-
     }
 }

@@ -26,5 +26,14 @@ namespace Trader.Domain.Services
             char* charBuffer = stackalloc char[128];
             ref readonly StringValues values = ref Unsafe.AsRef<StringValues>(items);
         }
+
+        public int Add(ref int a, ref int b)
+        {
+            return a + b;
+        }
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
     }
 }

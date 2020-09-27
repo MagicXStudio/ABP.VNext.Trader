@@ -9,11 +9,9 @@ using System.Windows.Input;
 using Dragablz;
 using DynamicData;
 using DynamicData.Binding;
-using IdentityModel.Client;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Trader.Domain.Infrastucture;
-using Trader.Domain.Services;
 
 namespace Trader.Client.Infrastucture
 {
@@ -23,7 +21,7 @@ namespace Trader.Client.Infrastucture
         private readonly Command _showMenuCommand;
         private readonly IDisposable _cleanUp;
         private ViewContainer _selected;
-        private ILoginService _loginService;
+
         public ICommand MemoryCollectCommand { get; } = new Command(() =>
         {
             GC.Collect();
@@ -32,10 +30,10 @@ namespace Trader.Client.Infrastucture
         });
 
 
-        public WindowViewModel(IObjectProvider objectProvider, IWindowFactory windowFactory, ILoginService loginService)
+        public WindowViewModel(IObjectProvider objectProvider, IWindowFactory windowFactory)
         {
             _objectProvider = objectProvider;
-            _loginService = loginService;
+
             InterTabClient = new InterTabClient(windowFactory);
             _showMenuCommand = new Command(ShowMenu, () => Selected != null && !(Selected.Content is MenuItems));
 
@@ -47,15 +45,10 @@ namespace Trader.Client.Infrastucture
                 Arguments = "/c start https://github.com/wjkhappy14/Abp.VNext.Hello"
             }));
 
-            LoginCommand = new Command(async () =>
-            {
-                TokenResponse passwordToken = await _loginService.RequestPasswordTokenAsync();
-                TokenResponse clientCredentialsToken = await _loginService.RequestClientCredentialsTokenAsync();
+            LoginCommand = new Command(() =>
+           {
 
-                string result = await _loginService.CallServiceAsync("/api/app/setting?providerName=T&fallback=true");
-
-                Debug.WriteLine(result);
-            });
+           });
 
             IDisposable menuController = Views.ToObservableChangeSet()
                                         .Filter(vc => vc.Content is MenuItems)
