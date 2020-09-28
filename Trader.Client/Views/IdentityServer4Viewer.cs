@@ -27,6 +27,13 @@ namespace Trader.Client.Views
             set => SetAndRaise(ref token, value);
         }
 
+        DeviceAuthorizationResponse deviceAuthorization;
+        public DeviceAuthorizationResponse DeviceAuthorization
+        {
+            get => deviceAuthorization;
+            set => SetAndRaise(ref deviceAuthorization, value);
+        }
+
         private UserInfoResponse userInfo;
         public UserInfoResponse UserInfo
         {
@@ -34,14 +41,48 @@ namespace Trader.Client.Views
             set => SetAndRaise(ref userInfo, value);
         }
 
-        public Command PasswordToken => new Command(async () =>
-            {
-                Token = await LoginService.RequestPasswordTokenAsync();
-                var token = LoginService.ShowTokens();
-            });
+        public Command AuthorizationCode => new Command(async () =>
+        {
+            Token = await LoginService.RequestAuthorizationCodeTokenAsync(DeviceAuthorization.DeviceCode, DeviceAuthorization.VerificationUri, DeviceAuthorization.UserCode);
+        });
+
         public Command ClientCredentialsToken => new Command(async () =>
         {
             Token = await LoginService.RequestClientCredentialsTokenAsync();
+        });
+        public Command DeviceToken => new Command(async () =>
+        {
+            Token = await LoginService.RequestDeviceTokenAsync(DeviceAuthorization.DeviceCode);
+        });
+
+        public Command PasswordToken => new Command(async () =>
+        {
+            Token = await LoginService.RequestPasswordTokenAsync("Lucy@163.com", "Lucy@163.com");
+        });
+
+        public Command RefreshToken => new Command(async () =>
+            {
+                Token = await LoginService.RequestRefreshTokenAsync(Token.AccessToken, Token.Scope);
+            });
+        public Command RequestToken => new Command(async () =>
+        {
+            Token = await LoginService.RequestTokenAsync();
+        });
+        public Command TokenExchangeToken => new Command(async () =>
+        {
+            Token = await LoginService.RequestTokenExchangeTokenAsync();
+        });
+        public Command TokenRaw => new Command(async () =>
+        {
+            Token = await LoginService.RequestTokenRawAsync();
+        });
+        public Command DeviceAuthorizationCommand => new Command(async () =>
+        {
+            DeviceAuthorization = await LoginService.RequestDeviceAuthorizationAsync();
+        });
+        public Command IntrospectToken => new Command(async () =>
+        {
+            TokenIntrospectionResponse TokenIntrospection = await LoginService.IntrospectTokenAsync(Token.AccessToken);
         });
 
         public Command EndSession => new Command(async () =>

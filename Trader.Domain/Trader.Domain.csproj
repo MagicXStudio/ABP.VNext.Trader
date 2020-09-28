@@ -22,6 +22,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.7" />
     <PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
     <PackageReference Include="DotNetty.Transport" Version="0.6.0" />

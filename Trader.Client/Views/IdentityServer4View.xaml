@@ -7,8 +7,8 @@
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"></RowDefinition>
-            <RowDefinition Height="450"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="650"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBox BorderThickness="1" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
@@ -16,14 +16,31 @@
                      Grid.Row="1" Margin="5" Width="744"  Height="70" 
                      Text="{Binding Token.AccessToken,Mode=OneWay}"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <Button  x:Name="BtnPasswordToken" Content=" PasswordToken" Command="{Binding PasswordToken}" Height="50" Width="140"/>
-            <Button  x:Name="BtnClientCredentialsToken" Content=" ClientCredentialsToken" Command="{Binding ClientCredentialsToken}" Height="50" Width="140"/>
-            <Button  x:Name="BtnEndSession" Content="End Session" Command="{Binding EndSession}" Height="50" Width="140"/>
-            <Button  x:Name="BtnCheckSession" Content="Check Session" Command="{Binding CheckSession}"  Height="50" Width="140" />
-            <Button  x:Name="BtnUserinfo" Content="Userinfo" Command="{Binding Userinfo}"  Height="50" Width="140" />
-            <Button  x:Name="BtnRevocation" Content="Revocation" Command="{Binding Revocation}"  Height="50" Width="140" />
-            <Button  x:Name="BtnIntrospect" Content="Introspect" Command="{Binding Introspect}"  Height="50" Width="140" />
-        </StackPanel>
+        <Grid  Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="300"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Vertical">
+                <Button  x:Name="BtnAuthorizationCode" Content="Authorization Code" Command="{Binding AuthorizationCode}" Height="40" Width="140"/>
+                <Button  x:Name="BtnClientCredentialsToken" Content=" Client Credentials Token" Command="{Binding ClientCredentialsToken}" Height="50" Width="140"/>
+                <Button  x:Name="BtnDeviceToken" Content="Device Token" Command="{Binding DeviceToken}" Height="40" Width="140"/>
+                <Button  x:Name="BtnPasswordToken" Content="Password Token " Command="{Binding PasswordToken}"  Height="40" Width="140" />
+                <Button  x:Name="BtnRefreshToken" Content="Refresh Token" Command="{Binding RefreshToken}"  Height="40" Width="140" />
+                <Button  x:Name="BtnRequestToken" Content="Request Token" Command="{Binding RequestToken}"  Height="40" Width="140" />
+                <Button  x:Name="BtnTokenExchangeToken" Content="Token ExchangeToken" Command="{Binding TokenExchangeToken}"  Height="40" Width="140" />
+                <Button  x:Name="BtnTokenRaw" Content=" Token Raw" Command="{Binding TokenRaw}" Height="40" Width="140"/>
+                <Button  x:Name="BtnDeviceAuthorization" Content="Device Authorization" Command="{Binding DeviceAuthorizationCommand}" Height="40" Width="140"/>
+                <Button  x:Name="BtnIntrospectToken" Content="Introspect Token" Command="{Binding IntrospectToken}" Height="40" Width="140"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <Button  x:Name="BtnEndSession" Content="End Session" Command="{Binding EndSession}" Height="40" Width="140"/>
+                <Button  x:Name="BtnCheckSession" Content="Check Session" Command="{Binding CheckSession}"  Height="40" Width="140" />
+                <Button  x:Name="BtnUserinfo" Content="Userinfo" Command="{Binding Userinfo}"  Height="40" Width="140" />
+                <Button  x:Name="BtnRevocation" Content="Revocation" Command="{Binding Revocation}"  Height="40" Width="140" />
+                <Button  x:Name="BtnIntrospect" Content="Introspect" Command="{Binding Introspect}"  Height="40" Width="140" />
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </UserControl>

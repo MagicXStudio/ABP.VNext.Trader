@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Abp.VNext.Hello.XNetty;
 using DotNetty.Transport.Bootstrapping;
+using Microsoft.Extensions.Configuration;
 using ReactiveUI;
 using StructureMap;
 using Trader.Client.Infrastucture;
@@ -41,10 +42,15 @@ namespace Trader.Client
             MainWindow window = factory.Create(true);
             container.Configure(x => x.For<Dispatcher>().Add(window.Dispatcher));
 
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+            container.Configure(x => x.For<IConfigurationRoot>().Add(configuration));
+
             //configure dependency resolver for RxUI / Splat
             ReactiveUIDependencyResolver resolver = new ReactiveUIDependencyResolver(container);
             resolver.Register(() => new LogEntryView(), typeof(IViewFor<LogEntryViewer>));
-            
+
             //Locator.Current = resolver;
             //RxApp.SupportsRangeNotifications = false;
             //run start up jobs
@@ -54,6 +60,8 @@ namespace Trader.Client
             TaskAwaiter<Bootstrap> w = ClientBootstrap.Client.InitBootstrapAsync().GetAwaiter();
             window.Show();
             base.OnStartup(e);
+
+
         }
     }
 }
