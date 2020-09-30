@@ -71,8 +71,8 @@ namespace Trader.Domain.Services
                 ClientId = Configuration["ClientId"],
                 ClientSecret = Configuration["ClientSecret"],
 
-                UserName =userName,
-                Password =password,
+                UserName = userName,
+                Password = password,
             });
 
             if (response.IsError)
@@ -132,7 +132,9 @@ namespace Trader.Domain.Services
                 ClientId = Configuration["ClientId"],
                 ClientSecret = Configuration["ClientSecret"],
             });
-            Process.Start(new ProcessStartInfo(response.VerificationUri) { UseShellExecute = true });
+            string url = $"{ response.VerificationUri}?userCode={ response.UserCode}";
+            ProcessStartInfo proc = new ProcessStartInfo(url) { UseShellExecute = true };
+            Process.Start(proc);
             return response;
         }
 
