@@ -26,7 +26,7 @@ namespace Trader.Domain.Infrastucture
         {
             Interlocked.Increment(ref _counter);
 
-            var entry = new LogEntry(_counter,
+            LogEntry entry = new LogEntry(_counter,
                 loggingEvent.RenderedMessage,
                 loggingEvent.LoggerName,
                 loggingEvent.ThreadName,

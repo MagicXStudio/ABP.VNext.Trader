@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Dragablz;
@@ -22,11 +23,14 @@ namespace Trader.Client.Infrastucture
         private readonly IDisposable _cleanUp;
         private ViewContainer _selected;
 
+        static int count;
+
         public ICommand MemoryCollectCommand { get; } = new Command(() =>
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
+            Volatile.Read(ref count);
         });
 
 

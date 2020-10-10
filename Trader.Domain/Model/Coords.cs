@@ -1,6 +1,6 @@
 ﻿namespace Trader.Domain.Model
 {
-    public  struct Coords<T>
+    public   struct Coords<T>
     {
      
         private T x;

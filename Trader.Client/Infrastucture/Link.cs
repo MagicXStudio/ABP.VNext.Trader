@@ -1,15 +1,18 @@
+using System.Diagnostics;
+
 namespace Trader.Client.Infrastucture
 {
-    public class Link
+    [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
+    public readonly  struct Link
     {
         public Link(string text, string url)
-            : this(text,url,url)
+            : this(text, url, url)
         {
             Text = text;
             Url = url;
         }
 
-        public Link(string text,string display, string url)
+        public Link(string text, string display, string url)
         {
             Text = text;
             Display = display;
@@ -22,5 +25,7 @@ namespace Trader.Client.Infrastucture
         public string Url { get; }
 
         public string Display { get; }
+
+        private string GetDebuggerDisplay() => $"Text:{Text}Url:{Url}Display:{Display}";
     }
 }

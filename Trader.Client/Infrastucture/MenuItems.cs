@@ -33,6 +33,9 @@ namespace Trader.Client.Infrastucture
 
         public MenuItems(ILogger logger, IObjectProvider objectProvider)
         {
+            //创建一个8元组 (八元组) ，其中包含小于20的质数。
+            Tuple<int, int, int, int, int, int, int, Tuple<int>> primes = Tuple.Create(2, 3, 5, 7, 11, 13, 17, 19);
+
             _logger = logger;
             _objectProvider = objectProvider;
             _menuItems = new List<MenuItem>

@@ -1,4 +1,5 @@
 ﻿using Abp.VNext.Hello.XNetty;
+using Microsoft.Extensions.Primitives;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,29 @@ namespace Trader.Client.Views
         {
             await CoreDispatcher.Dispatcher.Account.LoginAsync("abc", "123");
         };
-        ObservableCollection<ContactItem> _contacts;
+        private ObservableCollection<ContactItem> _contacts;
         public ObservableCollection<ContactItem> Contacts
         {
             get => _contacts;
             set => this.RaiseAndSetIfChanged(ref _contacts, value);
+        }
+
+        private ObservableCollection<StringSegment> _names = new ObservableCollection<StringSegment>();
+        public ObservableCollection<StringSegment> Names
+        {
+            get => _names;
+            set => this.RaiseAndSetIfChanged(ref _names, value);
+        }
+
+        private ObservableCollection<Point3D> _points = new ObservableCollection<Point3D>(new List<Point3D> {
+            Point3D.Origin,
+            Point3D.Max,
+            Point3D.Min
+        });
+        public ObservableCollection<Point3D> Points
+        {
+            get => _points;
+            set => this.RaiseAndSetIfChanged(ref _points, value);
         }
 
         private string input;
@@ -76,7 +95,7 @@ namespace Trader.Client.Views
             Input = "";
         }
 
-        
-    
+
+
     }
 }

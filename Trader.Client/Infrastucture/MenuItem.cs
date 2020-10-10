@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows.Input;
 using DynamicData.Binding;
 
 namespace Trader.Client.Infrastucture
 {
-    public class MenuItem : AbstractNotifyPropertyChanged
+    public class MenuItem : AbstractNotifyPropertyChanged, IComparable<MenuItem>, ICloneable
     {
         public MenuItem(
             string title,
@@ -43,6 +44,8 @@ namespace Trader.Client.Infrastucture
 
         public ICommand Command { get; }
 
+        private Action Action { get; }
+
         public IEnumerable<Link> Link { get; }
 
         public string Description { get; }
@@ -50,5 +53,18 @@ namespace Trader.Client.Infrastucture
         public object Content { get; }
 
         public MenuCategory Category { get; }
+
+        public object Clone()
+        {
+            return new MenuItem(
+            Title,
+            Description,
+            Action,
+            Category,
+            Link,
+            Command);
+        }
+
+        public int CompareTo([AllowNull] MenuItem other) => Title.Length >= other.Title.Length ? 1 : 0;
     }
 }

@@ -3,11 +3,11 @@ using DynamicData.Binding;
 
 namespace Trader.Client.Infrastucture
 {
-    public class ViewContainer: AbstractNotifyPropertyChanged
+    public class ViewContainer : AbstractNotifyPropertyChanged
     {
         public ViewContainer(string title, object content)
         {
-            Title = title;
+            Title = new string(title);
             Content = content;
         }
 

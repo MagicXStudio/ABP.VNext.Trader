@@ -5,7 +5,6 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-// ReSharper disable once CheckNamespace 
 namespace DynamicData
 {
     public static class DynamicDataEx
@@ -44,14 +43,14 @@ namespace DynamicData
 
             return Observable.Create<IChangeSet<TObject>>(observer =>
             {
-                var removed = new[] { ListChangeReason.Remove, ListChangeReason.Clear, ListChangeReason.RemoveRange };
+                ListChangeReason[] removed = new[] { ListChangeReason.Remove, ListChangeReason.Clear, ListChangeReason.RemoveRange };
 
-                var localList = new SourceList<TObject>();
+                SourceList<TObject> localList = new SourceList<TObject>();
 
-                var locker = new object();
-                var shared = source.Synchronize(locker).Publish();
+                object locker = new object();
+                IConnectableObservable<IChangeSet<TObject>> shared = source.Synchronize(locker).Publish();
 
-                var notRemoved = shared.WhereReasonsAreNot(removed)
+                IDisposable notRemoved = shared.WhereReasonsAreNot(removed)
                                         .Subscribe(changes =>
                                         {
                                             localList.Edit(innerList =>
@@ -75,14 +74,14 @@ namespace DynamicData
                                         });
 
                 //when removed,invoke call back
-                var removes = shared.WhereReasonsAre(removed)
+                IDisposable removes = shared.WhereReasonsAre(removed)
                                 .ForEachItemChange(change => onDefer(change.Current))
                                 .Delay(delayPeriod)
                                 .Synchronize(locker)
                                 .Subscribe(changes =>
                                 {
                                     //flatten removes into a single enumerable
-                                    var toRemove = changes.SelectMany(change =>
+                                    TObject[] toRemove = changes.SelectMany(change =>
                                     {
                                         return change.Type == ChangeType.Item ? new[] { change.Item.Current } : change.Range.Select(t => t);
                                     }).ToArray();
@@ -90,9 +89,8 @@ namespace DynamicData
                                     localList.RemoveMany(toRemove);
                                 });
 
-                var subscriber = localList.Connect().SubscribeSafe(observer);
+                IDisposable subscriber = localList.Connect().SubscribeSafe(observer);
                 return new CompositeDisposable(subscriber, removes, notRemoved, shared.Connect());
-
             });
         }
     }
