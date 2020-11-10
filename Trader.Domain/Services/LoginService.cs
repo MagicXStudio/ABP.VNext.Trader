@@ -58,9 +58,6 @@ namespace Trader.Domain.Services
         public async Task<TokenResponse> RequestPasswordTokenAsync(string userName, string password)
         {
             DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(DiscoveryDocument);
-
-
-
             if (disco.IsError)
                 throw new Exception(disco.Error);
             TokenResponse response = await HttpClient.RequestPasswordTokenAsync(new PasswordTokenRequest

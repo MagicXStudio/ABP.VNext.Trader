@@ -39,6 +39,7 @@
                 <Button  x:Name="BtnUserinfo" Content="Userinfo" Command="{Binding Userinfo}"  Height="40" Width="140" />
                 <Button  x:Name="BtnRevocation" Content="Revocation" Command="{Binding Revocation}"  Height="40" Width="140" />
                 <Button  x:Name="BtnIntrospect" Content="Introspect" Command="{Binding Introspect}"  Height="40" Width="140" />
+                <Button  x:Name="BtnProfile" Content="Profile" Command="{Binding Profile}"  Height="40" Width="140" />
             </StackPanel>
         </Grid>
 

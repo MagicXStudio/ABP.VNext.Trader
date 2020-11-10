@@ -11,7 +11,9 @@ namespace Trader.Domain.Services
 {
     public abstract class BaseService : IDisposable
     {
-        public string BaseAddress { get; private set; } = "http://106.13.130.51";
+        public string AuthServer { get; private set; } = "http://106.13.130.51:6060";
+
+        public string BaseAddress { get; private set; } = "http://106.13.130.51:7070";
 
         public DiscoveryCache DiscoveryCache { get; set; }
 
@@ -30,9 +32,9 @@ namespace Trader.Domain.Services
 
         public BaseService()
         {
-            HttpClient = new HttpClient() { BaseAddress = new Uri(BaseAddress) };
+            HttpClient = new HttpClient() { BaseAddress = new Uri(AuthServer) };
             // HttpClient.DefaultRequestHeaders.Add("xtenant", "mafeiyang");
-            DiscoveryCache = new DiscoveryCache(BaseAddress, new DiscoveryPolicy()
+            DiscoveryCache = new DiscoveryCache(AuthServer, new DiscoveryPolicy()
             {
                 RequireHttps = false,
                 ValidateIssuerName = false,
@@ -41,10 +43,17 @@ namespace Trader.Domain.Services
             { CacheDuration = TimeSpan.FromDays(1) };
         }
 
-        public Task<string> CallServiceAsync(string path)
+        public async Task<string> GetAsync(string path)
         {
-            HttpClient.SetBearerToken(HttpToken.AccessToken);
-            return HttpClient.GetStringAsync(path);
+            string token = await Read();
+            HttpClient.SetBearerToken(token);
+            return await HttpClient.GetStringAsync(path);
+        }
+        public async Task<HttpResponseMessage> PostAsync(string path, HttpMethod method, StringContent content)
+        {
+            string token = await Read();
+            HttpClient.SetBearerToken(token);
+            return await HttpClient.PostAsync(path, content);
         }
 
         public void Dispose()
@@ -54,7 +63,7 @@ namespace Trader.Domain.Services
 
         public DiscoveryDocumentRequest DiscoveryDocument => new DiscoveryDocumentRequest()
         {
-            Address = BaseAddress,
+            Address = AuthServer,
             Policy = new DiscoveryPolicy()
             {
                 RequireHttps = false,

@@ -57,7 +57,7 @@ namespace Trader.Client.Views
 
         public Command PasswordToken => new Command(async () =>
         {
-            Token = await LoginService.RequestPasswordTokenAsync("Lucy@163.com", "Lucy@163.com");
+            Token = await LoginService.RequestPasswordTokenAsync("8888@Abp.VNext.Hello.com", "8888@Abp.VNext.Hello.com");
         });
 
         public Command RefreshToken => new Command(async () =>
@@ -115,7 +115,7 @@ namespace Trader.Client.Views
 
         public Command Profile => new Command(async () =>
         {
-            string profile = await LoginService.CallServiceAsync("/api/identity/my-profile");
+            string profile = await LoginService.GetAsync("/api/identity/my-profile");
             IdentityUser identityUser = JsonConvert.DeserializeObject<IdentityUser>(profile);
         });
     }

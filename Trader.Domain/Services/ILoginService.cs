@@ -17,7 +17,7 @@ namespace Trader.Domain.Services
         Task<DeviceAuthorizationResponse> RequestDeviceAuthorizationAsync();
         Task<TokenIntrospectionResponse> IntrospectTokenAsync(string accessToken);
 
-        Task<string> CallServiceAsync(string path);
+        Task<string> GetAsync(string path);
 
         string ShowTokens();
     }

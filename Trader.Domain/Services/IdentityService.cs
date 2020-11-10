@@ -21,7 +21,7 @@ namespace Trader.Domain.Services
 
         public Task<string> EndSessionAsync()
         {
-            return CallServiceAsync("/connect/endsession");
+            return GetAsync("/connect/endsession");
         }
        
         public async Task<UserInfoResponse> GetUserinfoAsync()
