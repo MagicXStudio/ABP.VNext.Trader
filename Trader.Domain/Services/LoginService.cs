@@ -19,7 +19,7 @@ namespace Trader.Domain.Services
 
         public Task<TokenResponse> RequestAuthorizationCodeTokenAsync(string code, string redirectUri, string codeVerifier)
         {
-            return HttpClient.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest()
+            return AuthHttpClient.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest()
             {
                 Code = code,
                 RedirectUri = redirectUri,
@@ -29,12 +29,12 @@ namespace Trader.Domain.Services
 
         public async Task<TokenResponse> RequestClientCredentialsTokenAsync()
         {
-            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(DiscoveryDocument);
+            DiscoveryDocumentResponse disco = await AuthHttpClient.GetDiscoveryDocumentAsync(DiscoveryDocument);
 
             if (disco.IsError)
                 throw new Exception(disco.Error);
 
-            TokenResponse response = await HttpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            TokenResponse response = await AuthHttpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
                 Scope = Configuration["Scope"],
@@ -49,7 +49,7 @@ namespace Trader.Domain.Services
 
         public Task<TokenResponse> RequestDeviceTokenAsync(string deviceCode)
         {
-            return HttpClient.RequestDeviceTokenAsync(new DeviceTokenRequest()
+            return AuthHttpClient.RequestDeviceTokenAsync(new DeviceTokenRequest()
             {
                 DeviceCode = deviceCode
             });
@@ -57,10 +57,10 @@ namespace Trader.Domain.Services
 
         public async Task<TokenResponse> RequestPasswordTokenAsync(string userName, string password)
         {
-            DiscoveryDocumentResponse disco = await HttpClient.GetDiscoveryDocumentAsync(DiscoveryDocument);
+            DiscoveryDocumentResponse disco = await AuthHttpClient.GetDiscoveryDocumentAsync(DiscoveryDocument);
             if (disco.IsError)
                 throw new Exception(disco.Error);
-            TokenResponse response = await HttpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+            TokenResponse response = await AuthHttpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
                 Scope = Configuration["Scope"],
@@ -79,7 +79,7 @@ namespace Trader.Domain.Services
 
         public Task<TokenResponse> RequestRefreshTokenAsync(string refreshToken, string scope)
         {
-            return HttpClient.RequestRefreshTokenAsync(new RefreshTokenRequest()
+            return AuthHttpClient.RequestRefreshTokenAsync(new RefreshTokenRequest()
             {
                 RefreshToken = refreshToken,
                 Scope = scope
@@ -88,7 +88,7 @@ namespace Trader.Domain.Services
         public async Task<TokenResponse> RequestTokenAsync()
         {
             DiscoveryDocumentResponse disco = await DiscoveryCache.GetAsync();
-            return await HttpClient.RequestTokenAsync(new TokenRequest()
+            return await AuthHttpClient.RequestTokenAsync(new TokenRequest()
             {
                 Address = disco.TokenEndpoint,
                 GrantType = Configuration["GrantType"],
@@ -99,7 +99,7 @@ namespace Trader.Domain.Services
 
         public Task<TokenResponse> RequestTokenExchangeTokenAsync()
         {
-            return HttpClient.RequestTokenExchangeTokenAsync(new TokenExchangeTokenRequest()
+            return AuthHttpClient.RequestTokenExchangeTokenAsync(new TokenExchangeTokenRequest()
             {
 
             });
@@ -108,7 +108,7 @@ namespace Trader.Domain.Services
 
         public Task<TokenResponse> RequestTokenRawAsync()
         {
-            return HttpClient.RequestTokenRawAsync("", new Dictionary<string, string>()
+            return AuthHttpClient.RequestTokenRawAsync("", new Dictionary<string, string>()
             {
 
 
@@ -122,7 +122,7 @@ namespace Trader.Domain.Services
             if (disco.IsError)
                 throw new Exception(disco.Error);
 
-            DeviceAuthorizationResponse response = await HttpClient.RequestDeviceAuthorizationAsync(new DeviceAuthorizationRequest
+            DeviceAuthorizationResponse response = await AuthHttpClient.RequestDeviceAuthorizationAsync(new DeviceAuthorizationRequest
             {
                 Address = disco.DeviceAuthorizationEndpoint,
                 Scope = Configuration["Scope"],
@@ -139,7 +139,7 @@ namespace Trader.Domain.Services
         {
             DiscoveryDocumentResponse disco = await DiscoveryCache.GetAsync();
             if (disco.IsError) throw new Exception(disco.Error);
-            TokenIntrospectionResponse result = await HttpClient.IntrospectTokenAsync(
+            TokenIntrospectionResponse result = await AuthHttpClient.IntrospectTokenAsync(
                 new TokenIntrospectionRequest
                 {
                     Address = disco.IntrospectionEndpoint,

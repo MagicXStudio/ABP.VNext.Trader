@@ -17,6 +17,7 @@ namespace Trader.Domain.Services
 
         public DiscoveryCache DiscoveryCache { get; set; }
 
+        public HttpClient AuthHttpClient { get; private set; }
         public HttpClient HttpClient { get; private set; }
 
         TokenResponse httpToken;
@@ -32,7 +33,8 @@ namespace Trader.Domain.Services
 
         public BaseService()
         {
-            HttpClient = new HttpClient() { BaseAddress = new Uri(AuthServer) };
+            AuthHttpClient = new HttpClient() { BaseAddress = new Uri(AuthServer) };
+            HttpClient = new HttpClient() { BaseAddress = new Uri(BaseAddress) };
             // HttpClient.DefaultRequestHeaders.Add("xtenant", "mafeiyang");
             DiscoveryCache = new DiscoveryCache(AuthServer, new DiscoveryPolicy()
             {
@@ -52,7 +54,7 @@ namespace Trader.Domain.Services
         public async Task<HttpResponseMessage> PostAsync(string path, HttpMethod method, StringContent content)
         {
             string token = await Read();
-            HttpClient.SetBearerToken(token);
+            AuthHttpClient.SetBearerToken(token);
             return await HttpClient.PostAsync(path, content);
         }
 

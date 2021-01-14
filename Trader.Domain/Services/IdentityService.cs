@@ -16,7 +16,7 @@ namespace Trader.Domain.Services
 
         public Task<HttpResponseMessage> CheckSessionAsync()
         {
-            return HttpClient.GetAsync("/connect/checksession");
+            return AuthHttpClient.GetAsync("/connect/checksession");
         }
 
         public Task<string> EndSessionAsync()
@@ -29,7 +29,7 @@ namespace Trader.Domain.Services
             DiscoveryDocumentResponse disco = await DiscoveryCache.GetAsync();
             if (disco.IsError) throw new Exception(disco.Error);
 
-            UserInfoResponse response = await HttpClient.GetUserInfoAsync(new UserInfoRequest
+            UserInfoResponse response = await AuthHttpClient.GetUserInfoAsync(new UserInfoRequest
             {
                 Address = disco.UserInfoEndpoint,
                 Token = await Read()
@@ -42,12 +42,12 @@ namespace Trader.Domain.Services
         public Task<HttpResponseMessage> RevocationAsync(IEnumerable<KeyValuePair<string, string>> values)
         {
             string json = JsonConvert.SerializeObject(values);
-            return HttpClient.PostAsync("/connect/revocation", new StringContent(json, Encoding.UTF8, "text/json"));
+            return AuthHttpClient.PostAsync("/connect/revocation", new StringContent(json, Encoding.UTF8, "text/json"));
         }
         public Task<HttpResponseMessage> IntrospectAsync(IEnumerable<KeyValuePair<string, string>> values)
         {
             string json = JsonConvert.SerializeObject(values);
-            return HttpClient.PostAsync("/connect/introspect", new StringContent(json, Encoding.UTF8, "text/json"));
+            return AuthHttpClient.PostAsync("/connect/introspect", new StringContent(json, Encoding.UTF8, "text/json"));
         }
     }
 }
