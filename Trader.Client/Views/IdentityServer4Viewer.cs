@@ -3,7 +3,9 @@ using IdentityModel.Client;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using Trader.Client.Infrastucture;
+using Trader.Domain.Model;
 using Trader.Domain.Services;
 using Volo.Abp.Identity;
 
@@ -13,11 +15,13 @@ namespace Trader.Client.Views
     {
         private IIdentityService IdentityService { get; }
         private ILoginService LoginService { get; }
+        public ITransactionService TransactionService { get; }
 
-        public IdentityServer4Viewer(IIdentityService identityService, ILoginService loginService)
+        public IdentityServer4Viewer(IIdentityService identityService, ILoginService loginService, ITransactionService transactionService)
         {
             IdentityService = identityService;
             LoginService = loginService;
+            TransactionService = transactionService;
         }
 
         private TokenResponse token;
@@ -117,6 +121,26 @@ namespace Trader.Client.Views
         {
             string profile = await LoginService.GetAsync("/api/identity/my-profile");
             IdentityUser identityUser = JsonConvert.DeserializeObject<IdentityUser>(profile);
+        });
+
+        public Command Transfer => new Command(async () =>
+        {
+            await TransactionService.Transfer(new TransactionItem()
+            {
+                Id = System.Environment.TickCount.ToString(),
+                UserId = System.Environment.MachineName,
+                AccountNo = System.Environment.MachineName,
+                BankNo = System.Environment.MachineName,
+                Amount = 0,
+                Status = 1,
+                LastUpdateTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+                Comment = $"{System.DateTime.Now}"
+            }, new TransactionItem() { }, new TransactionOptions());
+        });
+
+        public Command Withdraw => new Command(async () =>
+        {
+            await TransactionService.Withdraw("10001", Thread.CurrentThread.ManagedThreadId);
         });
     }
 }

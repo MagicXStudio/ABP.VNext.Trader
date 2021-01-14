@@ -40,6 +40,8 @@
                 <Button  x:Name="BtnRevocation" Content="Revocation" Command="{Binding Revocation}"  Height="40" Width="140" />
                 <Button  x:Name="BtnIntrospect" Content="Introspect" Command="{Binding Introspect}"  Height="40" Width="140" />
                 <Button  x:Name="BtnProfile" Content="Profile" Command="{Binding Profile}"  Height="40" Width="140" />
+                <Button  x:Name="BtnTransfer" Content="Transfer" Command="{Binding Transfer}"  Height="40" Width="140" />
+                <Button  x:Name="BtnWithdraw" Content="Withdraw" Command="{Binding Withdraw}"  Height="40" Width="140" />
             </StackPanel>
         </Grid>
 
