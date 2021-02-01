@@ -16,9 +16,12 @@ namespace Trader.Domain.Services
 
         public Task<int> Transfer(TransactionItem from, TransactionItem to, TransactionOptions options)
         {
+            Task<int> r = Task.FromResult(0);
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
-                string sql = @"
+                conn.Open();
+                MySqlTransaction tran = conn.BeginTransaction();
+                string fromSql = @"
                                 INSERT INTO TransactionItem
                                 (`Id`,
                                 `UserId`,
@@ -37,19 +40,40 @@ namespace Trader.Domain.Services
                                 @Status,
                                 @LastUpdateTime,
                                 @Comment);
+                         UPDATE UserAccount
+                         SET
+                         Balance =Balance-@Amount,
+                         LastUpdateTime= NOW()
+                         WHERE UserId=@UserId and Balance-@Amount>0
+                         limit 1;
                                 ";
-                return conn.ExecuteAsync(sql, new
+                try
                 {
-                    from.Id,
-                    from.UserId,
-                    from.AccountNo,
-                    from.BankNo,
-                    from.Amount,
-                    from.Status,
-                    from.LastUpdateTime,
-                    from.Comment
-                });
+                    r = conn.ExecuteAsync(fromSql, new
+                    {
+                        from.Id,
+                        from.UserId,
+                        from.AccountNo,
+                        from.BankNo,
+                        from.Amount,
+                        from.Status,
+                        from.LastUpdateTime,
+                        from.Comment
+                    }, tran);
+                    tran.Commit();
+
+                }
+                catch
+                {
+                    tran.Rollback();
+                }
+                finally
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
             }
+            return r;
         }
 
         public Task<int> Withdraw(string userId, decimal amount)

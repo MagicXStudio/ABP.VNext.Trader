@@ -1,6 +1,7 @@
 ﻿using DynamicData.Binding;
 using IdentityModel.Client;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
@@ -127,20 +128,21 @@ namespace Trader.Client.Views
         {
             await TransactionService.Transfer(new TransactionItem()
             {
-                Id = System.Environment.TickCount.ToString(),
-                UserId = System.Environment.MachineName,
-                AccountNo = System.Environment.MachineName,
-                BankNo = System.Environment.MachineName,
-                Amount = 0,
+                Id = Environment.TickCount.ToString(),
+                UserId = $"{DateTime.Now.Second}",
+                AccountNo = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}",
+                BankNo = "ICBC",
+                Amount = DateTime.Now.Millisecond,
                 Status = 1,
-                LastUpdateTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds(),
-                Comment = $"{System.DateTime.Now}"
+                LastUpdateTime = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+                Comment = $"{DateTime.Now}"
             }, new TransactionItem() { }, new TransactionOptions());
+            await TransactionService.Withdraw($"{Thread.CurrentThread.ManagedThreadId}", Thread.CurrentThread.ManagedThreadId);
         });
 
         public Command Withdraw => new Command(async () =>
         {
-            await TransactionService.Withdraw("10001", Thread.CurrentThread.ManagedThreadId);
+            await TransactionService.Withdraw($"{Thread.CurrentThread.ManagedThreadId}", Thread.CurrentThread.ManagedThreadId);
         });
     }
 }
