@@ -8,7 +8,7 @@
     xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
     xmlns:infrastucture="clr-namespace:Trader.Client.Infrastucture"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="你好 ABP"
+    Title="{Binding Title,Mode=TwoWay}"
     Width="800"
     Height="600"
     d:DataContext="{d:DesignInstance infrastucture:WindowViewModel,

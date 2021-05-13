@@ -32,7 +32,7 @@ namespace Trader.Domain.Services
             UserInfoResponse response = await AuthHttpClient.GetUserInfoAsync(new UserInfoRequest
             {
                 Address = disco.UserInfoEndpoint,
-                Token = await Read()
+                Token = await ReadAsync()
             }); ;
 
             if (response.IsError) throw new Exception(response.Error);

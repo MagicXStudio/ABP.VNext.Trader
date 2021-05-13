@@ -150,9 +150,10 @@ namespace Trader.Domain.Services
         }
 
 
-        public string ShowTokens()
+        public async Task<string> ShowTokensAsync()
         {
-            (JObject header, JObject claim) = DecodeToken(HttpToken);
+            var t = await ReadAsync();
+            (JObject header, JObject claim) = DecodeToken(t);
             return $"{{header:{header},claim: {claim}}}";
         }
     }

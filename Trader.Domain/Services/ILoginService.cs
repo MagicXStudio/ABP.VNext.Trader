@@ -8,7 +8,7 @@ namespace Trader.Domain.Services
         Task<TokenResponse> RequestAuthorizationCodeTokenAsync(string code, string redirectUri, string codeVerifier);
         Task<TokenResponse> RequestClientCredentialsTokenAsync();
         Task<TokenResponse> RequestDeviceTokenAsync(string deviceCode);
-        Task<TokenResponse> RequestPasswordTokenAsync(string userName,string password);
+        Task<TokenResponse> RequestPasswordTokenAsync(string userName, string password);
         Task<TokenResponse> RequestRefreshTokenAsync(string refreshToken, string scope);
         Task<TokenResponse> RequestTokenAsync();
         Task<TokenResponse> RequestTokenExchangeTokenAsync();
@@ -19,6 +19,6 @@ namespace Trader.Domain.Services
 
         Task<string> GetAsync(string path);
 
-        string ShowTokens();
+        Task<string> ShowTokensAsync();
     }
 }

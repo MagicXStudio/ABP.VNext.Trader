@@ -33,6 +33,12 @@ namespace Trader.Client.Infrastucture
             Volatile.Read(ref count);
         });
 
+        private string _title = "Hi";
+        public string Title
+        {
+            get => _title;
+            set => SetAndRaise(ref _title, value);
+        }
 
         public WindowViewModel(IObjectProvider objectProvider, IWindowFactory windowFactory)
         {
@@ -156,7 +162,7 @@ namespace Trader.Client.Infrastucture
             {
                 ReadOnlyMemory<byte> body = args.Body;
                 string message = Encoding.UTF8.GetString(body.ToArray());
-                MessageBox.Show(message);
+                Title = message;
                 channel.BasicAck(args.DeliveryTag, false);
             };
         }

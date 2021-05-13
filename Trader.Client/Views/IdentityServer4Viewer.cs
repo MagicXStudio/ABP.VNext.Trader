@@ -144,5 +144,11 @@ namespace Trader.Client.Views
         {
             await TransactionService.Withdraw($"{Thread.CurrentThread.ManagedThreadId}", Thread.CurrentThread.ManagedThreadId);
         });
+
+        public Command ShowTokens => new Command(async () =>
+       {
+           string s = await LoginService.ShowTokensAsync();
+           System.Diagnostics.Debug.Write(s);
+       });
     }
 }

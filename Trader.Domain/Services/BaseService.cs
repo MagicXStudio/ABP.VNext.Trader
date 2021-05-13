@@ -11,9 +11,9 @@ namespace Trader.Domain.Services
 {
     public abstract class BaseService : IDisposable
     {
-        public string AuthServer { get; private set; } = "http://106.13.130.51:6060";
+        public string AuthServer { get; private set; } = "http://106.13.130.51:321";
 
-        public string BaseAddress { get; private set; } = "http://106.13.130.51:7070";
+        public string BaseAddress { get; private set; } = "https://www.lintsense.cn";
 
         public DiscoveryCache DiscoveryCache { get; set; }
 
@@ -34,8 +34,11 @@ namespace Trader.Domain.Services
         public BaseService()
         {
             AuthHttpClient = new HttpClient() { BaseAddress = new Uri(AuthServer) };
+            AuthHttpClient.DefaultRequestHeaders.Add("xtenant", "mafeiyang");
+
             HttpClient = new HttpClient() { BaseAddress = new Uri(BaseAddress) };
-            // HttpClient.DefaultRequestHeaders.Add("xtenant", "mafeiyang");
+            HttpClient.DefaultRequestHeaders.Add("xtenant", "mafeiyang");
+
             DiscoveryCache = new DiscoveryCache(AuthServer, new DiscoveryPolicy()
             {
                 RequireHttps = false,
@@ -47,13 +50,13 @@ namespace Trader.Domain.Services
 
         public async Task<string> GetAsync(string path)
         {
-            string token = await Read();
+            string token = await ReadAsync();
             HttpClient.SetBearerToken(token);
             return await HttpClient.GetStringAsync(path);
         }
         public async Task<HttpResponseMessage> PostAsync(string path, HttpMethod method, StringContent content)
         {
-            string token = await Read();
+            string token = await ReadAsync();
             AuthHttpClient.SetBearerToken(token);
             return await HttpClient.PostAsync(path, content);
         }
@@ -75,14 +78,14 @@ namespace Trader.Domain.Services
         };
 
         public Task Write(string token) => File.WriteAllTextAsync("./AccessToken.txt", token);
-        public Task<string> Read() => File.ReadAllTextAsync("./AccessToken.txt");
+        public Task<string> ReadAsync() => File.ReadAllTextAsync("./AccessToken.txt");
 
-        public (JObject header, JObject claim) DecodeToken(TokenResponse token)
+        public (JObject header, JObject claim) DecodeToken(string accessToken)
         {
-            if (!token.AccessToken.Contains("."))
+            if (!accessToken.Contains("."))
             {
             }
-            string[] parts = token.AccessToken.Split('.');
+            string[] parts = accessToken.Split('.');
             string header = parts[0];
             string claims = parts[1];
             byte[] h = Base64Url.Decode(header);
