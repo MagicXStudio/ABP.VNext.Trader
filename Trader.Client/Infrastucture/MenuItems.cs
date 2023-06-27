@@ -44,6 +44,10 @@ namespace Trader.Client.Infrastucture
                     "A basic example,  filter and bind.",
                     () => Open<LiveTradesViewer>("实时动态")),
 
+                 new MenuItem("Photo Viewer",
+                    "PhotoViewer",
+                    () => Open<PhotoViewer>("图片查看器")),
+
                 new MenuItem("我的日程",
                      "Dynamic filtevalues.",
                      () => Open<NearToMarketViewer>("我的日程")),

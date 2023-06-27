@@ -50,6 +50,7 @@ namespace Trader.Client
             //configure dependency resolver for RxUI / Splat
             ReactiveUIDependencyResolver resolver = new ReactiveUIDependencyResolver(container);
             resolver.Register(() => new LogEntryView(), typeof(IViewFor<LogEntryViewer>));
+            resolver.Register(() => new PhotoView(), typeof(IViewFor<PhotoViewer>));
 
             //Locator.Current = resolver;
             //RxApp.SupportsRangeNotifications = false;

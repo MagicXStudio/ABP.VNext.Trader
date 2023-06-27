@@ -62,6 +62,9 @@
             <DataTemplate DataType="{x:Type views:LoginViewer}">
                 <views:LoginView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type views:PhotoViewer}">
+                <views:PhotoView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type views:IdentityServer4Viewer}">
                 <views:IdentityServer4View/>
             </DataTemplate>
@@ -74,7 +77,7 @@
                 <StackPanel Orientation="Horizontal">
                     <wpf:PackIcon Width="24" Height="24" Margin="4 4 0 0" Kind="Magnify" Foreground="{Binding ElementName=SearchBox, Path=BorderBrush}"/>
                     <TextBox x:Name="SearchBox" HorizontalAlignment="Left"
-                             wpf:HintAssist.Hint="Enter search text..."   
+                             wpf:HintAssist.Hint="搜索……"   
                              Height="25"
                              Width="150"
                              Margin="4 0 0 0"
