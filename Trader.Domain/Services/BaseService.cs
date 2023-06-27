@@ -11,9 +11,9 @@ namespace Trader.Domain.Services
 {
     public abstract class BaseService : IDisposable
     {
-        public string AuthServer { get; private set; } = "http://106.13.130.51:321";
+        public string AuthServer { get; private set; } = "http://192.168.1.17:54321";
 
-        public string BaseAddress { get; private set; } = "https://www.lintsense.cn";
+        public string BaseAddress { get; private set; } = "http://192.168.1.17:54321";
 
         public DiscoveryCache DiscoveryCache { get; set; }
 
@@ -34,10 +34,10 @@ namespace Trader.Domain.Services
         public BaseService()
         {
             AuthHttpClient = new HttpClient() { BaseAddress = new Uri(AuthServer) };
-            AuthHttpClient.DefaultRequestHeaders.Add("xtenant", "mafeiyang");
+            AuthHttpClient.DefaultRequestHeaders.Add("xtenant", "ChuangYu");
 
             HttpClient = new HttpClient() { BaseAddress = new Uri(BaseAddress) };
-            HttpClient.DefaultRequestHeaders.Add("xtenant", "mafeiyang");
+            HttpClient.DefaultRequestHeaders.Add("xtenant", "ChuangYu");
 
             DiscoveryCache = new DiscoveryCache(AuthServer, new DiscoveryPolicy()
             {

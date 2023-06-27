@@ -8,6 +8,7 @@
 
     <StackPanel Margin="25" Background="#2C2F33" VerticalAlignment="Center">
         <Label Foreground="White" Margin="20" HorizontalAlignment="Center" Content="身份认证"/>
+        <Image   Source="{Binding Avatar}" Width="100" Height="100"></Image>
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition/>

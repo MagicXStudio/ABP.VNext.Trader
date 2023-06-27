@@ -15,18 +15,21 @@ namespace Trader.Client.Views
         private Action<string> EnterPressEvent;
         public Visibility AlertVisibility { get; set; }
         public string AlertText { get; set; }
+        /// <summary>
+        /// 用户图像
+        /// </summary>
+        public string Avatar { get; set; }
         public string Username { get; set; }
         public string AlertForegroundColor { get; set; }
 
         public ICommand LoginButtonCommand { get; set; }
         public LoginViewer()
         {
+            Avatar = $@"{Environment.CurrentDirectory}/Assets/avatar.png";
             LoginButtonCommand = new Command(() =>
             {
-
-
+                MessageBox.Show(Environment.CurrentDirectory);
             });
-
         }
 
         private void LoginButtonAction(object parameter)

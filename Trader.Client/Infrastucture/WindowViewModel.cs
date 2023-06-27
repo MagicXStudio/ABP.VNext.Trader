@@ -47,7 +47,7 @@ namespace Trader.Client.Infrastucture
             InterTabClient = new InterTabClient(windowFactory);
             _showMenuCommand = new Command(ShowMenu, () => Selected != null && !(Selected.Content is MenuItems));
 
-            InitRabbitMQ();
+           // InitRabbitMQ();
 
             ShowInGitHubCommand = new Command(() => Process.Start(new ProcessStartInfo
             {
