@@ -18,7 +18,7 @@ namespace Trader.Client.Views
 
         public PhotoViewer(ILogger logger, IObjectProvider objectProvider)
         {
-            string[] files = Directory.GetFiles(CurrentDir);
+            string[] files = Directory.GetFiles(CurrentDir+"/Assets/fashion");
             _items = files.Select(x => new TaskItem(x,
                     x,
                     () => Open(x)));
