@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <local:ChessGrid HorizontalAlignment="Left" Margin="11,101,0,0" VerticalAlignment="Top"/>
+        <local:ChessGrid HorizontalAlignment="Left" Margin="11,11,0,0" VerticalAlignment="Top" Height="420" Width="758"/>
     </Grid>
 </UserControl>

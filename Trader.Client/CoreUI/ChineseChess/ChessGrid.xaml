@@ -6,29 +6,30 @@
              xmlns:local="clr-namespace:Trader.Client.CoreUI.ChineseChess"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="Pink" Width="1200" Height="800">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <local:ChessPiece Grid.Column="7" HorizontalAlignment="Left" Margin="225,0,0,0" Grid.Row="4" VerticalAlignment="Top"/>
-        <local:ChessPiece Grid.Column="7" HorizontalAlignment="Left" Margin="269,20,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <local:ChessPiece Grid.Column="7" HorizontalAlignment="Left" Margin="570,20,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+        <local:ChessPiece Grid.Column="0" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="0" VerticalAlignment="Top" Height="150" Width="150"/>
+        <local:ChessPiece Grid.Column="0" HorizontalAlignment="Left" Margin="5,20,0,0" Grid.Row="1" VerticalAlignment="Top" Height="150"  Width="150"/>
+        <local:ChessPiece Grid.Column="1" HorizontalAlignment="Left" Margin="5,20,0,0" Grid.Row="1" VerticalAlignment="Top" Height="150"  Width="150"/>
+        <local:ChessPiece Grid.Column="2" HorizontalAlignment="Left" Margin="5,20,0,0" Grid.Row="2" VerticalAlignment="Center" Height="150"  Width="150"/>
     </Grid>
 </UserControl>
