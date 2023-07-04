@@ -47,6 +47,9 @@ namespace Trader.Client.Infrastucture
                  new MenuItem("Photo Viewer",
                     "PhotoViewer",
                     () => Open<PhotoViewer>("图片查看器")),
+                    new MenuItem("ChineseChess Viewer",
+                    "ChineseChessViewer",
+                    () => Open<ChineseChessViewer>("中国象棋")),
 
                 new MenuItem("我的日程",
                      "Dynamic filtevalues.",

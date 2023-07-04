@@ -65,6 +65,9 @@
             <DataTemplate DataType="{x:Type views:PhotoViewer}">
                 <views:PhotoView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type views:ChineseChessViewer}">
+                <views:ChineseChessView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type views:IdentityServer4Viewer}">
                 <views:IdentityServer4View/>
             </DataTemplate>
