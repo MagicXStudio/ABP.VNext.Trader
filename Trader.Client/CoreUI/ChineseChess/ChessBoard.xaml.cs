@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -30,18 +31,20 @@ namespace Trader.Client.CoreUI.ChineseChess
         {
             base.OnInitialized(e);
             _myCanvas = new Canvas();
+            foreach (var i in Enumerable.Range(1, 10))
+            {
+                ChessPiece piece = new ChessPiece();
+                piece.Height = piece.Width = 120;
 
-            var piece = new ChessPiece();
-            piece.Height = piece.Width = 120;
-
-            Canvas.SetTop(piece, 8);
-            Canvas.SetLeft(piece, 8);
-
+                Canvas.SetTop(piece, 8 * i);
+                Canvas.SetLeft(piece, 8 * i);
+                _myCanvas.Children.Add(piece);
+            }
             var tb = new TextBox { Text = "PV=计划值、EV=挣值、AC=实际成本" };
             Canvas.SetTop(tb, 100);
             Canvas.SetLeft(tb, 100);
 
-            _myCanvas.Children.Add(piece);
+
             _myCanvas.Children.Add(tb);
 
             _myCanvas.PreviewMouseLeftButtonDown += MyCanvas_PreviewMouseLeftButtonDown;
@@ -140,5 +143,4 @@ namespace Trader.Client.CoreUI.ChineseChess
             }
         }
     }
-
 }
