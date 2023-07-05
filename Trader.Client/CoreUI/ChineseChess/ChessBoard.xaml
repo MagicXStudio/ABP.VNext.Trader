@@ -6,7 +6,11 @@
              xmlns:local="clr-namespace:Trader.Client.CoreUI.ChineseChess"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <local:ChessGrid HorizontalAlignment="Left" Margin="11,11,0,0" VerticalAlignment="Top" Height="420" Width="758"/>
-    </Grid>
+    <StackPanel Name="myStackPanel">
+        <Border Background="#99FFFFFF" BorderBrush="#CCCCFF" BorderThickness="2" Padding="2">
+            <TextBlock Width="150" TextWrapping="Wrap" FontSize="10">
+        正推取最大，逆推取最小
+            </TextBlock>
+        </Border>
+    </StackPanel>
 </UserControl>

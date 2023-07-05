@@ -9,6 +9,6 @@
     <Grid Background="Yellow">
         <Ellipse  x:Name="Piece" RenderTransformOrigin="0.5,0.5"  Margin="30,30,30,30" StrokeThickness="2" Fill="DarkBlue">
         </Ellipse>
-        <TextBlock x:Name="Title" HorizontalAlignment="Center" Margin="0,209,0,0" TextWrapping="Wrap" Text="XXX" VerticalAlignment="Center"/>
+        <TextBlock x:Name="Title" HorizontalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap" Text="XXX" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>
