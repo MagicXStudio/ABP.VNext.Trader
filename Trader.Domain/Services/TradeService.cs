@@ -44,28 +44,17 @@ namespace Trader.Domain.Services
             //construct an cache datasource specifying that the primary key is Trade.Id
             return ObservableChangeSet.Create<Trade, long>(cache =>
             {
-                /*
-                    The following code emulates an external trade provider. 
-                    Alternatively you can use "new SourceCacheTrade, long>(t=>t.Id)" and manually maintain the cache.
-
-                    For examples of creating a observable change sets, see https://github.com/RolandPheasant/DynamicData.Snippets
-                */
-
-                //bit of code to generate trades
                 Random random = new Random();
-
+                
                 //initally load some trades 
-                cache.AddOrUpdate(_tradeGenerator.Generate(5_000, true));
+                cache.AddOrUpdate(_tradeGenerator.EnumerateFiles(Environment.CurrentDirectory));
 
                 TimeSpan RandomInterval() => TimeSpan.FromMilliseconds(random.Next(2500, 5000));
-
-
                 // create a random number of trades at a random interval
                 IDisposable tradeGenerator = _schedulerProvider.Background
                     .ScheduleRecurringAction(RandomInterval, () =>
                     {
-                        var number = random.Next(1, 5);
-                        var trades = _tradeGenerator.Generate(number);
+                        var trades = _tradeGenerator.EnumerateFiles(Environment.CurrentDirectory);
                         cache.AddOrUpdate(trades);
                     });
 
