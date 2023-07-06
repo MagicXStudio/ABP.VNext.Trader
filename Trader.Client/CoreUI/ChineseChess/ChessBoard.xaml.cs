@@ -13,14 +13,14 @@ namespace Trader.Client.CoreUI.ChineseChess
 
     public partial class ChessBoard : UserControl
     {
-
         public ChessBoard()
         {
             InitializeComponent();
+
         }
         private bool _isDown;
         private bool _isDragging;
-        private Canvas _myCanvas;
+        private Canvas BoardCanvas { get; set; }
         private UIElement _originalElement;
         private double _originalLeft;
         private double _originalTop;
@@ -30,29 +30,27 @@ namespace Trader.Client.CoreUI.ChineseChess
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            _myCanvas = new Canvas();
-            foreach (var i in Enumerable.Range(1, 10))
+            BoardCanvas = new Canvas();
+            foreach (int i in Enumerable.Range(0, 10))
             {
-                ChessPiece piece = new ChessPiece();
+                ChessPiece piece = new ChessPiece($"{i}", i);
                 piece.Height = piece.Width = 120;
 
-                Canvas.SetTop(piece, 8 * i);
-                Canvas.SetLeft(piece, 8 * i);
-                _myCanvas.Children.Add(piece);
+                Canvas.SetTop(piece, i * piece.Height);
+                Canvas.SetLeft(piece, i * piece.Width);
+                BoardCanvas.Children.Add(piece);
             }
             var tb = new TextBox { Text = "PV=计划值、EV=挣值、AC=实际成本" };
             Canvas.SetTop(tb, 100);
             Canvas.SetLeft(tb, 100);
+            BoardCanvas.Children.Add(tb);
 
-
-            _myCanvas.Children.Add(tb);
-
-            _myCanvas.PreviewMouseLeftButtonDown += MyCanvas_PreviewMouseLeftButtonDown;
-            _myCanvas.PreviewMouseMove += MyCanvas_PreviewMouseMove;
-            _myCanvas.PreviewMouseLeftButtonUp += MyCanvas_PreviewMouseLeftButtonUp;
+            BoardCanvas.PreviewMouseLeftButtonDown += MyCanvas_PreviewMouseLeftButtonDown;
+            BoardCanvas.PreviewMouseMove += MyCanvas_PreviewMouseMove;
+            BoardCanvas.PreviewMouseLeftButtonUp += MyCanvas_PreviewMouseLeftButtonUp;
             PreviewKeyDown += window1_PreviewKeyDown;
 
-            myStackPanel.Children.Add(_myCanvas);
+            myStackPanel.Children.Add(BoardCanvas);
         }
 
         private void window1_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -95,9 +93,9 @@ namespace Trader.Client.CoreUI.ChineseChess
             if (_isDown)
             {
                 if ((_isDragging == false) &&
-                    ((Math.Abs(e.GetPosition(_myCanvas).X - _startPoint.X) >
+                    ((Math.Abs(e.GetPosition(BoardCanvas).X - _startPoint.X) >
                       SystemParameters.MinimumHorizontalDragDistance) ||
-                     (Math.Abs(e.GetPosition(_myCanvas).Y - _startPoint.Y) >
+                     (Math.Abs(e.GetPosition(BoardCanvas).Y - _startPoint.Y) >
                       SystemParameters.MinimumVerticalDragDistance)))
                 {
                     DragStarted();
@@ -116,13 +114,13 @@ namespace Trader.Client.CoreUI.ChineseChess
             _originalTop = Canvas.GetTop(_originalElement);
 
             _overlayElement = new CircleAdorner(_originalElement);
-            var layer = AdornerLayer.GetAdornerLayer(_originalElement);
+            AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
             layer.Add(_overlayElement);
         }
 
         private void DragMoved()
         {
-            var currentPosition = Mouse.GetPosition(_myCanvas);
+            Point currentPosition = Mouse.GetPosition(BoardCanvas);
 
             _overlayElement.LeftOffset = currentPosition.X - _startPoint.X;
             _overlayElement.TopOffset = currentPosition.Y - _startPoint.Y;
@@ -130,15 +128,15 @@ namespace Trader.Client.CoreUI.ChineseChess
 
         private void MyCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.Source == _myCanvas)
+            if (e.Source == BoardCanvas)
             {
             }
             else
             {
                 _isDown = true;
-                _startPoint = e.GetPosition(_myCanvas);
+                _startPoint = e.GetPosition(BoardCanvas);
                 _originalElement = e.Source as UIElement;
-                _myCanvas.CaptureMouse();
+                BoardCanvas.CaptureMouse();
                 e.Handled = true;
             }
         }

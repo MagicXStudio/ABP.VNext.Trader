@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Trader.Client.CoreUI.ChineseChess"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400">
-    <Grid Background="Yellow">
-        <Ellipse  x:Name="Piece" RenderTransformOrigin="0.5,0.5"  Margin="30,30,30,30" StrokeThickness="2" Fill="DarkBlue">
+    <Grid>
+        <Ellipse  x:Name="Piece" RenderTransformOrigin="0.5,0.5"  Margin="3,3,3,3" StrokeThickness="2" Fill="GreenYellow">
         </Ellipse>
-        <TextBlock x:Name="Title" HorizontalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap" Text="XXX" VerticalAlignment="Center"/>
+        <TextBlock x:Name="Title" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" FontWeight="Bold" FontSize="25" Text="瞾" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

@@ -54,17 +54,16 @@ namespace Trader.Client.CoreUI.ChineseChess
         }
         protected override void OnRender(DrawingContext drawingContext)
         {
-            var adornedElementRect = new Rect(AdornedElement.DesiredSize);
-            var renderBrush = new SolidColorBrush(Colors.Green) { Opacity = 0.2 };
-            var renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
+            Rect adornedElementRect = new Rect(AdornedElement.DesiredSize);
+            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green) { Opacity = 0.2 };
+            Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
             const double renderRadius = 5.0;
 
             drawingContext.DrawRectangle(renderBrush, renderPen, adornedElementRect);
             drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius);
             drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius);
             drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius);
-            drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius,
-                renderRadius);
+            drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius);
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -83,13 +82,13 @@ namespace Trader.Client.CoreUI.ChineseChess
 
         private void UpdatePosition()
         {
-            var adornerLayer = Parent as AdornerLayer;
+            AdornerLayer adornerLayer = Parent as AdornerLayer;
             adornerLayer?.Update(AdornedElement);
         }
 
         public override GeneralTransform GetDesiredTransform(GeneralTransform transform)
         {
-            var result = new GeneralTransformGroup();
+            GeneralTransformGroup result = new GeneralTransformGroup();
             result.Children.Add(base.GetDesiredTransform(transform));
             result.Children.Add(new TranslateTransform(_leftOffset, _topOffset));
             return result;
