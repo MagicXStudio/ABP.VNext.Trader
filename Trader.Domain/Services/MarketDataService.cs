@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
@@ -20,32 +22,17 @@ namespace Trader.Domain.Services
 
         private IObservable<MarketData> GenerateStream(CurrencyPair currencyPair)
         {
-            return Observable.Create<MarketData>(observer =>
+            IObservable<MarketData> items = Observable.Create<MarketData>(observer =>
             {
-                int spread = currencyPair.DefaultSpread;
-                decimal midRate = currencyPair.InitialPrice;
-                decimal bid = midRate - (spread * currencyPair.PipSize);
-                decimal offer = midRate + (spread * currencyPair.PipSize);
-                MarketData initial = new MarketData(currencyPair.Code, bid, offer);
-
-                var currentPrice = initial;
-                observer.OnNext(initial);
-
-                var random = new Random();
-                //for a given period, move prices by up to 5 pips
-                return Observable.Interval(TimeSpan.FromSeconds(1 / 30))
-                    .Select(_ => random.Next(1, 5))
-                    .Subscribe(pips =>
-                    {
-                        //move up or down between 1 and 5 pips
-                        var adjustment = Math.Round(pips * currencyPair.PipSize, currencyPair.DecimalPlaces);
-                        currentPrice = random.NextDouble() > 0.5
-                                        ? currentPrice + adjustment
-                                        : currentPrice - adjustment;
-                        observer.OnNext(currentPrice);
-
-                    });
+                MarketData initial = new MarketData(currencyPair.Code, 12, 12);
+                return Observable.FromAsync(() => Task.FromResult(Directory.GetFiles(currencyPair.Code)))
+                .Select(files => files.ToList())
+                     .Subscribe(files =>
+                     {
+                         observer.OnNext(initial);
+                     });
             });
+            return items;
         }
         public IObservable<MarketData> Watch(string dir)
         {

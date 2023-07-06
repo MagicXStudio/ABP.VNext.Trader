@@ -1,25 +1,23 @@
 using System;
+using System.IO;
 
 namespace Trader.Domain.Model
 {
     public class CurrencyPair
     {
-        public CurrencyPair(string code, decimal startingPrice, int decimalPlaces, decimal tickFrequency, int defaultSpread = 8)
+        public CurrencyPair(string drive)
         {
-            Code = code;
-            InitialPrice = startingPrice;
-            DecimalPlaces = decimalPlaces;
-            TickFrequency = tickFrequency;
-            DefaultSpread = defaultSpread;
-            PipSize = (decimal)Math.Pow(10, -decimalPlaces);
+            DriveInfo = new DriveInfo(drive);
         }
 
-        public string Code { get; }
-        public decimal InitialPrice { get; }
-        public int DecimalPlaces { get; }
-        public decimal TickFrequency { get; }
+        public DriveInfo DriveInfo { get; }
+
+        public string Code => DriveInfo.Name;
+        public long InitialPrice => DriveInfo.AvailableFreeSpace;
+        public long DecimalPlaces => DriveInfo.TotalSize;
+        public string TickFrequency => DriveInfo.DriveFormat;
         public decimal PipSize { get; }
-        public int DefaultSpread { get; }
+        public long DefaultSpread => DriveInfo.TotalFreeSpace;
 
         #region Equality
 

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 namespace Trader.Domain.Model
 {
-    public class Trade: IDisposable, IEquatable<Trade>
+    public class Trade : IDisposable, IEquatable<Trade>
     {
-        private readonly ISubject<decimal> _marketPriceChangedSubject = new ReplaySubject<decimal>(1); 
-        
+        private readonly ISubject<decimal> _marketPriceChangedSubject = new ReplaySubject<decimal>(1);
+
         public long Id { get; }
         public string CurrencyPair { get; }
         public string Customer { get; }
@@ -17,32 +18,32 @@ namespace Trader.Domain.Model
         public decimal Amount { get; }
         public BuyOrSell BuyOrSell { get; }
         public TradeStatus Status { get; }
-        public DateTime Timestamp { get; }
+        public DateTime Timestamp => DirectoryInfo.CreationTime;
+
+        private DirectoryInfo DirectoryInfo { get; }
 
         public Trade(Trade trade, TradeStatus status)
         {
             Id = trade.Id;
-            Customer = trade.Customer;
             CurrencyPair = trade.CurrencyPair;
             Status = status;
             MarketPrice = trade.MarketPrice;
             TradePrice = trade.TradePrice;
             Amount = trade.Amount;
-            Timestamp = DateTime.Now;
             BuyOrSell = trade.BuyOrSell;
         }
 
-        public Trade(long id, string customer, string currencyPair, TradeStatus status, BuyOrSell buyOrSell, decimal tradePrice, decimal amount, decimal marketPrice = 0, DateTime? timeStamp = null)
+        public Trade(long id, string dir, string drive, TradeStatus status, BuyOrSell buyOrSell, decimal tradePrice, decimal amount, decimal marketPrice = 0)
         {
             Id = id;
-            Customer = customer;
-            CurrencyPair = currencyPair;
+            Customer = dir;
+            DirectoryInfo = new DirectoryInfo(dir);
+            CurrencyPair = drive;
             Status = status;
             MarketPrice = marketPrice;
             TradePrice = tradePrice;
             Amount = amount;
             BuyOrSell = buyOrSell;
-            Timestamp =timeStamp ?? DateTime.Now;
         }
 
         public void SetMarketPrice(decimal marketPrice)
@@ -69,7 +70,7 @@ namespace Trader.Domain.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Trade) obj);
+            return Equals((Trade)obj);
         }
 
         public override int GetHashCode()

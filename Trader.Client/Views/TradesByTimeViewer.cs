@@ -18,8 +18,6 @@ namespace Trader.Client.Views
         public TradesByTimeViewer(ITradeService tradeService, ISchedulerProvider schedulerProvider)
         {
             var grouperRefresher = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => Unit.Default);
-
-
             _cleanUp = tradeService.All.Connect()
                 .Group(trade =>
                        {
