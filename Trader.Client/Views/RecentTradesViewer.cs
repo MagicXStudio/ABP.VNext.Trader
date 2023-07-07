@@ -1,15 +1,14 @@
+using ReactiveUI;
 using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using DynamicData;
-using DynamicData.Binding;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
 using Trader.Domain.Services;
 
 namespace Trader.Client.Views
 {
-    public class RecentTradesViewer : AbstractNotifyPropertyChanged, IDisposable
+    public class RecentTradesViewer : ReactiveObject, IDisposable
     {
         private readonly IDisposable _cleanUp;
         private readonly ReadOnlyObservableCollection<FileProxy> _data;
@@ -19,15 +18,14 @@ namespace Trader.Client.Views
         {
             _logger = logger;
 
-            _cleanUp = tradeService.All.Connect()
-                .SkipInitial()
-                .ExpireAfter(trade => TimeSpan.FromSeconds(30))
-                .Transform(trade => new FileProxy(trade))
-                .Sort(SortExpressionComparer<FileProxy>.Descending(t => t.Timestamp), SortOptimisations.ComparesImmutableValuesOnly)
+            _cleanUp = tradeService.All
+                .Skip(0)
                 .ObserveOn(schedulerProvider.MainThread)
-                .Bind(out _data)
-                .DisposeMany()
-                .Subscribe();
+                .Subscribe((items) =>
+                {
+
+
+                });
         }
 
         public ReadOnlyObservableCollection<FileProxy> Data => _data;

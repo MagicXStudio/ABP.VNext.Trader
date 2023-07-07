@@ -18,15 +18,9 @@ namespace Trader.Domain.Services
 
         private static string[] Directories => Directory.GetDirectories("C:\\");
 
-        public FileEnumerator(IFileService marketDataService, string dir)
+        public FileEnumerator()
         {
-            _cleanUp = Directories
-                                    .Select(directory => marketDataService.Watch(directory)).Merge()
-                                    .Synchronize(_locker)
-                                    .Subscribe(file =>
-                                    {
-                                        Files[file.DirectoryInfo.Name] = file;
-                                    });
+
         }
 
         public IEnumerable<FileDetail> EnumerateFiles(string dir)

@@ -1,11 +1,10 @@
 ﻿using System;
-using DynamicData;
 
 namespace Trader.Domain.Infrastucture
 {
 
 
-    public class LogEntry: IKey<long>, IEquatable<LogEntry>
+    public class LogEntry:IEquatable<LogEntry>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.

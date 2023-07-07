@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using DynamicData.Kernel;
 
 // ReSharper disable once CheckNamespace
 namespace System
@@ -41,7 +40,7 @@ namespace System.Collections.Generic
         public static IEnumerable<string> WithDelimiter<T>(this IEnumerable<T> source, string delimiter)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
-            T[] array = source.AsArray();
+            T[] array = source.ToArray();
             if (!array.Any()) yield return string.Empty;
 
             yield return array.Select(t => t.ToString()).First();

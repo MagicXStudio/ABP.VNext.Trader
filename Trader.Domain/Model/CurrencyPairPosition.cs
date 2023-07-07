@@ -1,37 +1,21 @@
+using ReactiveUI;
 using System;
-using System.Linq;
-using System.Reactive.Linq;
-using DynamicData;
-using DynamicData.Aggregation;
-using DynamicData.Binding;
 
 namespace Trader.Domain.Model
 {
-    public class CurrencyPairPosition: AbstractNotifyPropertyChanged,  IDisposable, IEquatable<CurrencyPairPosition>
+    public class CurrencyPairPosition: ReactiveObject,  IDisposable, IEquatable<CurrencyPairPosition>
     {
         private readonly IDisposable _cleanUp;
         private TradesPosition _position;
 
-        public CurrencyPairPosition(IGroup<FileDetail, long, string> tradesByCurrencyPair)
+        public CurrencyPairPosition(IObservable<FileDetail> tradesByCurrencyPair)
         {
-            CurrencyPair = tradesByCurrencyPair.Key;
-
-            _cleanUp = tradesByCurrencyPair.Cache.Connect()
-                .ToCollection()
-                .Select(query =>
-                {
-                    var buy = query.Where(trade => trade.BuyOrSell == BuyOrSell.Buy).Sum(trade=>trade.Amount);
-                    var sell = query.Where(trade => trade.BuyOrSell == BuyOrSell.Sell).Sum(trade => trade.Amount);
-                    var count = query.Count;
-                    return new TradesPosition(buy,sell,count);
-                })
-                .Subscribe(position => Position = position);
         }
 
         public TradesPosition Position
         {
             get => _position;
-            set => SetAndRaise(ref  _position,value);
+            set => this.RaiseAndSetIfChanged(ref  _position,value);
         }
 
         public string CurrencyPair { get; }

@@ -4,7 +4,6 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Binding;
-using DynamicData.PLinq;
 using Trader.Client.Infrastucture;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
@@ -21,12 +20,8 @@ namespace Trader.Client.Views
 
         public VisibleRowsViewer(IFileService tradeService, ILogger logger, ISchedulerProvider schedulerProvider)
         {
-            var loader = tradeService.All.Connect()
-                .Transform(trade => new FileProxy(trade), new ParallelisationOptions(ParallelType.Ordered, 5))
-                .Sort(SortExpressionComparer<FileProxy>.Descending(t => t.Timestamp), SortOptimisations.ComparesImmutableValuesOnly)
+            var loader = tradeService.All
                 .ObserveOn(schedulerProvider.MainThread)
-                .Bind(out _data)   // update observable collection bindings
-                .DisposeMany() //since TradeProxy is disposable dispose when no longer required
                 .Subscribe();
 
 

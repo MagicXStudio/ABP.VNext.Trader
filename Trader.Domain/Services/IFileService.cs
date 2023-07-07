@@ -1,14 +1,14 @@
-﻿using DynamicData;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
     public interface IFileService
     {
-        IObservableCache<FileDetail, long> All { get; }
-        IObservableCache<FileDetail, long> Live { get; }
+        IObservable<IEnumerable<FileDetail>> All { get; }
+        IObservable<IEnumerable<FileDetail>> Live { get; }
 
-        IObservable<FileDetail> Watch(string dir);
+        IObservable<IEnumerable<FileDetail>> Watch(string dir);
     }
 }

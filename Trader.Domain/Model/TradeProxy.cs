@@ -1,11 +1,11 @@
-﻿using System;
+﻿using ReactiveUI;
+using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using DynamicData.Binding;
 
 namespace Trader.Domain.Model
 {
-    public class FileProxy : AbstractNotifyPropertyChanged, IDisposable, IEquatable<FileProxy>
+    public class FileProxy : ReactiveObject, IDisposable, IEquatable<FileProxy>
     {
         private readonly IDisposable _cleanUp;
         private readonly long _id;
@@ -47,19 +47,19 @@ namespace Trader.Domain.Model
         public bool Recent
         {
             get => _recent;
-            set => SetAndRaise(ref _recent, value);
+            set => this.RaiseAndSetIfChanged(ref _recent, value);
         }
 
         public decimal MarketPrice
         {
             get => _marketPrice;
-            set => SetAndRaise(ref _marketPrice, value);
+            set => this.RaiseAndSetIfChanged(ref _marketPrice, value);
         }
 
         public decimal PercentFromMarket
         {
             get => _pcFromMarketPrice;
-            set => SetAndRaise(ref _pcFromMarketPrice, value);
+            set => this.RaiseAndSetIfChanged(ref _pcFromMarketPrice, value);
         }
 
         public void Dispose()

@@ -8,7 +8,7 @@ namespace Trader.Domain.Infrastucture
     {
         public SchedulerProvider(Dispatcher dispatcher)
         {
-            MainThread = new DispatcherScheduler(dispatcher);
+            MainThread = TaskPoolScheduler.Default;// new DispatcherScheduler(dispatcher);
         }
 
         public IScheduler MainThread { get; }

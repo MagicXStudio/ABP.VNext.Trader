@@ -21,7 +21,7 @@ namespace Trader.Client.Infrastucture
             log4net.Config.XmlConfigurator.ConfigureAndWatch(logRepository, new FileInfo(path));
             For<ILogger>().Use<Log4NetLogger>().Ctor<Type>("type").Is(x => x.RootType).AlwaysUnique();
 
-            For<TradePriceUpdateJob>().Singleton();
+            For<FileSearchJob>().Singleton();
 
             Scan(scanner =>
             {

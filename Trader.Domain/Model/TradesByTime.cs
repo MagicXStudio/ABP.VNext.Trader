@@ -1,8 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using DynamicData;
-using DynamicData.Binding;
 using TradeExample.Annotations;
 using Trader.Domain.Infrastucture;
 
@@ -13,17 +12,11 @@ namespace Trader.Domain.Model
         private readonly IDisposable _cleanUp;
         private readonly ReadOnlyObservableCollection<FileProxy> _data;
 
-        public TradesByTime([NotNull] IGroup<FileDetail, long, TimePeriod> group,
+        public TradesByTime([NotNull] IObservable<IEnumerable<FileDetail>> group,
             ISchedulerProvider schedulerProvider)
         {
-            Period = group?.Key ?? throw new ArgumentNullException(nameof(group));
-
-            _cleanUp = group.Cache.Connect()
-                .Transform(trade => new FileProxy(trade))
-                .Sort(SortExpressionComparer<FileProxy>.Descending(p => p.Timestamp), SortOptimisations.ComparesImmutableValuesOnly)
+            _cleanUp = group
                 .ObserveOn(schedulerProvider.MainThread)
-                .Bind(out _data)
-                .DisposeMany()
                 .Subscribe();
         }
 

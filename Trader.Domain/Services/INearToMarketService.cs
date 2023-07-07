@@ -1,5 +1,5 @@
 ﻿using System;
-using DynamicData;
+using System.Collections.Generic;
 using TradeExample.Annotations;
 using Trader.Domain.Model;
 
@@ -7,6 +7,6 @@ namespace Trader.Domain.Services
 {
     public interface INearToMarketService
     {
-        IObservable<IChangeSet<FileDetail, long>> Query([NotNull] Func<decimal> percentFromMarket);
+        IObservable<IEnumerable<FileDetail>> Query([NotNull] Func<decimal> percentFromMarket);
     }
 }

@@ -1,7 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Reactive.Linq;
-using DynamicData;
-using DynamicData.Binding;
 using TradeExample.Annotations;
 using Trader.Domain.Infrastucture;
 
@@ -10,29 +9,23 @@ namespace Trader.Domain.Model
     public class TradesByPercentDiff : IDisposable, IEquatable<TradesByPercentDiff>
     {
         private readonly IDisposable _cleanUp;
-        private readonly IGroup<FileDetail, long, int> _group;
+        private readonly IEnumerable<FileDetail> _group;
 
-        public TradesByPercentDiff([NotNull] IGroup<FileDetail, long, int> group, [NotNull] ISchedulerProvider schedulerProvider, ILogger logger)
+        public TradesByPercentDiff([NotNull] IObservable<IEnumerable<FileDetail>> items, [NotNull] ISchedulerProvider schedulerProvider, ILogger logger)
         {
             if (schedulerProvider == null) throw new ArgumentNullException(nameof(schedulerProvider));
 
-            _group = @group ?? throw new ArgumentNullException(nameof(@group));
-            PercentBand = group.Key;
-
-            _cleanUp = group.Cache.Connect()
-                .Transform(trade => new FileProxy(trade))
-                .Sort(SortExpressionComparer<FileProxy>.Descending(p => p.Timestamp))
+            _cleanUp = items
                 .ObserveOn(schedulerProvider.MainThread)
-                .Bind(Data)
-                .DisposeMany()
                 .Subscribe(_ => { }, ex => logger.Error(ex, "Error in TradesByPercentDiff"));
+            Data = items;
         }
 
         public int PercentBand { get; }
 
-        public int PercentBandUpperBound => _group.Key + 1;
 
-        public IObservableCollection<FileProxy> Data { get; } = new ObservableCollectionExtended<FileProxy>();
+
+        public IObservable<IEnumerable<FileDetail>> Data { get; }
 
         public void Dispose()
         {
@@ -53,7 +46,7 @@ namespace Trader.Domain.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((TradesByPercentDiff) obj);
+            return Equals((TradesByPercentDiff)obj);
         }
 
         public override int GetHashCode()

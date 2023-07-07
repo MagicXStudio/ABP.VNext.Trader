@@ -55,8 +55,10 @@ namespace Trader.Client
             //Locator.Current = resolver;
             //RxApp.SupportsRangeNotifications = false;
             //run start up jobs
-            container.GetInstance<TradePriceUpdateJob>();
-            container.GetInstance<ILogEntryService>();
+            
+            
+            //container.GetInstance<FileSearchJob>();
+            container.GetInstance<ILoginService>();
 
             TaskAwaiter<Bootstrap> w = ClientBootstrap.Client.InitBootstrapAsync().GetAwaiter();
             window.Show();
