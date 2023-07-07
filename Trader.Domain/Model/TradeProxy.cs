@@ -5,16 +5,16 @@ using DynamicData.Binding;
 
 namespace Trader.Domain.Model
 {
-    public class TradeProxy : AbstractNotifyPropertyChanged, IDisposable, IEquatable<TradeProxy>
+    public class FileProxy : AbstractNotifyPropertyChanged, IDisposable, IEquatable<FileProxy>
     {
         private readonly IDisposable _cleanUp;
         private readonly long _id;
-        private readonly Trade _trade;
+        private readonly FileDetail _trade;
         private decimal _marketPrice;
         private decimal _pcFromMarketPrice;
         private bool _recent;
 
-        public TradeProxy(Trade trade)
+        public FileProxy(FileDetail trade)
         {
             _id = trade.Id;
             _trade = trade;
@@ -30,7 +30,7 @@ namespace Trader.Domain.Model
             }
 
             //market price changed is an observable on the trade object
-            var priceRefresher = trade.MarketPriceChanged
+            IDisposable priceRefresher = trade.MarketPriceChanged
                 .Subscribe(_ =>
                 {
                     MarketPrice = trade.MarketPrice;
@@ -74,7 +74,7 @@ namespace Trader.Domain.Model
 
         public string CurrencyPair => _trade.CurrencyPair;
 
-        public string Customer => _trade.Customer;
+        public string Customer => _trade.DirectoryInfo.Name;
 
         public decimal Amount => _trade.Amount;
 
@@ -88,7 +88,7 @@ namespace Trader.Domain.Model
 
         #region Equaility Members
 
-        public bool Equals(TradeProxy other)
+        public bool Equals(FileProxy other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -100,7 +100,7 @@ namespace Trader.Domain.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((TradeProxy) obj);
+            return Equals((FileProxy) obj);
         }
 
         public override int GetHashCode()
@@ -108,12 +108,12 @@ namespace Trader.Domain.Model
             return _id.GetHashCode();
         }
 
-        public static bool operator ==(TradeProxy left, TradeProxy right)
+        public static bool operator ==(FileProxy left, FileProxy right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(TradeProxy left, TradeProxy right)
+        public static bool operator !=(FileProxy left, FileProxy right)
         {
             return !Equals(left, right);
         }

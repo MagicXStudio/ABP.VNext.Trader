@@ -12,14 +12,14 @@ namespace Trader.Client.Views
     public class NearToMarketViewer : AbstractNotifyPropertyChanged, IDisposable
     {
         private readonly IDisposable _cleanUp;
-        private readonly ReadOnlyObservableCollection<TradeProxy> _data;
+        private readonly ReadOnlyObservableCollection<FileProxy> _data;
         private double _nearToMarketPercent = 0.05D;
 
         public NearToMarketViewer(INearToMarketService nearToMarketService, ISchedulerProvider schedulerProvider, ILogger logger)
         {
             _cleanUp = nearToMarketService.Query(() => (decimal)NearToMarketPercent)
-                .Transform(trade => new TradeProxy(trade))
-                .Sort(SortExpressionComparer<TradeProxy>.Descending(t => t.Timestamp))
+                .Transform(trade => new FileProxy(trade))
+                .Sort(SortExpressionComparer<FileProxy>.Descending(t => t.Timestamp))
                 .ObserveOn(schedulerProvider.MainThread)
                 .Bind(out _data)
                 .DisposeMany()
@@ -32,7 +32,7 @@ namespace Trader.Client.Views
             set => SetAndRaise(ref _nearToMarketPercent, value);
         }
 
-        public ReadOnlyObservableCollection<TradeProxy> Data => _data;
+        public ReadOnlyObservableCollection<FileProxy> Data => _data;
 
         public void Dispose()
         {

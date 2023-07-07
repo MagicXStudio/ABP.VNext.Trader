@@ -12,7 +12,7 @@ namespace Trader.Domain.Model
         private readonly IDisposable _cleanUp;
         private TradesPosition _position;
 
-        public CurrencyPairPosition(IGroup<Trade, long, string> tradesByCurrencyPair)
+        public CurrencyPairPosition(IGroup<FileDetail, long, string> tradesByCurrencyPair)
         {
             CurrencyPair = tradesByCurrencyPair.Key;
 

@@ -2,22 +2,25 @@
 
 namespace Trader.Domain.Model
 {
-    public class MarketData : IEquatable<MarketData>
+    public class DirectoryDetail : IEquatable<DirectoryDetail>
     {
-        public MarketData(string instrument, decimal bid, decimal offer)
+        public DirectoryDetail(string name, string drive, decimal bid, decimal offer)
         {
-            Instrument = instrument;
+            Name = name;
+            Instrument = drive;
             Bid = bid;
             Offer = offer;
         }
 
+
+        public string Name { get; set; }
         public string Instrument { get; }
         public decimal Bid { get; }
         public decimal Offer { get; }
 
         #region Equality
 
-        public bool Equals(MarketData other)
+        public bool Equals(DirectoryDetail other)
         {
             return string.Equals(Instrument, other.Instrument) && Bid == other.Bid && Offer == other.Offer;
         }
@@ -25,7 +28,7 @@ namespace Trader.Domain.Model
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is MarketData && Equals((MarketData)obj);
+            return obj is DirectoryDetail && Equals((DirectoryDetail)obj);
         }
 
         public override int GetHashCode()
@@ -40,46 +43,46 @@ namespace Trader.Domain.Model
         }
 
 
-        public static MarketData operator +(MarketData left, decimal pipsValue)
+        public static DirectoryDetail operator +(DirectoryDetail left, decimal pipsValue)
         {
             var bid = left.Bid + pipsValue;
             var offer = left.Offer + pipsValue;
-            return new MarketData(left.Instrument, bid, offer);
+            return new DirectoryDetail(left.Name, left.Instrument, bid, offer);
         }
 
-        public static MarketData operator -(MarketData left, decimal pipsValue)
+        public static DirectoryDetail operator -(DirectoryDetail left, decimal pipsValue)
         {
             var bid = left.Bid - pipsValue;
             var offer = left.Offer - pipsValue;
-            return new MarketData(left.Instrument, bid, offer);
+            return new DirectoryDetail(left.Name, left.Instrument, bid, offer);
         }
 
-        public static bool operator >=(MarketData left, MarketData right)
+        public static bool operator >=(DirectoryDetail left, DirectoryDetail right)
         {
             return left.Bid >= right.Bid;
         }
 
-        public static bool operator <=(MarketData left, MarketData right)
+        public static bool operator <=(DirectoryDetail left, DirectoryDetail right)
         {
             return left.Bid <= right.Bid;
         }
 
-        public static bool operator >(MarketData left, MarketData right)
+        public static bool operator >(DirectoryDetail left, DirectoryDetail right)
         {
             return left.Bid > right.Bid;
         }
 
-        public static bool operator <(MarketData left, MarketData right)
+        public static bool operator <(DirectoryDetail left, DirectoryDetail right)
         {
             return left.Bid < right.Bid;
         }
 
-        public static bool operator ==(MarketData left, MarketData right)
+        public static bool operator ==(DirectoryDetail left, DirectoryDetail right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(MarketData left, MarketData right)
+        public static bool operator !=(DirectoryDetail left, DirectoryDetail right)
         {
             return !left.Equals(right);
         }

@@ -29,7 +29,7 @@ namespace Trader.Client.Infrastucture
                 scanner.LookForRegistries();
                 scanner.Convention<AppConventions>();
                 scanner.AssemblyContainingType<AppRegistry>();
-                scanner.AssemblyContainingType<TradeService>();
+                scanner.AssemblyContainingType<FileService>();
                 scanner.AssemblyContainingType<LoginService>();
                 scanner.AssemblyContainingType<IdentityService>();
             });

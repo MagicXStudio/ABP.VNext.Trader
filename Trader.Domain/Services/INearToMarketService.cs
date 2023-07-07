@@ -7,6 +7,6 @@ namespace Trader.Domain.Services
 {
     public interface INearToMarketService
     {
-        IObservable<IChangeSet<Trade, long>> Query([NotNull] Func<decimal> percentFromMarket);
+        IObservable<IChangeSet<FileDetail, long>> Query([NotNull] Func<decimal> percentFromMarket);
     }
 }

@@ -8,18 +8,18 @@ namespace Trader.Domain.Model
     {
         private readonly IList<SortContainer> _sortItems = new ObservableCollection<SortContainer>
         {
-            new SortContainer("Customer, Currency Pair", SortExpressionComparer<TradeProxy>
+            new SortContainer("Customer, Currency Pair", SortExpressionComparer<FileProxy>
                 .Ascending(l => l.Customer)
                 .ThenByAscending(p => p.CurrencyPair)
                 .ThenByAscending(p => p.Id)),
 
-            new SortContainer("Currency Pair, Amount", SortExpressionComparer<TradeProxy>
+            new SortContainer("Currency Pair, Amount", SortExpressionComparer<FileProxy>
                 .Ascending(l => l.CurrencyPair)
                 .ThenByDescending(p => p.Amount)
                 .ThenByAscending(p => p.Id)),
 
 
-            new SortContainer("Recently Changed", SortExpressionComparer<TradeProxy>
+            new SortContainer("Recently Changed", SortExpressionComparer<FileProxy>
                 .Descending(l => l.Timestamp)
                 .ThenByAscending(p => p.Customer)
                 .ThenByAscending(p => p.Id))

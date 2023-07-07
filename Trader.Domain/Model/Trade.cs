@@ -5,13 +5,14 @@ using System.Reactive.Subjects;
 
 namespace Trader.Domain.Model
 {
-    public class Trade : IDisposable, IEquatable<Trade>
+    public class FileDetail : IDisposable, IEquatable<FileDetail>
     {
         private readonly ISubject<decimal> _marketPriceChangedSubject = new ReplaySubject<decimal>(1);
 
         public long Id { get; }
+
+        public string Name { get; set; }
         public string CurrencyPair { get; }
-        public string Customer { get; }
         public decimal TradePrice { get; }
         public decimal MarketPrice { get; private set; }
         public decimal PercentFromMarket { get; private set; }
@@ -20,12 +21,11 @@ namespace Trader.Domain.Model
         public TradeStatus Status { get; }
         public DateTime Timestamp => DirectoryInfo.CreationTime;
 
-        private DirectoryInfo DirectoryInfo { get; }
+        public DirectoryInfo DirectoryInfo { get; }
 
-        public Trade(Trade trade, TradeStatus status)
+        public FileDetail(FileDetail trade, TradeStatus status)
         {
             Id = trade.Id;
-            CurrencyPair = trade.CurrencyPair;
             Status = status;
             MarketPrice = trade.MarketPrice;
             TradePrice = trade.TradePrice;
@@ -33,12 +33,10 @@ namespace Trader.Domain.Model
             BuyOrSell = trade.BuyOrSell;
         }
 
-        public Trade(long id, string dir, string drive, TradeStatus status, BuyOrSell buyOrSell, decimal tradePrice, decimal amount, decimal marketPrice = 0)
+        public FileDetail(string name, string dir, TradeStatus status, BuyOrSell buyOrSell, decimal tradePrice, decimal amount, decimal marketPrice = 0)
         {
-            Id = id;
-            Customer = dir;
+            Name = name;
             DirectoryInfo = new DirectoryInfo(dir);
-            CurrencyPair = drive;
             Status = status;
             MarketPrice = marketPrice;
             TradePrice = tradePrice;
@@ -58,7 +56,7 @@ namespace Trader.Domain.Model
 
         #region Equality Members
 
-        public bool Equals(Trade other)
+        public bool Equals(FileDetail other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -70,7 +68,7 @@ namespace Trader.Domain.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Trade)obj);
+            return Equals((FileDetail)obj);
         }
 
         public override int GetHashCode()
@@ -78,12 +76,12 @@ namespace Trader.Domain.Model
             return Id.GetHashCode();
         }
 
-        public static bool operator ==(Trade left, Trade right)
+        public static bool operator ==(FileDetail left, FileDetail right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Trade left, Trade right)
+        public static bool operator !=(FileDetail left, FileDetail right)
         {
             return !Equals(left, right);
         }

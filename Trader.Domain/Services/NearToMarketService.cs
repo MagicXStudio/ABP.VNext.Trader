@@ -9,31 +9,31 @@ namespace Trader.Domain.Services
 {
     public class NearToMarketService : BaseService, INearToMarketService
     {
-        private readonly ITradeService _tradeService;
+        private readonly IFileService _tradeService;
         private readonly ILogger _logger;
 
-        public NearToMarketService([NotNull] ITradeService tradeService , ILogger logger)
+        public NearToMarketService([NotNull] IFileService tradeService , ILogger logger)
         {
             _tradeService = tradeService ?? throw new ArgumentNullException(nameof(tradeService));
             _logger = logger;
         }
 
-        public IObservable<IChangeSet<Trade, long>> Query(Func<decimal> percentFromMarket)
+        public IObservable<IChangeSet<FileDetail, long>> Query(Func<decimal> percentFromMarket)
         {
             if (percentFromMarket == null) throw new ArgumentNullException(nameof(percentFromMarket));
 
-            return Observable.Create<IChangeSet<Trade, long>>
+            return Observable.Create<IChangeSet<FileDetail, long>>
                 (observer =>
                  {
                      var locker = new object();
 
-                     bool Predicate(Trade t) => Math.Abs(t.PercentFromMarket) <= percentFromMarket();
+                     bool Predicate(FileDetail t) => Math.Abs(t.PercentFromMarket) <= percentFromMarket();
 
                      //re-evaluate filter periodically
                      var reevaluator = Observable.Interval(TimeSpan.FromMilliseconds(250))
                          .Synchronize(locker)
-                         .Select(_ => (Func<Trade, bool>) Predicate)
-                         .StartWith((Func<Trade, bool>) Predicate); ;
+                         .Select(_ => (Func<FileDetail, bool>) Predicate)
+                         .StartWith((Func<FileDetail, bool>) Predicate); ;
 
                      //filter on live trades matching % specified
                      return _tradeService.All.Connect(trade => trade.Status == TradeStatus.Live)

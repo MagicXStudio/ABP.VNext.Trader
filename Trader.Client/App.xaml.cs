@@ -61,8 +61,6 @@ namespace Trader.Client
             TaskAwaiter<Bootstrap> w = ClientBootstrap.Client.InitBootstrapAsync().GetAwaiter();
             window.Show();
             base.OnStartup(e);
-
-
         }
     }
 }

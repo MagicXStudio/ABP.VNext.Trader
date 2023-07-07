@@ -14,10 +14,10 @@ namespace Trader.Client.Views
     public class PagedDataViewer : AbstractNotifyPropertyChanged, IDisposable
     {
         private readonly IDisposable _cleanUp;
-        private readonly ReadOnlyObservableCollection<TradeProxy> _data;
+        private readonly ReadOnlyObservableCollection<FileProxy> _data;
         private string _searchText;
 
-        public PagedDataViewer(ITradeService tradeService, ISchedulerProvider schedulerProvider)
+        public PagedDataViewer(IFileService tradeService, ISchedulerProvider schedulerProvider)
         {
             //build observable predicate from search text
             var filter = this.WhenValueChanged(t => t.SearchText)
@@ -37,7 +37,7 @@ namespace Trader.Client.Views
             // filter, sort, page and bind to observable collection
             _cleanUp = tradeService.All.Connect()
                 .Filter(filter) // apply user filter
-                .Transform(trade => new TradeProxy(trade), new ParallelisationOptions(ParallelType.Ordered, 5))
+                .Transform(trade => new FileProxy(trade), new ParallelisationOptions(ParallelType.Ordered, 5))
                 .Sort(sort, SortOptimisations.ComparesImmutableValuesOnly)
                 .Page(pager)
                 .ObserveOn(schedulerProvider.MainThread)
@@ -47,12 +47,12 @@ namespace Trader.Client.Views
                 .Subscribe();
         }
 
-        private static Func<Trade, bool> BuildFilter(string searchText)
+        private static Func<FileDetail, bool> BuildFilter(string searchText)
         {
             if (string.IsNullOrEmpty(searchText)) return trade => true;
 
             return t => t.CurrencyPair.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
-                                            t.Customer.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+                                            t.DirectoryInfo.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
         }
 
         public string SearchText
@@ -61,7 +61,7 @@ namespace Trader.Client.Views
             set => SetAndRaise(ref _searchText, value);
         }
 
-        public ReadOnlyObservableCollection<TradeProxy> Data => _data;
+        public ReadOnlyObservableCollection<FileProxy> Data => _data;
 
         public PageParameterData PageParameters { get;} = new PageParameterData(1,25);
 

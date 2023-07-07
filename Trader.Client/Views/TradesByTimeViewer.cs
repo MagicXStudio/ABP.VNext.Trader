@@ -15,7 +15,7 @@ namespace Trader.Client.Views
         private readonly IDisposable _cleanUp;
         private readonly ReadOnlyObservableCollection<TradesByTime> _data;
 
-        public TradesByTimeViewer(ITradeService tradeService, ISchedulerProvider schedulerProvider)
+        public TradesByTimeViewer(IFileService tradeService, ISchedulerProvider schedulerProvider)
         {
             var grouperRefresher = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => Unit.Default);
             _cleanUp = tradeService.All.Connect()

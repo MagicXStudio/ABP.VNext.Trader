@@ -2,9 +2,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using DynamicData;
 using DynamicData.Binding;
 using Trader.Domain.Infrastucture;
+using Trader.Domain.Model;
 using Trader.Domain.Services;
 
 namespace Trader.Client.Views
@@ -15,28 +17,27 @@ namespace Trader.Client.Views
         private readonly IDisposable _cleanUp;
         private string _searchText;
 
-        public SearchHints(ITradeService tradeService, ISchedulerProvider schedulerProvider)
+        public SearchHints(IFileService tradeService, ISchedulerProvider schedulerProvider)
         {
             //build a predicate when SearchText changes
-            var filter = this.WhenValueChanged(t => t.SearchText)
+            IObservable<Func<string, bool>> filter = this.WhenValueChanged(t => t.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(250))
                 .Select(BuildFilter);
 
             //share the connection
-            var shared = tradeService.All.Connect().Publish();
+            IConnectableObservable<IChangeSet<FileDetail, long>> shared = tradeService.All.Connect().Publish();
             //distinct observable of customers
-            var customers = shared.DistinctValues(trade => trade.Customer);
+            IObservable<IDistinctChangeSet<string>> customers = shared.DistinctValues(trade => trade.DirectoryInfo.Name);
             //distinct observable of currency pairs
-            var currencypairs = shared.DistinctValues(trade => trade.CurrencyPair);
+            IObservable<IDistinctChangeSet<string>> currencypairs = shared.DistinctValues(trade => trade.CurrencyPair);
 
             //observe customers and currency pairs using OR operator, and bind to the observable collection
-            var loader = customers.Or(currencypairs)
+            IDisposable loader = customers.Or(currencypairs)
                 .Filter(filter)     //filter strings
-                .Sort(SortExpressionComparer<string>.Ascending(str=>str))
+                .Sort(SortExpressionComparer<string>.Ascending(str => str))
                 .ObserveOn(schedulerProvider.MainThread)
                 .Bind(out _hints)       //bind to hints list
                 .Subscribe();
-
             _cleanUp = new CompositeDisposable(loader, shared.Connect());
         }
 

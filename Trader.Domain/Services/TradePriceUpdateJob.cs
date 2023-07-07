@@ -12,7 +12,7 @@ namespace Trader.Domain.Services
     {
         private readonly IDisposable _job;
 
-        public TradePriceUpdateJob(ITradeService tradeService, IMarketDataService marketDataService)
+        public TradePriceUpdateJob(IFileService tradeService, IDirectoryService marketDataService)
         {
             _job = tradeService.All
                 .Connect(trade => trade.Status == TradeStatus.Live)
@@ -43,7 +43,7 @@ namespace Trader.Domain.Services
                 .Subscribe();
         }
 
-        private void UpdateTradesWithPrice(IEnumerable<Trade> trades, decimal price)
+        private void UpdateTradesWithPrice(IEnumerable<FileDetail> trades, decimal price)
         {
             trades.ForEach(t=>t.SetMarketPrice(price));
         }

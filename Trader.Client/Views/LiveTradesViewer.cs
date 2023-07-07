@@ -14,10 +14,10 @@ namespace Trader.Client.Views
     public class LiveTradesViewer :AbstractNotifyPropertyChanged, IDisposable
     {
         private readonly IDisposable _cleanUp;
-        private readonly ReadOnlyObservableCollection<TradeProxy> _data;
+        private readonly ReadOnlyObservableCollection<FileProxy> _data;
         private bool _paused;
 
-        public LiveTradesViewer(ITradeService tradeService,SearchHints searchHints,ISchedulerProvider schedulerProvider)
+        public LiveTradesViewer(IFileService tradeService,SearchHints searchHints,ISchedulerProvider schedulerProvider)
         {
             SearchHints = searchHints;
 
@@ -27,8 +27,8 @@ namespace Trader.Client.Views
             var loader = tradeService.Live.Connect()
                 .BatchIf(this.WhenValueChanged(x=>x.Paused),null,null) //I need to fix the API, so nulls do not have to be passed in
                 .Filter(filter) // apply user filter
-                .Transform(trade => new TradeProxy(trade))
-                .Sort(SortExpressionComparer<TradeProxy>.Descending(t => t.Timestamp),SortOptimisations.ComparesImmutableValuesOnly, 25)
+                .Transform(trade => new FileProxy(trade))
+                .Sort(SortExpressionComparer<FileProxy>.Descending(t => t.Timestamp),SortOptimisations.ComparesImmutableValuesOnly, 25)
                 .ObserveOn(schedulerProvider.MainThread)
                 .Bind(out _data)   // update observable collection bindings
                 .DisposeMany() //since TradeProxy is disposable dispose when no longer required
@@ -37,15 +37,15 @@ namespace Trader.Client.Views
             _cleanUp = new CompositeDisposable(loader, searchHints);
         }
 
-        private Func<Trade, bool> BuildFilter(string searchText)
+        private Func<FileDetail, bool> BuildFilter(string searchText)
         {
             if (string.IsNullOrEmpty(searchText)) return trade => true;
 
             return t => t.CurrencyPair.Contains(searchText, StringComparison.OrdinalIgnoreCase) 
-                            || t.Customer.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+                            || t.DirectoryInfo.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
         }
 
-        public ReadOnlyObservableCollection<TradeProxy> Data => _data;
+        public ReadOnlyObservableCollection<FileProxy> Data => _data;
 
         public SearchHints SearchHints { get; }
 

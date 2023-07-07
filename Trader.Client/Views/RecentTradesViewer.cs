@@ -12,25 +12,25 @@ namespace Trader.Client.Views
     public class RecentTradesViewer : AbstractNotifyPropertyChanged, IDisposable
     {
         private readonly IDisposable _cleanUp;
-        private readonly ReadOnlyObservableCollection<TradeProxy> _data;
+        private readonly ReadOnlyObservableCollection<FileProxy> _data;
         private readonly ILogger _logger;
 
-        public RecentTradesViewer(ILogger logger, ITradeService tradeService, ISchedulerProvider schedulerProvider)
+        public RecentTradesViewer(ILogger logger, IFileService tradeService, ISchedulerProvider schedulerProvider)
         {
             _logger = logger;
 
             _cleanUp = tradeService.All.Connect()
                 .SkipInitial()
                 .ExpireAfter(trade => TimeSpan.FromSeconds(30))
-                .Transform(trade => new TradeProxy(trade))
-                .Sort(SortExpressionComparer<TradeProxy>.Descending(t => t.Timestamp), SortOptimisations.ComparesImmutableValuesOnly)
+                .Transform(trade => new FileProxy(trade))
+                .Sort(SortExpressionComparer<FileProxy>.Descending(t => t.Timestamp), SortOptimisations.ComparesImmutableValuesOnly)
                 .ObserveOn(schedulerProvider.MainThread)
                 .Bind(out _data)
                 .DisposeMany()
                 .Subscribe();
         }
 
-        public ReadOnlyObservableCollection<TradeProxy> Data => _data;
+        public ReadOnlyObservableCollection<FileProxy> Data => _data;
 
         public void Dispose()
         {

@@ -3,9 +3,9 @@ using System.IO;
 
 namespace Trader.Domain.Model
 {
-    public class CurrencyPair
+    public class DriveDetail
     {
-        public CurrencyPair(string drive)
+        public DriveDetail(string drive)
         {
             DriveInfo = new DriveInfo(drive);
         }
@@ -21,7 +21,7 @@ namespace Trader.Domain.Model
 
         #region Equality
 
-        protected bool Equals(CurrencyPair other)
+        protected bool Equals(DriveDetail other)
         {
             return string.Equals(Code, other.Code);
         }
@@ -31,7 +31,7 @@ namespace Trader.Domain.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((CurrencyPair)obj);
+            return Equals((DriveDetail)obj);
         }
 
         public override int GetHashCode()

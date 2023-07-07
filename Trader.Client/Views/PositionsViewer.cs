@@ -15,7 +15,7 @@ namespace Trader.Client.Views
         private readonly ReadOnlyObservableCollection<CurrencyPairPosition> _data;
         private readonly IDisposable _cleanUp;
 
-        public PositionsViewer(ITradeService tradeService, ISchedulerProvider schedulerProvider)
+        public PositionsViewer(IFileService tradeService, ISchedulerProvider schedulerProvider)
         {
             _cleanUp = tradeService.Live.Connect()
                 .Group(trade => trade.CurrencyPair)

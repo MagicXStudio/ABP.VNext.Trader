@@ -11,16 +11,16 @@ namespace Trader.Domain.Model
     public class TradesByTime : IDisposable, IEquatable<TradesByTime>
     {
         private readonly IDisposable _cleanUp;
-        private readonly ReadOnlyObservableCollection<TradeProxy> _data;
+        private readonly ReadOnlyObservableCollection<FileProxy> _data;
 
-        public TradesByTime([NotNull] IGroup<Trade, long, TimePeriod> group,
+        public TradesByTime([NotNull] IGroup<FileDetail, long, TimePeriod> group,
             ISchedulerProvider schedulerProvider)
         {
             Period = group?.Key ?? throw new ArgumentNullException(nameof(group));
 
             _cleanUp = group.Cache.Connect()
-                .Transform(trade => new TradeProxy(trade))
-                .Sort(SortExpressionComparer<TradeProxy>.Descending(p => p.Timestamp), SortOptimisations.ComparesImmutableValuesOnly)
+                .Transform(trade => new FileProxy(trade))
+                .Sort(SortExpressionComparer<FileProxy>.Descending(p => p.Timestamp), SortOptimisations.ComparesImmutableValuesOnly)
                 .ObserveOn(schedulerProvider.MainThread)
                 .Bind(out _data)
                 .DisposeMany()
@@ -49,7 +49,7 @@ namespace Trader.Domain.Model
             }
         }
 
-        public ReadOnlyObservableCollection<TradeProxy> Data => _data;
+        public ReadOnlyObservableCollection<FileProxy> Data => _data;
 
         public void Dispose()
         {

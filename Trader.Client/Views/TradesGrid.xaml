@@ -37,12 +37,12 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn
-                                            Header="Customer"  
+                                            Header="目录"  
                                             Binding="{Binding Customer,Mode=OneWay}"/>
                 
 
                 <DataGridTextColumn 
-                                            Header="Currency Pair" 
+                                            Header="驱动器" 
                                             Binding="{Binding CurrencyPair,Mode=OneWay}"/>
 
                 <DataGridTextColumn         Header="Amount" 

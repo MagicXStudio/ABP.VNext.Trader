@@ -8,13 +8,13 @@ namespace Trader.Domain.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public SortContainer(string description, IComparer<TradeProxy> comparer)
+        public SortContainer(string description, IComparer<FileProxy> comparer)
         {
             Description = description;
             Comparer = comparer;
         }
 
-        public IComparer<TradeProxy> Comparer { get; }
+        public IComparer<FileProxy> Comparer { get; }
         public string Description { get; }
 
         #region Equality members
