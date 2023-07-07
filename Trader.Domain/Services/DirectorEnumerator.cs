@@ -16,22 +16,12 @@ namespace Trader.Domain.Services
         private readonly object _locker = new object();
         private int _counter = 0;
 
-        private static string[] Drives => Directory.GetLogicalDrives();
-
-        public static IEnumerable<DriveDetail> DriveDetails => Drives.Select((drive) => new DriveDetail(drive));
-
-        public DirectorEnumerator(IDirectoryService marketDataService)
+        public DirectorEnumerator()
         {
-            _cleanUp = DriveDetails
-                                    .Select(drive => marketDataService.Watch(drive.Code)).Merge()
-                                    .Synchronize(_locker)
-                                    .Subscribe(dir =>
-                                    {
-                                        Directories[dir.Instrument] = dir;
-                                    });
+
         }
 
-        public IEnumerable<DirectoryDetail> EnumerateFiles(string drive)
+        public IEnumerable<DirectoryDetail> EnumerateDirectories(string drive)
         {
             DirectoryDetail NewTrade(string name)
             {

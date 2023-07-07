@@ -10,31 +10,26 @@ namespace Trader.Domain.Services
 {
     public class DirectoryService : BaseService, IDirectoryService
     {
-        private readonly Dictionary<string, IObservable<DirectoryDetail>> Directories = new Dictionary<string, IObservable<DirectoryDetail>>();
+        private readonly Dictionary<string, IObservable<IEnumerable<DirectoryDetail>>> Directories = new Dictionary<string, IObservable<IEnumerable<DirectoryDetail>>>();
+
+        private static string[] Drives => Directory.GetLogicalDrives();
+
+        public static IEnumerable<DriveDetail> DriveDetails => Drives.Select((drive) => new DriveDetail(drive));
 
         public DirectoryService()
         {
-            foreach (DriveDetail item in DirectorEnumerator.DriveDetails)
+            foreach (DriveDetail item in DriveDetails)
             {
-                Directories[item.Code] = GenerateStream(item).Replay(1).RefCount();
+                Directories[item.Code] = GetDirectories(item);
             }
         }
 
-        private IObservable<DirectoryDetail> GenerateStream(DriveDetail drive)
+        private IObservable<IEnumerable<DirectoryDetail>> GetDirectories(DriveDetail drive)
         {
-            IObservable<DirectoryDetail> items = Observable.Create<DirectoryDetail>(observer =>
-            {
-                DirectoryDetail initial = new DirectoryDetail("",drive.Code, 12, 12);
-                return Observable.FromAsync(() => Task.FromResult(Directory.GetFiles(drive.Code)))
-                .Select(files => files.ToList())
-                     .Subscribe(files =>
-                     {
-                         observer.OnNext(initial);
-                     });
-            });
-            return items;
+            IEnumerable<DirectoryDetail> items = Directory.GetDirectories(drive.Code).Select((dir) => new DirectoryDetail(dir, drive.Code, 12, 12));
+            return Observable.FromAsync(() => Task.FromResult(items)); ;
         }
-        public IObservable<DirectoryDetail> Watch(string drive)
+        public IObservable<IEnumerable<DirectoryDetail>> Watch(string drive)
         {
             if (drive == null) throw new ArgumentNullException(nameof(drive));
             return Directories[drive];

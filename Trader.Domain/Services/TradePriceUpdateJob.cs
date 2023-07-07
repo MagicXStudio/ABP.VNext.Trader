@@ -25,9 +25,9 @@ namespace Trader.Domain.Services
                                    //subscribe to price and update trades with the latest price
                                    IDisposable priceHasChanged = marketDataService.Watch(groupedData.Key)
                                        .Synchronize(locker)
-                                       .Subscribe(price =>
+                                       .Subscribe(items =>
                                                   {
-                                                      latestPrice = price.Bid;
+                                                      latestPrice = items.Count();
                                                       UpdateTradesWithPrice(groupedData.Cache.Items, latestPrice);
                                                   });
 
@@ -43,9 +43,9 @@ namespace Trader.Domain.Services
                 .Subscribe();
         }
 
-        private void UpdateTradesWithPrice(IEnumerable<FileDetail> trades, decimal price)
+        private void UpdateTradesWithPrice(IEnumerable<FileDetail> items, decimal price)
         {
-            trades.ForEach(t=>t.SetMarketPrice(price));
+            items.ForEach(t=>t.SetMarketPrice(price));
         }
 
         public void Dispose()
