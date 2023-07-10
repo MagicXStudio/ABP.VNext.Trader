@@ -62,7 +62,7 @@ namespace Trader.Client.CoreUI.Flipper3D
 
         private void AnimateToNextPicture()
         {
-            var nextPic = _currentPic + 1;
+            int nextPic = _currentPic + 1;
 
             if (nextPic > MaxPics)
                 nextPic = 1;

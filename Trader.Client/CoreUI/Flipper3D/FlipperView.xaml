@@ -31,36 +31,36 @@
                         TriangleIndices="0 1 3 1 2 3" />
         <DiffuseMaterial x:Key="Pic011">
             <DiffuseMaterial.Brush>
-                <ImageBrush ImageSource="Images/pic_011.png" ViewportUnits="Absolute" />
+                <ImageBrush ImageSource="/CoreUI/Flipper3D/001.jpg" ViewportUnits="Absolute" />
             </DiffuseMaterial.Brush>
         </DiffuseMaterial>
         <DiffuseMaterial x:Key="Pic012">
             <DiffuseMaterial.Brush>
-                <ImageBrush ImageSource="images/pic_012.png" ViewportUnits="Absolute" />
+                <ImageBrush ImageSource="/CoreUI/Flipper3D/002.jpg" ViewportUnits="Absolute" />
             </DiffuseMaterial.Brush>
         </DiffuseMaterial>
         <DiffuseMaterial x:Key="Pic013">
             <DiffuseMaterial.Brush>
-                <ImageBrush ImageSource="images/pic_013.png" ViewportUnits="Absolute" />
+                <ImageBrush ImageSource="/CoreUI/Flipper3D/003.jpg" ViewportUnits="Absolute" Opacity="0.6" />
             </DiffuseMaterial.Brush>
         </DiffuseMaterial>
         <DiffuseMaterial x:Key="Pic014">
             <DiffuseMaterial.Brush>
-                <ImageBrush ImageSource="images/pic_014.png" ViewportUnits="Absolute" />
+                <ImageBrush ImageSource="/CoreUI/Flipper3D/004.jpg" ViewportUnits="Absolute" Opacity="0.5" />
             </DiffuseMaterial.Brush>
         </DiffuseMaterial>
         <DiffuseMaterial x:Key="Pic015">
             <DiffuseMaterial.Brush>
-                <ImageBrush ImageSource="images/pic_015.png" ViewportUnits="Absolute" />
+                <ImageBrush ImageSource="/CoreUI/Flipper3D/005.jpg" ViewportUnits="Absolute" />
             </DiffuseMaterial.Brush>
         </DiffuseMaterial>
         <DiffuseMaterial x:Key="Pic016">
             <DiffuseMaterial.Brush>
-                <ImageBrush ImageSource="images/pic_016.png" ViewportUnits="Absolute" />
+                <ImageBrush ImageSource="/CoreUI/Flipper3D/006.jpg" ViewportUnits="Absolute" />
             </DiffuseMaterial.Brush>
         </DiffuseMaterial>
     </UserControl.Resources>
-    <Grid Background="Blue" Canvas.Top="0" Canvas.Left="0">
+    <Grid Background="LawnGreen" Canvas.Top="0" Canvas.Left="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="*" />

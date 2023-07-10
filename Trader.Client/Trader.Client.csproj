@@ -5,6 +5,14 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="CoreUI\Flipper3D\001.jpg" />
+    <None Remove="CoreUI\Flipper3D\002.jpg" />
+    <None Remove="CoreUI\Flipper3D\003.jpg" />
+    <None Remove="CoreUI\Flipper3D\004.jpg" />
+    <None Remove="CoreUI\Flipper3D\005.jpg" />
+    <None Remove="CoreUI\Flipper3D\006.jpg" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">
@@ -104,5 +112,26 @@
     <PackageReference Include="MaterialDesignThemes" Version="2.3.1.953" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
     <PackageReference Include="System.IO.Pipelines" Version="4.7.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="CoreUI\Flipper3D\001.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CoreUI\Flipper3D\002.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CoreUI\Flipper3D\003.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CoreUI\Flipper3D\004.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CoreUI\Flipper3D\005.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CoreUI\Flipper3D\006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>
