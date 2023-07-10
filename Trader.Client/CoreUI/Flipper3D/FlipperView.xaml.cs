@@ -67,23 +67,23 @@ namespace Trader.Client.CoreUI.Flipper3D
             if (nextPic > MaxPics)
                 nextPic = 1;
 
-            var df1 = FindResource("Pic01" + _currentPic) as DiffuseMaterial;
-            var df2 = FindResource("Pic01" + nextPic) as DiffuseMaterial;
+            DiffuseMaterial dmA = FindResource("Pic01" + _currentPic) as DiffuseMaterial;
+            DiffuseMaterial dmB = FindResource("Pic01" + nextPic) as DiffuseMaterial;
 
-            if ((df1 == null) || (df2 == null))
+            if ((dmA == null) || (dmB == null))
                 return;
 
-            _bottomPlane.Material = df1;
-            _frontSpinPlane.Material = df1;
-            _topPlane.Material = df2;
-            _backSpinPlane.Material = df2;
+            _bottomPlane.Material = dmA;
+            _frontSpinPlane.Material = dmA;
+            _topPlane.Material = dmB;
+            _backSpinPlane.Material = dmB;
 
             _currentPic++;
             if (_currentPic > MaxPics)
                 _currentPic = 1;
 
-            var s = (Storyboard)FindResource("FlipPicTimeline");
-            BeginStoryboard(s);
+            Storyboard storyboard = (Storyboard)FindResource("FlipPicTimeline");
+            BeginStoryboard(storyboard);
         }
 
         private void OnFlipPicTimeline(object sender, EventArgs e)
