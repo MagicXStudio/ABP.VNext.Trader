@@ -31,7 +31,7 @@ namespace Trader.Client.Views
         {
             if (string.IsNullOrEmpty(searchText)) return trade => true;
 
-            return t => t.CurrencyPair.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+            return t => t.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                             || t.DirectoryInfo.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
         }
 

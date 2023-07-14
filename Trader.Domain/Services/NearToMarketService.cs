@@ -36,7 +36,7 @@ namespace Trader.Domain.Services
                          .StartWith((Func<FileDetail, bool>)Predicate); ;
 
                      //filter on live trades matching % specified
-                     return _tradeService.All
+                     return _tradeService.Live
                          .Synchronize(locker)
                          .Do(_ => { }, ex => _logger.Error(ex, ex.Message))
                          .SubscribeSafe(observer);

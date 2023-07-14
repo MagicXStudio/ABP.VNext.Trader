@@ -20,7 +20,7 @@ namespace Trader.Client.Views
 
         public VisibleRowsViewer(IFileService tradeService, ILogger logger, ISchedulerProvider schedulerProvider)
         {
-            var loader = tradeService.All
+            var loader = tradeService.Live
                 .ObserveOn(schedulerProvider.MainThread)
                 .Subscribe();
 
@@ -31,7 +31,7 @@ namespace Trader.Client.Views
                                                 .SubscribeMany(proxy =>
                                                 {
                                                     //
-                                                    return proxy.WhenValueChanged(p => p.Amount).Subscribe();
+                                                    return proxy.WhenValueChanged(p => p.Name).Subscribe();
                                                 }).Subscribe();
 
             _cleanUp = new CompositeDisposable(loader, _visibleRowsAccessor, visibilityController);

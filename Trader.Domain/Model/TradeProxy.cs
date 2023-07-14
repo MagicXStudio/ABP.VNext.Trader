@@ -9,17 +9,16 @@ namespace Trader.Domain.Model
     {
         private readonly IDisposable _cleanUp;
         private readonly long _id;
-        private readonly FileDetail _trade;
+        private readonly FileDetail _item;
         private decimal _marketPrice;
         private decimal _pcFromMarketPrice;
         private bool _recent;
 
-        public FileProxy(FileDetail trade)
+        public FileProxy(FileDetail item)
         {
-            _id = trade.Id;
-            _trade = trade;
-
-            var isRecent = DateTime.Now.Subtract(trade.Timestamp).TotalSeconds < 2;
+            _id = item.Id;
+            _item = item;
+            var isRecent = DateTime.Now.Subtract(item.Timestamp).TotalSeconds < 2;
             var recentIndicator = Disposable.Empty;
 
             if (isRecent)
@@ -30,11 +29,11 @@ namespace Trader.Domain.Model
             }
 
             //market price changed is an observable on the trade object
-            IDisposable priceRefresher = trade.MarketPriceChanged
+            IDisposable priceRefresher = item.MarketPriceChanged
                 .Subscribe(_ =>
                 {
-                    MarketPrice = trade.MarketPrice;
-                    PercentFromMarket = trade.PercentFromMarket;
+                    MarketPrice = item.MarketPrice;
+                    PercentFromMarket = item.PercentFromMarket;
                 });
 
             _cleanUp = Disposable.Create(() =>
@@ -66,23 +65,19 @@ namespace Trader.Domain.Model
         {
             _cleanUp.Dispose();
         }
-
-
         #region Delegating Members
 
-        public long Id => _trade.Id;
+        public long Id => _item.Id;
 
-        public string CurrencyPair => _trade.CurrencyPair;
+        public string DirectoryName => _item.DirectoryInfo.Name;
 
-        public string Customer => _trade.DirectoryInfo.Name;
+        public string Name => _item.Name;
 
-        public decimal Amount => _trade.Amount;
+        public bool Exists => _item.FileInfo.Exists;
 
-        public TradeStatus Status => _trade.Status;
+        public DateTime Timestamp => _item.Timestamp;
 
-        public DateTime Timestamp => _trade.Timestamp;
-
-        public decimal TradePrice => _trade.TradePrice;
+        public decimal TradePrice => _item.TradePrice;
 
         #endregion
 
@@ -100,7 +95,7 @@ namespace Trader.Domain.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((FileProxy) obj);
+            return Equals((FileProxy)obj);
         }
 
         public override int GetHashCode()

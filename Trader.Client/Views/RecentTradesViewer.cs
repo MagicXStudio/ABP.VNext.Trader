@@ -18,7 +18,7 @@ namespace Trader.Client.Views
         {
             _logger = logger;
 
-            _cleanUp = tradeService.All
+            _cleanUp = tradeService.Live
                 .Skip(0)
                 .ObserveOn(schedulerProvider.MainThread)
                 .Subscribe((items) =>

@@ -64,7 +64,7 @@
                 MinWidth="125"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                wpf:HintAssist.Hint="Enter search text..."
+                wpf:HintAssist.Hint="输入关键字，搜索..."
                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 
@@ -74,7 +74,7 @@
             Margin="0,0,4,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Text="{Binding PageParameters.TotalCount, StringFormat='The are \{0} trades matching filter'}" />
+            Text="{Binding PageParameters.TotalCount, StringFormat='找到 \{0} 个匹配项'}" />
 
         <ListView
             Grid.Row="1"
@@ -98,28 +98,28 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn
-                        DisplayMemberBinding="{Binding Customer}"
-                        Header="Customer"
+                        DisplayMemberBinding="{Binding DirectoryName}"
+                        Header="目录"
                         TextBlock.TextAlignment="Left" />
                     <GridViewColumn
-                        DisplayMemberBinding="{Binding CurrencyPair}"
-                        Header="Currency Pair"
+                        DisplayMemberBinding="{Binding Name}"
+                        Header="文件名"
                         TextBlock.TextAlignment="Left" />
                     <GridViewColumn
-                        DisplayMemberBinding="{Binding Amount}"
-                        Header="Amount"
+                        DisplayMemberBinding="{Binding Timestamp}"
+                        Header="时间"
                         TextBlock.TextAlignment="Center" />
                     <GridViewColumn
                         DisplayMemberBinding="{Binding TradePrice}"
                         Header="Rate"
                         TextBlock.TextAlignment="Center" />
                     <GridViewColumn
-                        DisplayMemberBinding="{Binding Status}"
-                        Header="Status"
+                        DisplayMemberBinding="{Binding Exists}"
+                        Header="Exists"
                         TextBlock.TextAlignment="Center" />
                     <GridViewColumn
                         DisplayMemberBinding="{Binding Timestamp}"
-                        Header="Modified"
+                        Header="Timestamp"
                         TextBlock.TextAlignment="Center" />
                 </GridView>
             </ListView.View>

@@ -12,8 +12,8 @@ namespace Trader.Domain.Model
         public long Id { get; }
 
         public string Name { get; set; }
-        public string CurrencyPair { get; }
-        public decimal TradePrice { get; }
+        public FileInfo FileInfo { get; }
+        public decimal TradePrice => FileInfo.Length;
         public decimal MarketPrice { get; private set; }
         public decimal PercentFromMarket { get; private set; }
         public decimal Amount { get; }
@@ -23,23 +23,13 @@ namespace Trader.Domain.Model
 
         public DirectoryInfo DirectoryInfo { get; }
 
-        public FileDetail(FileDetail trade, TradeStatus status)
-        {
-            Id = trade.Id;
-            Status = status;
-            MarketPrice = trade.MarketPrice;
-            TradePrice = trade.TradePrice;
-            Amount = trade.Amount;
-            BuyOrSell = trade.BuyOrSell;
-        }
-
         public FileDetail(string name, string dir, TradeStatus status, BuyOrSell buyOrSell, decimal tradePrice, decimal amount, decimal marketPrice = 0)
         {
             Name = name;
             DirectoryInfo = new DirectoryInfo(dir);
+            FileInfo = new FileInfo(name);
             Status = status;
             MarketPrice = marketPrice;
-            TradePrice = tradePrice;
             Amount = amount;
             BuyOrSell = buyOrSell;
         }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
@@ -20,9 +20,12 @@ namespace Trader.Domain.Services
             _logger = logger;
             _schedulerProvider = schedulerProvider;
             FileEnumerator = new FileEnumerator();
-            IConnectableObservable<IEnumerable<FileDetail>> FileDetails = EnumerateFiles("C:\\").Publish();
-            All = FileDetails;
-            Live = FileDetails;
+            EnumerateFiles("C:\\").Subscribe((items) =>
+            {
+                All = new ObservableCollection<FileDetail>(items);
+                Live = Observable.Return<IEnumerable<FileDetail>>(items);
+            });
+
         }
 
         private IObservable<IEnumerable<FileDetail>> EnumerateFiles(string dir)
@@ -30,9 +33,9 @@ namespace Trader.Domain.Services
             return Observable.FromAsync(() => Task.FromResult(FileEnumerator.EnumerateFiles(dir)));
         }
 
-        public IObservable<IEnumerable<FileDetail>> All { get; }
+        public ObservableCollection<FileDetail> All { get; private set; }
 
-        public IObservable<IEnumerable<FileDetail>> Live { get; }
+        public IObservable<IEnumerable<FileDetail>> Live { get; private set; }
 
         public void Dispose()
         {

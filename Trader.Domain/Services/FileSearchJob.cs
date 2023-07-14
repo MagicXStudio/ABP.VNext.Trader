@@ -11,12 +11,7 @@ namespace Trader.Domain.Services
 
         public FileSearchJob(IFileService fileService, IDirectoryService directoryService)
         {
-            _job = fileService.All
-                .Subscribe(items =>
-                               {
-                                   object locker = new object();
 
-                               });
         }
 
         private void Update(IEnumerable<FileDetail> items, decimal price)
