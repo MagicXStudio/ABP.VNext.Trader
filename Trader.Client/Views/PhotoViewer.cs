@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Trader.Client.Forms;
 using Trader.Client.Infrastucture;
 using Trader.Domain.Infrastucture;
 
@@ -18,7 +19,7 @@ namespace Trader.Client.Views
 
         public PhotoViewer(ILogger logger, IObjectProvider objectProvider)
         {
-            string[] files = Directory.GetFiles(CurrentDir+"/Assets/fashion");
+            string[] files = Directory.GetFiles(CurrentDir + "/Assets/fashion");
             _items = files.Select(x => new TaskItem(x,
                     x,
                     () => Open(x)));
@@ -29,6 +30,8 @@ namespace Trader.Client.Views
 
         private void Open(string file)
         {
+            FrmImageView view = new FrmImageView(file);
+            view.Show();
             _logger.Debug("Opening '{0}'", file);
         }
 

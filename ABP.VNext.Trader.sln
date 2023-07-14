@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader.Domain", "Trader.Domain\Trader.Domain.csproj", "{0CF230F0-1A2D-4843-8F36-62F831E8CB23}"
 EndProject
@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{D801B9
 		global.json = global.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.Windows.Forms.ImageBox", "..\ImageBox\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj", "{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{D227E424-B360-4B6D-BFAC-92096515DA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D227E424-B360-4B6D-BFAC-92096515DA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D227E424-B360-4B6D-BFAC-92096515DA89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

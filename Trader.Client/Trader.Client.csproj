@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
@@ -87,6 +87,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ImageBox\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj" />
     <ProjectReference Include="..\Trader.Domain\Trader.Domain.csproj" />
   </ItemGroup>
 
@@ -106,6 +107,7 @@
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="Dragablz" Version="0.0.3.197" />
     <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="Volo.Abp.Identity.Domain" Version="3.1.2" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0589" />
