@@ -88,7 +88,7 @@ namespace Trader.Client.CoreUI.Flipper3D
 
         private void OnFlipPicTimeline(object sender, EventArgs e)
         {
-            var clock = (Clock)sender;
+            var clock = (System.Windows.Media.Animation.Clock)sender;
 
             if (clock.CurrentState == ClockState.Active) // Begun case
             {

@@ -4,6 +4,7 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="CoreUI\Flipper3D\001.jpg" />
