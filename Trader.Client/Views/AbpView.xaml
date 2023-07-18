@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:Trader.Client.Views"
+             xmlns:views="clr-namespace:Trader.Client.Views" xmlns:Clock="clr-namespace:Trader.Client.CoreUI.Clock"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance views:AbpViewer, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -11,7 +11,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="400"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Vertical">
@@ -31,6 +31,16 @@
         <StackPanel Grid.Column="1"  Orientation="Horizontal">
             <TextBlock  Text="{Binding Counter}" Foreground="Green" FontSize="16"></TextBlock>
             <TextBlock  Text="{Binding Text}" Foreground="Red" FontSize="18"></TextBlock>
+        </StackPanel>
+        <StackPanel  Grid.Column="2">
+            <Clock:Clock  Time="2023-07-14 16:20:19" Width="auto"  DisplayAutomation="CycleWithSeconds"
+                      Is24Hours="True" IsPostMeridiem="True" DisplayMode="Seconds" IsHeaderVisible="True" 
+                          Style="{StaticResource MaterialDesignClockVerticalThemed}"/>
+            <Clock:Clock Width="auto"
+                                    DisplayAutomation="CycleWithSeconds"
+                                    Is24Hours="True"
+                                    Style="{StaticResource MaterialDesignClock}" />
+            <Clock:ClockItemButton  Grid.Row="1" Grid.Column="1" Width="100" Content="Hello" />
         </StackPanel>
     </Grid>
 </UserControl>

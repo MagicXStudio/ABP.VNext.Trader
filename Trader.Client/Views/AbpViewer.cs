@@ -33,7 +33,7 @@ namespace Trader.Client.Views
                 long result = await x;
                 Counter += result;
             };
-            InitRabbitMQ();
+           // InitRabbitMQ();
             Pipe = new Pipe(PipeOptions.Default);
         }
         long counter;
