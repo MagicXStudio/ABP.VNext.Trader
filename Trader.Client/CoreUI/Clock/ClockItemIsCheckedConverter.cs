@@ -36,7 +36,7 @@ namespace Trader.Client.CoreUI.Clock
         {
             if ((bool)value != true) return Binding.DoNothing;
 
-            var currentTime = _currentTimeGetter();
+            DateTime currentTime = _currentTimeGetter();
 
             return new DateTime(
                 currentTime.Year, currentTime.Month, currentTime.Day,

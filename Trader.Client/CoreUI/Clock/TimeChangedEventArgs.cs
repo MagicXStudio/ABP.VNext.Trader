@@ -14,5 +14,9 @@ namespace Trader.Client.CoreUI.Clock
             OldTime = oldTime;
             NewTime = newTime;
         }
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

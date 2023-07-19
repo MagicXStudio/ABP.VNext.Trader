@@ -9,23 +9,6 @@ using System.Windows;
 
 namespace Trader.Client.CoreUI.Clock
 {
-
-    public enum ClockDisplayMode
-    {
-        Hours,
-        Minutes,
-        Seconds,
-    }
-
-    public enum ClockDisplayAutomation
-    {
-        None,
-        Cycle,
-        ToMinutesOnly,
-        ToSeconds,
-        CycleWithSeconds,
-    }
-
     [TemplatePart(Name = HoursCanvasPartName, Type = typeof(Canvas))]
     [TemplatePart(Name = MinutesCanvasPartName, Type = typeof(Canvas))]
     [TemplatePart(Name = SecondsCanvasPartName, Type = typeof(Canvas))]
@@ -47,7 +30,7 @@ namespace Trader.Client.CoreUI.Clock
         public const string SecondsVisualStateName = "Seconds";
 
         private Point _centreCanvas = new Point(0, 0);
-        private Point _currentStartPosition =new  Point(0, 0);
+        private Point _currentStartPosition = new Point(0, 0);
         private Grid? _hourReadOutPartName;
         private Grid? _minuteReadOutPartName;
         private Grid? _secondReadOutPartName;
@@ -69,7 +52,7 @@ namespace Trader.Client.CoreUI.Clock
 
         private static void TimePropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var clock = (Clock)dependencyObject;
+            Clock clock = (Clock)dependencyObject;
             SetFlags(clock);
             TimeChangedEventArgs args = new(TimeChangedEvent, (DateTime)e.OldValue, (DateTime)e.NewValue);
             clock.OnTimeChanged(args);
@@ -81,27 +64,18 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(TimeProperty, value);
         }
 
-        public static readonly RoutedEvent TimeChangedEvent =
-            EventManager.RegisterRoutedEvent(nameof(TimeChanged),
-                RoutingStrategy.Direct,
-                typeof(EventHandler<TimeChangedEventArgs>),
-                typeof(Clock));
+        public static readonly RoutedEvent TimeChangedEvent = EventManager.RegisterRoutedEvent(nameof(TimeChanged), RoutingStrategy.Direct, typeof(EventHandler<TimeChangedEventArgs>), typeof(Clock));
         public event EventHandler<TimeChangedEventArgs> TimeChanged
         {
             add => AddHandler(TimeChangedEvent, value);
             remove => RemoveHandler(TimeChangedEvent, value);
         }
 
-        protected virtual void OnTimeChanged(TimeChangedEventArgs timeChangedEventArgs)
-            => RaiseEvent(timeChangedEventArgs);
+        protected virtual void OnTimeChanged(TimeChangedEventArgs timeChangedEventArgs) => RaiseEvent(timeChangedEventArgs);
 
-        private static readonly DependencyPropertyKey IsMidnightHourPropertyKey =
-            DependencyProperty.RegisterReadOnly(
-                "IsMidnightHour", typeof(bool), typeof(Clock),
-                new PropertyMetadata(default(bool)));
+        private static readonly DependencyPropertyKey IsMidnightHourPropertyKey = DependencyProperty.RegisterReadOnly("IsMidnightHour", typeof(bool), typeof(Clock), new PropertyMetadata(default(bool)));
 
-        public static readonly DependencyProperty IsMidnightHourProperty =
-            IsMidnightHourPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsMidnightHourProperty = IsMidnightHourPropertyKey.DependencyProperty;
 
         public bool IsMidnightHour
         {
@@ -109,13 +83,9 @@ namespace Trader.Client.CoreUI.Clock
             private set => SetValue(IsMidnightHourPropertyKey, value);
         }
 
-        private static readonly DependencyPropertyKey IsMiddayHourPropertyKey =
-            DependencyProperty.RegisterReadOnly(
-                "IsMiddayHour", typeof(bool), typeof(Clock),
-                new PropertyMetadata(default(bool)));
+        private static readonly DependencyPropertyKey IsMiddayHourPropertyKey = DependencyProperty.RegisterReadOnly("IsMiddayHour", typeof(bool), typeof(Clock), new PropertyMetadata(default(bool)));
 
-        public static readonly DependencyProperty IsMiddayHourProperty =
-            IsMiddayHourPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsMiddayHourProperty = IsMiddayHourPropertyKey.DependencyProperty;
 
         public bool IsMiddayHour
         {
@@ -123,8 +93,7 @@ namespace Trader.Client.CoreUI.Clock
             private set => SetValue(IsMiddayHourPropertyKey, value);
         }
 
-        public static readonly DependencyProperty IsPostMeridiemProperty = DependencyProperty.Register(
-            nameof(IsPostMeridiem), typeof(bool), typeof(Clock), new PropertyMetadata(default(bool), IsPostMeridiemPropertyChangedCallback));
+        public static readonly DependencyProperty IsPostMeridiemProperty = DependencyProperty.Register(nameof(IsPostMeridiem), typeof(bool), typeof(Clock), new PropertyMetadata(default(bool), IsPostMeridiemPropertyChangedCallback));
 
         private static void IsPostMeridiemPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -141,11 +110,9 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(IsPostMeridiemProperty, value);
         }
 
-        public static readonly DependencyProperty Is24HoursProperty = DependencyProperty.Register(
-            nameof(Is24Hours), typeof(bool), typeof(Clock), new PropertyMetadata(default(bool), Is24HoursChanged));
+        public static readonly DependencyProperty Is24HoursProperty = DependencyProperty.Register(nameof(Is24Hours), typeof(bool), typeof(Clock), new PropertyMetadata(default(bool), Is24HoursChanged));
 
-        private static void Is24HoursChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-            => ((Clock)d).GenerateButtons();
+        private static void Is24HoursChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((Clock)d).GenerateButtons();
 
         public bool Is24Hours
         {
@@ -153,12 +120,11 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(Is24HoursProperty, value);
         }
 
-        public static readonly DependencyProperty DisplayModeProperty = DependencyProperty.Register(
-            nameof(DisplayMode), typeof(ClockDisplayMode), typeof(Clock), new FrameworkPropertyMetadata(ClockDisplayMode.Hours, DisplayModePropertyChangedCallback));
+        public static readonly DependencyProperty DisplayModeProperty = DependencyProperty.Register(nameof(DisplayMode), typeof(ClockDisplayMode), typeof(Clock), new FrameworkPropertyMetadata(ClockDisplayMode.Hours, DisplayModePropertyChangedCallback));
 
         private static void DisplayModePropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            ((Clock)dependencyObject).GotoVisualState(1>0);
+            ((Clock)dependencyObject).GotoVisualState(1 > 0);
         }
 
         public ClockDisplayMode DisplayMode
@@ -167,8 +133,7 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(DisplayModeProperty, value);
         }
 
-        public static readonly DependencyProperty DisplayAutomationProperty = DependencyProperty.Register(
-            nameof(DisplayAutomation), typeof(ClockDisplayAutomation), typeof(Clock), new PropertyMetadata(default(ClockDisplayAutomation)));
+        public static readonly DependencyProperty DisplayAutomationProperty = DependencyProperty.Register(nameof(DisplayAutomation), typeof(ClockDisplayAutomation), typeof(Clock), new PropertyMetadata(default(ClockDisplayAutomation)));
 
         public ClockDisplayAutomation DisplayAutomation
         {
@@ -176,8 +141,7 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(DisplayAutomationProperty, value);
         }
 
-        public static readonly DependencyProperty ButtonStyleProperty = DependencyProperty.Register(
-            nameof(ButtonStyle), typeof(Style), typeof(Clock), new PropertyMetadata(default(Style?)));
+        public static readonly DependencyProperty ButtonStyleProperty = DependencyProperty.Register(nameof(ButtonStyle), typeof(Style), typeof(Clock), new PropertyMetadata(default(Style?)));
 
         public Style? ButtonStyle
         {
@@ -185,8 +149,7 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(ButtonStyleProperty, value);
         }
 
-        public static readonly DependencyProperty LesserButtonStyleProperty = DependencyProperty.Register(
-            nameof(LesserButtonStyle), typeof(Style), typeof(Clock), new PropertyMetadata(default(Style?)));
+        public static readonly DependencyProperty LesserButtonStyleProperty = DependencyProperty.Register(nameof(LesserButtonStyle), typeof(Style), typeof(Clock), new PropertyMetadata(default(Style?)));
 
         public Style? LesserButtonStyle
         {
@@ -194,8 +157,7 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(LesserButtonStyleProperty, value);
         }
 
-        public static readonly DependencyProperty ButtonRadiusRatioProperty = DependencyProperty.Register(
-            nameof(ButtonRadiusRatio), typeof(double), typeof(Clock), new PropertyMetadata(default(double)));
+        public static readonly DependencyProperty ButtonRadiusRatioProperty = DependencyProperty.Register(nameof(ButtonRadiusRatio), typeof(double), typeof(Clock), new PropertyMetadata(default(double)));
 
         public double ButtonRadiusRatio
         {
@@ -203,8 +165,7 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(ButtonRadiusRatioProperty, value);
         }
 
-        public static readonly DependencyProperty ButtonRadiusInnerRatioProperty = DependencyProperty.Register(
-            nameof(ButtonRadiusInnerRatio), typeof(double), typeof(Clock), new PropertyMetadata(default(double)));
+        public static readonly DependencyProperty ButtonRadiusInnerRatioProperty = DependencyProperty.Register(nameof(ButtonRadiusInnerRatio), typeof(double), typeof(Clock), new PropertyMetadata(default(double)));
 
         public double ButtonRadiusInnerRatio
         {
@@ -212,10 +173,7 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(ButtonRadiusInnerRatioProperty, value);
         }
 
-        private static readonly DependencyPropertyKey HourLineAnglePropertyKey =
-            DependencyProperty.RegisterReadOnly(
-                "HourLineAngle", typeof(double), typeof(Clock),
-                new PropertyMetadata(default(double)));
+        private static readonly DependencyPropertyKey HourLineAnglePropertyKey = DependencyProperty.RegisterReadOnly("HourLineAngle", typeof(double), typeof(Clock), new PropertyMetadata(default(double)));
 
         public static readonly DependencyProperty HourLineAngleProperty =
             HourLineAnglePropertyKey.DependencyProperty;
@@ -226,8 +184,7 @@ namespace Trader.Client.CoreUI.Clock
             private set => SetValue(HourLineAnglePropertyKey, value);
         }
 
-        public static readonly DependencyProperty IsHeaderVisibleProperty = DependencyProperty.Register(
-            nameof(IsHeaderVisible), typeof(bool), typeof(Clock), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty IsHeaderVisibleProperty = DependencyProperty.Register(nameof(IsHeaderVisible), typeof(bool), typeof(Clock), new PropertyMetadata(default(bool)));
 
         public bool IsHeaderVisible
         {
@@ -235,8 +192,7 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(IsHeaderVisibleProperty, value);
         }
 
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
-            nameof(CornerRadius), typeof(CornerRadius), typeof(Clock), new PropertyMetadata(default(CornerRadius)));
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(Clock), new PropertyMetadata(default(CornerRadius)));
 
         public CornerRadius CornerRadius
         {
@@ -244,21 +200,20 @@ namespace Trader.Client.CoreUI.Clock
             set => SetValue(CornerRadiusProperty, value);
         }
 
-        public static readonly RoutedEvent ClockChoiceMadeEvent =
-            EventManager.RegisterRoutedEvent(
+        public static readonly RoutedEvent ClockChoiceMadeEvent = EventManager.RegisterRoutedEvent(
                 "ClockChoiceMade",
                 RoutingStrategy.Bubble,
                 typeof(ClockChoiceMadeEventHandler),
-                typeof(Clock));
+                typeof(Clock)
+            );
 
         private static void OnClockChoiceMade(DependencyObject d, ClockDisplayMode displayMode)
         {
-            var instance = (Clock)d;
+            Clock instance = (Clock)d;
             var dragCompletedEventArgs = new ClockChoiceMadeEventArgs(displayMode)
             {
                 RoutedEvent = ClockChoiceMadeEvent,
             };
-
             instance.RaiseEvent(dragCompletedEventArgs);
         }
 
@@ -301,7 +256,8 @@ namespace Trader.Client.CoreUI.Clock
 
         private void GenerateButtons()
         {
-            if (GetTemplateChild(HoursCanvasPartName) is Canvas hoursCanvas)
+            DependencyObject d = GetTemplateChild(HoursCanvasPartName);
+            if (d is Canvas hoursCanvas)
             {
                 RemoveExistingButtons(hoursCanvas);
 
@@ -370,22 +326,22 @@ namespace Trader.Client.CoreUI.Clock
             string format,
             ClockDisplayMode clockDisplayMode)
         {
-            var anglePerItem = 360.0 / range.Count;
-            var radiansPerItem = anglePerItem * (Math.PI / 180);
+            double anglePerItem = 360.0 / range.Count;
+            double radiansPerItem = anglePerItem * (Math.PI / 180);
 
             //nothing fancy with sizing/measuring...we are demanding a height
             if (canvas.Width < 10.0 || Math.Abs(canvas.Height - canvas.Width) > 0.0) return;
 
             _centreCanvas = new Point(canvas.Width / 2, canvas.Height / 2);
-            var hypotenuseRadius = _centreCanvas.X * radiusRatio;
+            double hypotenuseRadius = _centreCanvas.X * radiusRatio;
 
             foreach (var i in range)
             {
                 var button = new ClockItemButton();
                 button.SetBinding(StyleProperty, GetBinding(stylePropertySelector(i)));
 
-                var adjacent = Math.Cos(i * radiansPerItem) * hypotenuseRadius;
-                var opposite = Math.Sin(i * radiansPerItem) * hypotenuseRadius;
+                double adjacent = Math.Cos(i * radiansPerItem) * hypotenuseRadius;
+                double opposite = Math.Sin(i * radiansPerItem) * hypotenuseRadius;
 
                 button.CentreX = _centreCanvas.X + opposite;
                 button.CentreY = _centreCanvas.Y - adjacent;
@@ -397,20 +353,21 @@ namespace Trader.Client.CoreUI.Clock
                 button.Content = (i == 60 ? 0 : (i == 24 && clockDisplayMode == ClockDisplayMode.Hours ? 0 : i)).ToString(format);
                 canvas.Children.Add(button);
             }
+        }
 
-            BindingBase GetBinding(
+        private BindingBase GetBinding(
                 string propertyName,
                 object? owner = null,
                 IValueConverter? converter = null,
                 object? converterParameter = null)
+        {
+            Binding binding = new Binding(propertyName)
             {
-                return new Binding(propertyName)
-                {
-                    Source = owner ?? this,
-                    Converter = converter,
-                    ConverterParameter = converterParameter
-                };
-            }
+                Source = owner ?? this,
+                Converter = converter,
+                ConverterParameter = converterParameter
+            };
+            return binding;
         }
 
 
@@ -453,10 +410,10 @@ namespace Trader.Client.CoreUI.Clock
 
         private void ClockItemDragDeltaHandler(object sender, DragDeltaEventArgs dragDeltaEventArgs)
         {
-            var currentDragPosition = new Point(_currentStartPosition.X + dragDeltaEventArgs.HorizontalChange, _currentStartPosition.Y + dragDeltaEventArgs.VerticalChange);
-            var delta = new Point(currentDragPosition.X - _centreCanvas.X, currentDragPosition.Y - _centreCanvas.Y);
+            Point currentDragPosition = new Point(_currentStartPosition.X + dragDeltaEventArgs.HorizontalChange, _currentStartPosition.Y + dragDeltaEventArgs.VerticalChange);
+            Point delta = new Point(currentDragPosition.X - _centreCanvas.X, currentDragPosition.Y - _centreCanvas.Y);
 
-            var angle = Math.Atan2(delta.X, -delta.Y);
+            double angle = Math.Atan2(delta.X, -delta.Y);
             if (angle < 0) angle += 2 * Math.PI;
 
             DateTime time;
@@ -464,12 +421,12 @@ namespace Trader.Client.CoreUI.Clock
             {
                 if (Is24Hours)
                 {
-                    var outerBoundary = (_centreCanvas.X * ButtonRadiusInnerRatio +
+                    double outerBoundary = (_centreCanvas.X * ButtonRadiusInnerRatio +
                                          (_centreCanvas.X * ButtonRadiusRatio - _centreCanvas.X * ButtonRadiusInnerRatio) / 2);
-                    var sqrt = Math.Sqrt((_centreCanvas.X - currentDragPosition.X) * (_centreCanvas.X - currentDragPosition.X) + (_centreCanvas.Y - currentDragPosition.Y) * (_centreCanvas.Y - currentDragPosition.Y));
-                    var localIsPostMeridiem = sqrt > outerBoundary;
+                    double sqrt = Math.Sqrt((_centreCanvas.X - currentDragPosition.X) * (_centreCanvas.X - currentDragPosition.X) + (_centreCanvas.Y - currentDragPosition.Y) * (_centreCanvas.Y - currentDragPosition.Y));
+                    bool localIsPostMeridiem = sqrt > outerBoundary;
 
-                    var hour = (int)Math.Round(6 * angle / Math.PI, MidpointRounding.AwayFromZero) % 12 + (localIsPostMeridiem ? 12 : 0);
+                    int hour = (int)Math.Round(6 * angle / Math.PI, MidpointRounding.AwayFromZero) % 12 + (localIsPostMeridiem ? 12 : 0);
                     if (hour == 12)
                         hour = 0;
                     else if (hour == 0)
@@ -483,7 +440,7 @@ namespace Trader.Client.CoreUI.Clock
             }
             else
             {
-                var value = (int)Math.Round(30 * angle / Math.PI, MidpointRounding.AwayFromZero) % 60;
+                int value = (int)Math.Round(30 * angle / Math.PI, MidpointRounding.AwayFromZero) % 60;
                 if (DisplayMode == ClockDisplayMode.Minutes)
                     time = new DateTime(Time.Year, Time.Month, Time.Day, Time.Hour, value, Time.Second);
                 else
@@ -499,5 +456,4 @@ namespace Trader.Client.CoreUI.Clock
             clock.IsMiddayHour = clock.Time.Hour == 12;
         }
     }
-
 }

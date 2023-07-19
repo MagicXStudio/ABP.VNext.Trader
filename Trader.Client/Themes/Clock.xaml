@@ -855,7 +855,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="MaterialDesignClockVertical" TargetType="{x:Type wpf:Clock}">
         <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -4130,5 +4129,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>

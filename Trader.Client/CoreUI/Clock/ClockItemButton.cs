@@ -86,7 +86,8 @@ namespace Trader.Client.CoreUI.Clock
                 "DragDelta",
                 RoutingStrategy.Bubble,
                 typeof(DragDeltaEventHandler),
-                typeof(ClockItemButton));
+                typeof(ClockItemButton)
+                );
 
         private static void OnDragDelta(
             DependencyObject d, double horizontalChange, double verticalChange)
@@ -97,7 +98,6 @@ namespace Trader.Client.CoreUI.Clock
                 RoutedEvent = DragDeltaEvent,
                 Source = d
             };
-
             instance.RaiseEvent(dragDeltaEventArgs);
         }
 
@@ -117,19 +117,18 @@ namespace Trader.Client.CoreUI.Clock
 
         private static void OnDragStarted(DependencyObject d, double horizontalOffset, double verticalOffset)
         {
-            var instance = (ClockItemButton)d;
+            ClockItemButton instance = (ClockItemButton)d;
             var dragStartedEventArgs = new DragStartedEventArgs(horizontalOffset, verticalOffset)
             {
                 RoutedEvent = DragStartedEvent,
                 Source = d
             };
-
             instance.RaiseEvent(dragStartedEventArgs);
         }
 
         private static void OnDragCompleted(DependencyObject d, double horizontalChange, double verticalChange, bool canceled)
         {
-            var instance = (ClockItemButton)d;
+            ClockItemButton instance = (ClockItemButton)d;
             var dragCompletedEventArgs = new DragCompletedEventArgs(horizontalChange, verticalChange, canceled)
             {
                 RoutedEvent = DragCompletedEvent,
