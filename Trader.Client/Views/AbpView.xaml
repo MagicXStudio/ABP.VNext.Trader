@@ -6,13 +6,18 @@
              xmlns:views="clr-namespace:Trader.Client.Views" xmlns:Clock="clr-namespace:Trader.Client.CoreUI.Clock"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance views:AbpViewer, IsDesignTimeCreatable=False}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="400"></ColumnDefinition>
-            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Vertical">
             <Button x:Name="BtnCounter" Content="Counter"  HorizontalAlignment="Left" 
@@ -27,20 +32,18 @@
                 Command="{Binding ExchangeCommand}"
                 Margin="10,16,10,0" VerticalAlignment="Top"
                     />
-        </StackPanel>
-        <StackPanel Grid.Column="1"  Orientation="Horizontal">
             <TextBlock  Text="{Binding Counter}" Foreground="Green" FontSize="16"></TextBlock>
             <TextBlock  Text="{Binding Text}" Foreground="Red" FontSize="18"></TextBlock>
         </StackPanel>
-        <StackPanel  Grid.Column="2">
-            <Clock:Clock  Time="2023-07-14 16:20:19" Width="auto"  DisplayAutomation="CycleWithSeconds"
-                      Is24Hours="True" IsPostMeridiem="True" DisplayMode="Seconds" IsHeaderVisible="True" 
+        <Clock:Clock  Grid.Column="1" Grid.Row="0"  Width="auto"  DisplayAutomation="CycleWithSeconds"
+                      Is24Hours="True" IsPostMeridiem="False" DisplayMode="Hours" IsHeaderVisible="False" 
                           Style="{StaticResource MaterialDesignClockVerticalThemed}"/>
-            <Clock:Clock Width="auto"
-                                    DisplayAutomation="CycleWithSeconds"
+        <Clock:Clock   Grid.Column="1" Grid.Row="1" Width="auto"  DisplayAutomation="ToMinutesOnly"
+                      Is24Hours="True" IsPostMeridiem="True" DisplayMode="Seconds" IsHeaderVisible="False" 
+                          Style="{StaticResource MaterialDesignClockVerticalThemed}"/>
+        <Clock:Clock  Grid.Column="1" Grid.Row="2"  Width="auto"
+                                    DisplayAutomation="Cycle"
                                     Is24Hours="True"
-                                    Style="{StaticResource MaterialDesignClock}" />
-            <Clock:ClockItemButton  Grid.Row="1" Grid.Column="1" Width="100" Content="Hello" />
-        </StackPanel>
+                                    Style="{StaticResource MaterialDesignClock}" IsHeaderVisible="False"  />
     </Grid>
 </UserControl>

@@ -115,7 +115,7 @@
                                 <Grid>
                                     <Thumb x:Name="PART_Thumb"
                          Background="{TemplateBinding Background}"
-                         Opacity="23"
+                         Opacity="46"
                          Style="{StaticResource MaterialDesignClockItemThumb}" />
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
