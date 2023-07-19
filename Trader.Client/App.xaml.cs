@@ -60,7 +60,7 @@ namespace Trader.Client
             //container.GetInstance<FileSearchJob>();
             container.GetInstance<ILoginService>();
 
-            TaskAwaiter<Bootstrap> w = ClientBootstrap.Client.InitBootstrapAsync().GetAwaiter();
+           // TaskAwaiter<Bootstrap> w = ClientBootstrap.Client.InitBootstrapAsync().GetAwaiter();
             window.Show();
             base.OnStartup(e);
         }
