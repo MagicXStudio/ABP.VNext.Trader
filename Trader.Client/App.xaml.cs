@@ -51,12 +51,13 @@ namespace Trader.Client
             ReactiveUIDependencyResolver resolver = new ReactiveUIDependencyResolver(container);
             resolver.Register(() => new LogEntryView(), typeof(IViewFor<LogEntryViewer>));
             resolver.Register(() => new PhotoView(), typeof(IViewFor<PhotoViewer>));
+            resolver.Register(() => new ZoomboxView(), typeof(IViewFor<ZoomboxViewer>));
 
             //Locator.Current = resolver;
             //RxApp.SupportsRangeNotifications = false;
             //run start up jobs
-            
-            
+
+
             //container.GetInstance<FileSearchJob>();
             container.GetInstance<ILoginService>();
 

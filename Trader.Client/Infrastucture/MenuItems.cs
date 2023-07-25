@@ -67,6 +67,10 @@ namespace Trader.Client.Infrastucture
                     "Operator whic last minute.",
                     () => Open<RecentTradesViewer>("Recent Trades")),
 
+                  new MenuItem("缩放框",
+                    "Zoombox View",
+                    () => Open<ZoomboxViewer>("Zoombox")),
+
                 new MenuItem("Trading持仓",
                        "Calculate overall  and aggregate totals",
                         () => Open<PositionsViewer>("Trading Positions")),
