@@ -52,6 +52,7 @@ namespace Trader.Client
             resolver.Register(() => new LogEntryView(), typeof(IViewFor<LogEntryViewer>));
             resolver.Register(() => new PhotoView(), typeof(IViewFor<PhotoViewer>));
             resolver.Register(() => new ZoomboxView(), typeof(IViewFor<ZoomboxViewer>));
+            resolver.Register(() => new PaintView(), typeof(IViewFor<PaintViewer>));
 
             //Locator.Current = resolver;
             //RxApp.SupportsRangeNotifications = false;

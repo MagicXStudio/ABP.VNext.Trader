@@ -47,16 +47,16 @@ namespace Trader.Client.Infrastucture
                  new MenuItem("Photo Viewer",
                     "PhotoViewer",
                     () => Open<PhotoViewer>("图片查看器")),
-                    new MenuItem("ChineseChess Viewer",
-                    "ChineseChessViewer",
+                    new MenuItem("中国象棋",
+                    "中国象棋",
                     () => Open<ChineseChessViewer>("中国象棋")),
 
                 new MenuItem("我的日程",
-                     "Dynamic filtevalues.",
+                     "我的日程.",
                      () => Open<NearToMarketViewer>("我的日程")),
 
                 new MenuItem("联系人",
-                       "Group tradouping.",
+                       "联系人.",
                         () => Open<TradesByPercentViewer>("联系人")),
 
                 new MenuItem("Trades By hh:mm",
@@ -68,8 +68,12 @@ namespace Trader.Client.Infrastucture
                     () => Open<RecentTradesViewer>("Recent Trades")),
 
                   new MenuItem("缩放框",
-                    "Zoombox View",
+                    "缩放框",
                     () => Open<ZoomboxViewer>("Zoombox")),
+
+                     new MenuItem("画图",
+                    "画图",
+                    () => Open<PaintView>("画图")),
 
                 new MenuItem("Trading持仓",
                        "Calculate overall  and aggregate totals",
