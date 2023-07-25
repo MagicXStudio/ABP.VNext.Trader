@@ -463,7 +463,7 @@
             <xctk:Zoombox.ViewStack>
                 <xctk:ZoomboxView>Fit</xctk:ZoomboxView>
             </xctk:Zoombox.ViewStack>
-            <Image Source="../assets/abc.jpg" />
+            <Image Source="{Binding Source}" />
         </xctk:Zoombox>
     </Grid>
 </UserControl>
