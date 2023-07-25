@@ -116,6 +116,7 @@
     <PackageReference Include="MaterialDesignThemes" Version="2.3.1.953" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
     <PackageReference Include="System.IO.Pipelines" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
