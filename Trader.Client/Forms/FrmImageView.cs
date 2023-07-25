@@ -35,8 +35,10 @@ namespace Trader.Client.Forms
             pictureBox1.Location = new Point(12, 12);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.ScaleText = true;
+            pictureBox1.SelectionColor = Color.FromArgb(255, 128, 128);
+            pictureBox1.SelectionMode = ImageBoxSelectionMode.Rectangle;
             pictureBox1.ShowPixelGrid = true;
-            pictureBox1.Size =Size;
+            pictureBox1.Size = new Size(300, 300);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
