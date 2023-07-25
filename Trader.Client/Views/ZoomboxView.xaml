@@ -169,13 +169,12 @@
 
             </TabControl.Resources>
 
-            <TabItem Header="Animation">
+            <TabItem Header="动画">
                 <ItemsControl Style="{StaticResource PropertyList}">
-
                     <TextBlock Margin="5,10,5,5"
                           FontWeight="Bold"
                           FontSize="12"
-                          Text="Animation Properties" />
+                          Text="动画" />
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=AnimationAccelerationRatio}">
                         <TextBlock Text="AnimationAccelerationRatio" />
                         <Slider Name="AccelerationSlider"
@@ -219,9 +218,8 @@
                 </ItemsControl>
             </TabItem>
 
-            <TabItem Header="Keyboard">
+            <TabItem Header="键盘快捷键">
                 <ItemsControl Style="{StaticResource PropertyList}">
-
                     <TextBlock Margin="5"
                           FontWeight="Bold"
                           FontSize="12"
@@ -308,13 +306,12 @@
                 </ItemsControl>
             </TabItem>
 
-            <TabItem Header="Position &amp; Scale">
+            <TabItem Header="位置&amp;缩放">
                 <ItemsControl Style="{StaticResource PropertyList}">
-
                     <TextBlock Margin="5,10,5,5"
                           FontWeight="Bold"
                           FontSize="12"
-                          Text="Position Properties" />
+                          Text="位置" />
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=PanDistance}">
                         <TextBlock Text="PanDistance" />
                         <TextBox Text="{Binding PanDistance, UpdateSourceTrigger=PropertyChanged}" />
@@ -358,13 +355,12 @@
                 </ItemsControl>
             </TabItem>
 
-            <TabItem Header="View">
+            <TabItem Header="查看">
                 <ItemsControl Style="{StaticResource PropertyList}">
-
                     <TextBlock Margin="5,10,5,5"
                           FontWeight="Bold"
                           FontSize="12"
-                          Text="View Properties" />
+                          Text="查看" />
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=CurrentView}">
                         <TextBlock Text="CurrentView" />
                         <TextBox IsEnabled="False"
@@ -378,8 +374,7 @@
                     </ItemsControl>
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=CurrentViewIndex}">
                         <TextBlock Text="CurrentViewIndex" />
-                        <TextBox IsEnabled="False"
-                           Text="{Binding CurrentViewIndex, Mode=OneWay}" />
+                        <TextBox IsEnabled="False" Text="{Binding CurrentViewIndex, Mode=OneWay}" />
                     </ItemsControl>
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=EffectiveViewStackMode}">
                         <TextBlock Text="EffectiveViewStackMode" />
@@ -388,13 +383,11 @@
                     </ItemsControl>
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=HasBackStack}">
                         <TextBlock Text="HasBackStack" />
-                        <CheckBox IsEnabled="False"
-                            IsChecked="{Binding HasBackStack, Mode=OneWay}" />
+                        <CheckBox IsEnabled="False" IsChecked="{Binding HasBackStack, Mode=OneWay}" />
                     </ItemsControl>
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=HasForwardStack}">
                         <TextBlock Text="HasForwardStack" />
-                        <CheckBox IsEnabled="False"
-                            IsChecked="{Binding HasForwardStack, Mode=OneWay}" />
+                        <CheckBox IsEnabled="False" IsChecked="{Binding HasForwardStack, Mode=OneWay}" />
                     </ItemsControl>
                     <ItemsControl Tag="{Binding Source={StaticResource Props}, XPath=ViewFinder}">
                         <TextBlock Text="ViewFinder" />
