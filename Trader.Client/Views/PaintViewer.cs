@@ -8,7 +8,10 @@ namespace Trader.Client.Views
     public class PaintViewer : ReactiveObject
     {
 
-
+        public PaintViewer()
+        {
+            
+        }
 
     }
 }
